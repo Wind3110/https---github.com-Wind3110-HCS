@@ -1,0 +1,56 @@
+<button id="btn-cre-service" class="btn btn-primary btn-sm" (click)="open(content)">
+  <i class="fa fa-user-plus"></i> Create Service
+</button>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Service</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #serviceForm="ngForm" (ngSubmit)="onSubmit(serviceForm)" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="serviceService.selectedService.$key">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">ServiceName</span>
+        </div>
+        <input class="form-control" name="ServiceName" #ServiceName="ngModel" [(ngModel)]="serviceService.selectedService.ServiceName"
+          placeholder="ServiceName" required>
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Description</span>
+        </div>
+        <input class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr" placeholder="descr">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Time Unit</span>
+        </div>
+        <input class="form-control" name="TimeUnit" #TimeUnit="ngModel" [(ngModel)]="serviceService.selectedService.TimeUnit" placeholder="TimeUnit">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Price</span>
+        </div>
+        <input class="form-control" name="Price" #Price="ngModel" [(ngModel)]="serviceService.selectedService.Price" placeholder="Price"
+          type="number" required>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit" [disabled]="!serviceForm.valid" (click)="onSubmit(serviceForm)" (click)="c('Save click')">
+      <i class="fa fa-floppy-o"></i>
+      Submit</button>
+  </div>
+</ng-template>
+
+
+<!-- <pre>{{closeResult}}</pre> -->

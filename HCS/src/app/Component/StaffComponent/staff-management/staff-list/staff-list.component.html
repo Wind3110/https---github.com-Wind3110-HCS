@@ -1,0 +1,140 @@
+<app-staff></app-staff>
+
+<!-- Datatable -->
+<table datatable id="staff_table" class="table table-hover table-striped table-bordered text-center" [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger">
+  <!-- <caption>List of users</caption> -->
+  <thead class="text-center thead-dark">
+    <tr>
+      <!-- <td>{{staff.Username}}</td> -->
+      <!-- <td>{{staff.Password}}</td> -->
+      <!-- <th>Avatar</th> -->
+      <th>FullName</th>
+      <th>Username</th>
+      <!-- <th>DayOfBirth</th> -->
+      <th>PhoneNumber</th>
+      <th>Address</th>
+      <th>Salary</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let staff of staffList">
+      <!-- <td>{{staff.Username}}</td> -->
+      <!-- <td>{{staff.Password}}</td> -->
+      <!-- <td><img src="/src/app/img/avatar1.png" class="rounded-circle img-thumbnail"></td> -->
+      <td>{{staff.FullName}}</td>
+      <td>{{staff.Username}}</td>
+      <!-- <td>{{staff.DayOfBirth}}</td> -->
+      <td>{{staff.PhoneNumber}}</td>
+      <td>{{staff.Address}}</td>
+      <td>{{staff.Salary}}</td>
+      <td class="text-center">
+        <a class="btn" (click)="onEdit(staff)" (click)="open(content)">
+          <i class="fa fa-pencil-square-o"></i>
+        </a>
+        <a class="btn" (click)="onDelete(staff.$key)">
+          <i class="fa fa-trash-o"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr></tr>
+  </tfoot>
+</table>
+
+<!-- Popup form -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Staff</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Username</span>
+        </div>
+        <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username" placeholder="Username"
+          required>
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Password</span>
+        </div>
+        <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="staffService.selectedStaff.Password" placeholder="Password"
+          type="password">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">FullName</span>
+        </div>
+        <input class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="staffService.selectedStaff.FullName" placeholder="FullName">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Sexual</span>
+        </div>
+        <select class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex">
+          <!-- <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option> -->
+        </select>
+        <!-- <input class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex" placeholder="Sex" required> -->
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">DayOfBirth</span>
+        </div>
+        <input class="form-control" name="DayOfBirth" #DayOfBirth="ngModel" [(ngModel)]="staffService.selectedStaff.DayOfBirth" placeholder="DayOfBirth"
+          type="date">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">PhoneNumber</span>
+        </div>
+        <input class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="staffService.selectedStaff.PhoneNumber"
+          placeholder="PhoneNumber" type="number">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Address</span>
+        </div>
+        <textarea class="form-control" name="Address" #Address="ngModel" [(ngModel)]="staffService.selectedStaff.Address" placeholder="Address"></textarea>
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Salary</span>
+        </div>
+        <input class="form-control" name="Salary" #Salary="ngModel" [(ngModel)]="staffService.selectedStaff.Salary" placeholder="Salary"
+          type="number">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)" (click)="c('Save click')">
+          <i class="fa fa-floppy-o"></i>
+          Submit</button>
+        <!-- <button class="btn btn-warning" type="button" (click)="resetForm(staffForm)">
+          <i class="fa fa-repeat"></i>
+          Reset</button> -->
+      </div>
+    </form>
+  </div>
+
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+  </div> -->
+
+</ng-template>
