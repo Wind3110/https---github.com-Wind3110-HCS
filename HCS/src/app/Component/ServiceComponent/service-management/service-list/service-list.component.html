@@ -1,17 +1,4 @@
-<<<<<<< HEAD
 <app-service></app-service>
-=======
-<!-- <h4 class="text-center">
-  SERVICE MANAGEMENT</h4>
-<hr> -->
-<br/>
-<div class="row">
-  <app-service></app-service>
-</div>
-<<<<<<< HEAD
->>>>>>> 8732469feb37a1847cce28e2153c8f8da7187de0
-=======
->>>>>>> 0e3be402096e10800d3e84991b9af56708c2c281
 
 <!-- Datatable -->
 <table datatable id="service_table" class="table table-sm table-hover table-striped table-bordered text-center" [dtOptions]="dtOptions"
@@ -55,7 +42,7 @@
 <!-- Popup form -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Update Service</h4>
+    <h4 class="modal-title" id="modal-basic-title">Create Service</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -63,7 +50,6 @@
   <div class="modal-body">
     <form #serviceForm="ngForm" (ngSubmit)="onSubmit(serviceForm)" name="myForm">
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="serviceService.selectedService.$key">
-<<<<<<< HEAD
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -77,18 +63,6 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Description</span>
         </div>
-=======
-      <div class="form-group">
-        <label>ServiceName</label>
-        <input class="form-control" name="ServiceName" #ServiceName="ngModel" [(ngModel)]="serviceService.selectedService.ServiceName"
-          placeholder="ServiceName" required>
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-<<<<<<< HEAD
->>>>>>> 8732469feb37a1847cce28e2153c8f8da7187de0
-=======
->>>>>>> 0e3be402096e10800d3e84991b9af56708c2c281
         <input class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr" placeholder="descr">
       </div>
 
@@ -98,19 +72,11 @@
         </div>
         <input class="form-control" name="TimeUnit" #TimeUnit="ngModel" [(ngModel)]="serviceService.selectedService.TimeUnit" placeholder="TimeUnit">
       </div>
-<<<<<<< HEAD
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Price</span>
         </div>
-=======
-      <div class="form-group">
-        <label>Price</label>
-<<<<<<< HEAD
->>>>>>> 8732469feb37a1847cce28e2153c8f8da7187de0
-=======
->>>>>>> 0e3be402096e10800d3e84991b9af56708c2c281
         <input class="form-control" name="Price" #Price="ngModel" [(ngModel)]="serviceService.selectedService.Price" placeholder="Price"
           type="number" required>
       </div>
@@ -123,3 +89,4 @@
       Submit</button>
   </div>
 </ng-template>
+<!-- <pre>{{closeResult}}</pre> -->

@@ -33,8 +33,6 @@ export class ServiceListComponent implements OnInit {
       language: {
         searchPlaceholder: "Search"
       },
-      scrollY: "350px",
-      // scrollX: true
     }
 
     this.resetForm();

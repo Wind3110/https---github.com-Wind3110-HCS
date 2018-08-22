@@ -30,8 +30,6 @@ export class StaffListComponent implements OnInit {
       language: {
         searchPlaceholder: "Search"
       },
-      scrollY:"200px",
-      scrollX:true
     }
 
     var x = this.staffService.getData();

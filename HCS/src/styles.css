@@ -2,8 +2,6 @@
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 #staff_table_wrapper > .row, 
 #service_table_wrapper > .row{
     margin-bottom: 1em;
@@ -15,29 +13,8 @@
 
 .btn-primary {
     margin-bottom: 1em;
-=======
-=======
->>>>>>> 0e3be402096e10800d3e84991b9af56708c2c281
+}
+
 #service_table_wrapper .row{
     margin-bottom: 1em;
-}
-.dataTables_wrapper .dataTables_info {
-    white-space: nowrap;
-}
-
-.dataTables_wrapper .dataTables_filter{
-    left: 0;
-    
-}
-#btn-cre-service{
-    margin-left: 10%;
-    margin-bottom: 1em;
-}
-
-#staff_table_wrapper{
-    width: 30px;
-<<<<<<< HEAD
->>>>>>> 8732469feb37a1847cce28e2153c8f8da7187de0
-=======
->>>>>>> 0e3be402096e10800d3e84991b9af56708c2c281
 }
