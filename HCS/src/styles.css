@@ -15,6 +15,6 @@
     margin-bottom: 1em;
 }
 
-#service_table_wrapper .row{
-    margin-bottom: 1em;
+a.paginate_button.current {
+    background:red;
 }
