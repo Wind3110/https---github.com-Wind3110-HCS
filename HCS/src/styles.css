@@ -1,20 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
-
-#staff_table_wrapper > .row, 
-#service_table_wrapper > .row{
-    margin-bottom: 1em;
+#staff_table_wrapper>.row,
+#service_table_wrapper>.row {
+  margin-bottom: 1em;
 }
 
 .dataTables_info {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .btn-primary {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .dataTables_wrapper .dataTables_filter {
-    margin-left: 28em;
-  }
+  margin-left: 28em;
+}
+
+.list-group>.list-group-item:focus {
+  background-color: #007bff;
+  color: #ffffff;
+}
