@@ -32,6 +32,7 @@ import { ChartComponent } from './Component/chart/chart.component';
 import { ServiceManagementComponent } from './Component/ServiceComponent/service-management/service-management.component';
 import { ServiceComponent } from './Component/ServiceComponent/service-management/service/service.component';
 import { ServiceListComponent } from './Component/ServiceComponent/service-management/service-list/service-list.component';
+import { BookingformComponent } from './Component/bookingform/bookingform.component';
 // import { DashboardComponent } from './Component/DashboardComponent/dashboard/dashboard.component';
 
 // const childroutes: Routes = [
@@ -50,6 +51,7 @@ import { ServiceListComponent } from './Component/ServiceComponent/service-manag
 const routes: Routes = [
 
   { path: 'management', component: StaffManagementComponent },
+  { path: 'booking', component: BookingformComponent },
   { path: 'staffupdate', component: StaffComponent },
   { path: 'sermanagement', component: ServiceManagementComponent },
   { path: 'stafftable', component: StaffListComponent },
@@ -69,6 +71,7 @@ const routes: Routes = [
     ServiceManagementComponent,
     ServiceComponent,
     ServiceListComponent,
+    BookingformComponent,
     // DashboardComponent,
   ],
 

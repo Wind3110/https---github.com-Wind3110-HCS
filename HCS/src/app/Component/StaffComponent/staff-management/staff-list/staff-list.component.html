@@ -29,12 +29,15 @@
       <td>{{staff.PhoneNumber}}</td>
       <td>{{staff.Address}}</td>
       <td>{{staff.Salary}}</td>
-      <td class="text-center">
+      <td class="text-center" style="white-space: nowrap">
         <a class="btn" (click)="onEdit(staff)" (click)="open(content)">
           <i class="fa fa-pencil-square-o"></i>
         </a>
         <a class="btn" (click)="onDelete(staff.$key)">
           <i class="fa fa-trash-o"></i>
+        </a>
+        <a class="btn" (click)="onEdit(staff)" (click)="openDetail(detailContent)">
+          <i class="fa fa-info-circle"></i>
         </a>
       </td>
     </tr>
@@ -85,8 +88,8 @@
           <span class="input-group-text">Sexual</span>
         </div>
         <select class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex">
-          <!-- <option value="Nam">Nam</option>
-          <option value="Nữ">Nữ</option> -->
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
         </select>
         <!-- <input class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex" placeholder="Sex" required> -->
       </div>
@@ -137,4 +140,46 @@
     <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
   </div> -->
 
+</ng-template>
+
+
+<!-- Detail -->
+<ng-template #detailContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Staff Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form #staffForm="ngForm" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
+      <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{staffService.selectedStaff.FullName}}</button>
+      <div class="row text-center">
+        <div class="col-md-6">
+          <p>
+            <span class="font-weight-bold">Day of birth:</span> {{staffService.selectedStaff.DayOfBirth}}</p>
+          <p>
+            <span class="font-weight-bold">Sexual:</span> {{staffService.selectedStaff.Sex}}</p>
+          <p>
+            <span class="font-weight-bold">Phone number:</span> {{staffService.selectedStaff.PhoneNumber}}</p>
+          <p>
+            <span class="font-weight-bold">Salary:</span> {{staffService.selectedStaff.Salary}}</p>
+        </div>
+        <div class="col-md-6">
+          <p>
+            <span class="font-weight-bold">Username:</span> {{staffService.selectedStaff.Username}}</p>
+          <!-- <p>Password: {{staffService.selectedStaff.Password}}</p> -->
+          <p>
+            <span class="font-weight-bold">Address:</span> {{staffService.selectedStaff.Address}}</p>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="c('Save click')">Close</button>
+      </div>
+    </form>
+  </div>
 </ng-template>

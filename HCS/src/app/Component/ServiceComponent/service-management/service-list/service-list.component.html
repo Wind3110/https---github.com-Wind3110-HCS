@@ -31,6 +31,9 @@
         <a class="btn" (click)="onDelete(service.$key)">
           <i class="fa fa-trash-o"></i>
         </a>
+        <a class="btn" (click)="onEdit(service)" (click)="openDetail(contentDetail)">
+          <i class="fa fa-info-circle"></i>
+        </a>
       </td>
     </tr>
   </tbody>
@@ -89,4 +92,33 @@
       Submit</button>
   </div>
 </ng-template>
-<!-- <pre>{{closeResult}}</pre> -->
+
+<!-- Detail -->
+<ng-template #contentDetail let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Service Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #serviceForm="ngForm" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="serviceService.selectedService.$key">
+
+      <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{serviceService.selectedService.ServiceName}}</button>
+      <div class="row text-center">
+        <div class="col-md-12">
+          <p>
+            <span class="font-weight-bold">Time unit:</span> {{serviceService.selectedService.TimeUnit}}</p>
+          <p>
+            <span class="font-weight-bold">Price:</span> {{serviceService.selectedService.Price}}</p>
+          <p>
+            <span class="font-weight-bold">Description:</span> {{serviceService.selectedService.descr}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="c('Save click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

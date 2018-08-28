@@ -25,8 +25,8 @@ export class StaffListComponent implements OnInit {
       retrieve: true,
       processing: true,
       //open paging in datatable
-      paging:true,
-      scrollCollapse:true,
+      paging: true,
+      scrollCollapse: true,
       language: {
         searchPlaceholder: "Search"
       },
@@ -46,38 +46,42 @@ export class StaffListComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
-}
-
-onSubmit(staffForm: NgForm) {
-  this.staffService.updateStaff(staffForm.value);
-  this.resetForm(staffForm);
-  this.tostr.success('Updated Succcessfully', 'Staff Update');
-}
-
-resetForm(staffForm ?: NgForm) {
-  if (staffForm != null)
-    staffForm.reset();
-  this.staffService.selectedStaff = {
-    $key: null,
-    Username: '',
-    Password: '',
-    FullName: '',
-    Sex: '',
-    DayOfBirth: null,
-    PhoneNumber: null,
-    Address: '',
-    Salary: null,
   }
-}
 
-onEdit(sta: Staff) {
-  this.staffService.selectedStaff = Object.assign({}, sta);
-}
-
-onDelete(key: string) {
-  if (confirm('Are you sure to delete this record ?') == true) {
-    this.staffService.deleteStaff(key);
-    this.tostr.warning("Deleted Successfully");
+  openDetail(detailContent) {
+    this.modalService.open(detailContent, { size: 'lg' });
   }
-}
+
+  onSubmit(staffForm: NgForm) {
+    this.staffService.updateStaff(staffForm.value);
+    this.resetForm(staffForm);
+    this.tostr.success('Updated Succcessfully', 'Staff Update');
+  }
+
+  resetForm(staffForm?: NgForm) {
+    if (staffForm != null)
+      staffForm.reset();
+    this.staffService.selectedStaff = {
+      $key: null,
+      Username: '',
+      Password: '',
+      FullName: '',
+      Sex: '',
+      DayOfBirth: null,
+      PhoneNumber: null,
+      Address: '',
+      Salary: null,
+    }
+  }
+
+  onEdit(sta: Staff) {
+    this.staffService.selectedStaff = Object.assign({}, sta);
+  }
+
+  onDelete(key: string) {
+    if (confirm('Are you sure to delete this record ?') == true) {
+      this.staffService.deleteStaff(key);
+      this.tostr.warning("Deleted Successfully");
+    }
+  }
 }
