@@ -24,12 +24,9 @@ export class ServiceListComponent implements OnInit {
 
     this.resetForm();
     this.dtOptions = {
-      // pagingType: 'full_numbers',
-      // pageLength: 10,
       retrieve: true,
-      //open paging in datatable
-      paging: true,
-      // scrollCollapse: true,
+      processing: true,
+      scrollX: true,
       language: {
         searchPlaceholder: "Search"
       },

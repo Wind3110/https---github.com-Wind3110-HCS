@@ -1,4 +1,4 @@
-// export class Login {
-//     userid: string;
-//     password: string;
-// }
+export class Login {
+    userid: string;
+    password: string;
+}

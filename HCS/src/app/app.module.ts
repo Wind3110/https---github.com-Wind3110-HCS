@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-// import { AuthGuard } from './service/AuthService/auth.guard';
+import { AuthGuard } from './service/AuthService/auth.guard';
 
 // Firebase
 import { AngularFireModule } from 'angularfire2';
@@ -28,7 +28,7 @@ import { DataTableModule } from "angular-6-datatable";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartComponent } from './Component/chart/chart.component';
-// import { LoginComponent } from './Component/login/login.component';
+import { LoginComponent } from './Component/login/login.component';
 import { ServiceManagementComponent } from './Component/ServiceComponent/service-management/service-management.component';
 import { ServiceComponent } from './Component/ServiceComponent/service-management/service/service.component';
 import { ServiceListComponent } from './Component/ServiceComponent/service-management/service-list/service-list.component';
@@ -56,7 +56,7 @@ const routes: Routes = [
   { path: 'sermanagement', component: ServiceManagementComponent },
   { path: 'stafftable', component: StaffListComponent },
   { path: 'chart', component: ChartComponent },
-  // { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   // { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
@@ -67,7 +67,7 @@ const routes: Routes = [
     StaffComponent,
     StaffListComponent,
     ChartComponent,
-    // LoginComponent,
+    LoginComponent,
     ServiceManagementComponent,
     ServiceComponent,
     ServiceListComponent,

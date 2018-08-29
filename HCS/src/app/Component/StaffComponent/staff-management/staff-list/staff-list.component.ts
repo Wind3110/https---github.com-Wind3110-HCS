@@ -4,7 +4,8 @@ import { Staff } from '../../../../Model/StaffModel/staff.model';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-staff-list',
@@ -16,20 +17,19 @@ export class StaffListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   staffList: Staff[];
+
   constructor(private staffService: StaffService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.resetForm();
     this.dtOptions = {
-      pageLength: 10,
       retrieve: true,
       processing: true,
-      //open paging in datatable
       paging: true,
-      scrollCollapse: true,
       language: {
         searchPlaceholder: "Search"
       },
+      scrollX: true,
     }
 
     var x = this.staffService.getData();
