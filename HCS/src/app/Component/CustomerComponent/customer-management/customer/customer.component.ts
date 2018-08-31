@@ -36,12 +36,12 @@ export class CustomerComponent implements OnInit {
     customerForm.reset();
     this.customerService.selectedCustomer = {
       $key: null,
-      fullName: '',
-      gender: '',
-      phoneNumber: '',
-      level: '',
-      username:'',
-      password:''
+      FullName: '',
+      Gender: '',
+      PhoneNumber: '',
+      Level: '',
+      Username:'',
+      Password:''
     }
   }
 }

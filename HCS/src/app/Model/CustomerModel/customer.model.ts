@@ -1,9 +1,9 @@
 export class Customer {
     $key: string;
-    fullName: string;
-    gender: string;
-    phoneNumber: string;
-    level: string;
-    username: string;
-    password: string;
+    FullName: string;
+    Gender: string;
+    PhoneNumber: string;
+    Level: string;
+    Username: string;
+    Password: string;
 }

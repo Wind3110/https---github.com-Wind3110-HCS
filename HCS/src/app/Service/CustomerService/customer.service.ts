@@ -6,40 +6,40 @@ import { Customer } from '../../Model/CustomerModel/customer.model';
   providedIn: 'root'
 })
 export class CustomerService {
-  CustomerList: AngularFireList<any>;
+  customerList: AngularFireList<any>;
   selectedCustomer: Customer = new Customer();
   constructor(private firebase: AngularFireDatabase) { }
 
   getData() {
-    this.CustomerList = this.firebase.list('HCS_Customer');
-    return this.CustomerList;
+    this.customerList = this.firebase.list('HCS_Customer');
+    return this.customerList;
   }
 
   insertCustomer(customer: Customer) {
-    this.CustomerList.push({
-      FullName: customer.fullName,
-      Gender: customer.gender,
-      PhoneNumber: customer.phoneNumber,
-      Level: customer.level,
-      Username:customer.username,
-      Psssword: customer.password
+    this.customerList.push({
+      FullName: customer.FullName,
+      Gender: customer.Gender,
+      PhoneNumber: customer.PhoneNumber,
+      Level: customer.Level,
+      Username:customer.Username,
+      Password: customer.Password
     });
   }
 
   updateCustomer(customer: Customer) {
-    this.CustomerList.update(customer.$key,
+    this.customerList.update(customer.$key,
       {
-        FullName: customer.fullName,
-        Gender: customer.gender,
-        PhoneNumber: customer.phoneNumber,
-        Level: customer.level,
-        Username:customer.username,
-        Psssword: customer.password
+        FullName: customer.FullName,
+        Gender: customer.Gender,
+        PhoneNumber: customer.PhoneNumber,
+        Level: customer.Level,
+        Username:customer.Username,
+        Password: customer.Password
        
       });
   }
 
   deleteCustomer($key: string) {
-    this.CustomerList.remove($key);
+    this.customerList.remove($key);
   }
 }

@@ -13,7 +13,6 @@ import { NgForm } from '@angular/forms';
 })
 export class CustomerListComponent implements OnInit {
 
-  closeResult: string;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   customerList: Customer[];
@@ -67,12 +66,12 @@ export class CustomerListComponent implements OnInit {
     customerForm.reset();
     this.customerService.selectedCustomer = {
       $key: null,
-      fullName: '',
-      gender: '',
-      level: '',
-      username:'',
-      password: '',
-      phoneNumber:''
+      FullName: '',
+      Gender: '',
+      Level: '',
+      Username:'',
+      Password: '',
+      PhoneNumber:''
     }
   }
 
@@ -83,7 +82,7 @@ export class CustomerListComponent implements OnInit {
   onDelete(key: string) {
     if (confirm('Are you sure to delete this record ?') == true) {
       this.customerService.deleteCustomer(key);
-      this.tostr.warning("Deleted Successfully", "Added Service");
+      this.tostr.warning("Deleted Successfully", "Added Customer");
     }
   }
 }

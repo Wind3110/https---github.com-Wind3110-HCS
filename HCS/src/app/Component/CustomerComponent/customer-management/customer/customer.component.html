@@ -11,14 +11,14 @@
   </div>
 
   <div class="modal-body">
-    <form #staffForm="ngForm" (ngSubmit)="onSubmit(customerForm)" name="myForm">
-      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.sel.$key">
+    <form #customerForm="ngForm" (ngSubmit)="onSubmit(customerForm)" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedCustomer.$key">
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">fullName</span>
         </div>
-        <input class="form-control" name="fullName" #fullName="ngModel" [(ngModel)]="serviceService.selectedCustomer.fullName" placeholder="fullName"
+        <input class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="customerService.selectedCustomer.FullName" placeholder="fullName"
           required>
       </div>
 
@@ -26,7 +26,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">gender</span>
         </div>
-        <input class="form-control" name="gender" #gender="ngModel" [(ngModel)]="customerService.selectedCustomer.gender" placeholder="gender"
+        <input class="form-control" name="Gender" #Gender="ngModel" [(ngModel)]="customerService.selectedCustomer.Gender" placeholder="gender"
           type="password">
       </div>
 
@@ -34,14 +34,14 @@
         <div class="input-group-prepend">
           <span class="input-group-text">phoneNumber</span>
         </div>
-        <input class="form-control" name="phoneNumber" #phoneNumber="ngModel" [(ngModel)]="customerService.selectedCustomer.phoneNumber" placeholder="phoneNumber">
+        <input class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="customerService.selectedCustomer.PhoneNumber" placeholder="phoneNumber">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">level</span>
         </div>
-        <select class="form-control" name="level" #level="ngModel" [(ngModel)]="customerService.selectedCustomer.level">
+        <select class="form-control" name="Level" #Level="ngModel" [(ngModel)]="customerService.selectedCustomer.Level">
           <option value="Nam">Nam</option>
           <option value="Nữ">Nữ</option>
         </select>
@@ -52,7 +52,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">username</span>
         </div>
-        <input class="form-control" name="username" #username="ngModel" [(ngModel)]="customerService.selectedCustomer.username" placeholder="username"
+        <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="customerService.selectedCustomer.Username" placeholder="username"
           type="date">
       </div>
 
@@ -60,7 +60,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">password</span>
         </div>
-        <input class="form-control" name="password" #password="ngModel" [(ngModel)]="customerService.selectedCustomer.password"
+        <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="customerService.selectedCustomer.Password"
           placeholder="PhoneNumber" type="number">
       </div>
 

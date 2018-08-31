@@ -53,7 +53,7 @@ import { CustomerListComponent } from './Component/CustomerComponent/customer-ma
 
 const routes: Routes = [
 
-  { path: 'management', component: StaffManagementComponent },
+  { path: 'management', component: StaffManagementComponent, canActivate: [AuthGuard]},
   // { path: 'booking', component: BookingformComponent },
   { path: 'staffupdate', component: StaffComponent },
   { path: 'sermanagement', component: ServiceManagementComponent },
@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: 'stafftable', component: StaffListComponent },
   { path: 'chart', component: ChartComponent },
   { path: 'login', component: LoginComponent },
-  // { path: '**', redirectTo: '/login', pathMatch: 'full' }
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

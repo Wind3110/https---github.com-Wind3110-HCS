@@ -13,7 +13,6 @@ import { NgForm } from '@angular/forms';
 })
 export class ServiceListComponent implements OnInit {
 
-  closeResult: string;
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   serviceList: Service[];
