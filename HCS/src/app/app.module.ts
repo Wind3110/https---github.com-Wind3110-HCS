@@ -32,7 +32,10 @@ import { LoginComponent } from './Component/login/login.component';
 import { ServiceManagementComponent } from './Component/ServiceComponent/service-management/service-management.component';
 import { ServiceComponent } from './Component/ServiceComponent/service-management/service/service.component';
 import { ServiceListComponent } from './Component/ServiceComponent/service-management/service-list/service-list.component';
-import { BookingformComponent } from './Component/bookingform/bookingform.component';
+import { CustomerManagementComponent } from './Component/CustomerComponent/customer-management/customer-management.component';
+import { CustomerComponent } from './Component/CustomerComponent/customer-management/customer/customer.component';
+import { CustomerListComponent } from './Component/CustomerComponent/customer-management/customer-list/customer-list.component';
+// import { BookingformComponent } from './Component/bookingform/bookingform.component';
 // import { DashboardComponent } from './Component/DashboardComponent/dashboard/dashboard.component';
 
 // const childroutes: Routes = [
@@ -51,9 +54,10 @@ import { BookingformComponent } from './Component/bookingform/bookingform.compon
 const routes: Routes = [
 
   { path: 'management', component: StaffManagementComponent },
-  { path: 'booking', component: BookingformComponent },
+  // { path: 'booking', component: BookingformComponent },
   { path: 'staffupdate', component: StaffComponent },
   { path: 'sermanagement', component: ServiceManagementComponent },
+  { path: 'customermanagement', component: CustomerManagementComponent },
   { path: 'stafftable', component: StaffListComponent },
   { path: 'chart', component: ChartComponent },
   { path: 'login', component: LoginComponent },
@@ -71,7 +75,10 @@ const routes: Routes = [
     ServiceManagementComponent,
     ServiceComponent,
     ServiceListComponent,
-    BookingformComponent,
+    CustomerManagementComponent,
+    CustomerComponent,
+    CustomerListComponent
+    // BookingformComponent,
     // DashboardComponent,
   ],
 

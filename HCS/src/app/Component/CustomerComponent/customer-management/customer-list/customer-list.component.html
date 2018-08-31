@@ -1,0 +1,146 @@
+<app-customer></app-customer>
+
+<!-- Datatable -->
+<table datatable id="customer_table" class="table table-sm table-hover table-striped table-bordered" [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger">
+  <thead class="text-center thead-dark">
+    <tr>
+      <!-- <td>{{staff.Username}}</td> -->
+      <!-- <td>{{staff.Password}}</td> -->
+      <th>Customer Name</th>
+      <!-- <td>{{staff.Username}}</td> -->
+      <th>Gender</th>
+      <th>Phone Number</th>
+      <th>Level</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customerList">
+      <!-- <td>{{staff.Username}}</td> -->
+      <!-- <td>{{staff.Password}}</td> -->
+      <td>{{customer.fullName}}</td>
+      <!-- <td>{{staff.Username}}</td> -->
+      <td>{{customer.gender}}</td>
+      <td>{{customer.phoneNumber}}</td>
+      <td>{{customer.level}}</td>
+      <td>{{customer.username}}</td>
+      <td>{{customer.password}}</td>
+      <td class="text-center" style="white-space: nowrap;">
+        <a class="btn" (click)="onEdit(customer)" (click)="open(content)">
+          <i class="fa fa-pencil-square-o"></i>
+        </a>
+        <a class="btn" (click)="onDelete(customer.$key)">
+          <i class="fa fa-trash-o"></i>
+        </a>
+        <a class="btn" (click)="onEdit(customer)" (click)="openDetail(contentDetail)">
+          <i class="fa fa-info-circle"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr></tr>
+  </tfoot>
+</table>
+
+<!-- Popup form -->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Customer</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #serviceForm="ngForm" (ngSubmit)="onSubmit(customerForm)" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="serviceService.selectedCustomer.$key">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Full Name</span>
+        </div>
+        <input class="form-control" name="fullName" #fullName="ngModel" [(ngModel)]="customerService.selectedCustomer.fullName"
+          placeholder="ServiceName" required>
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Gender</span>
+        </div>
+        <input class="form-control" name="gender" #gender="ngModel" [(ngModel)]="customerService.selectedCustomer.gender" placeholder="Gender">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Phone Number</span>
+        </div>
+        <input class="form-control" name="phoneNumber" #phoneNumber="ngModel" [(ngModel)]="customerService.selectedCustomer.phoneNumber" placeholder="PhoneNumber">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Level</span>
+        </div>
+        <input class="form-control" name="level" #level="ngModel" [(ngModel)]="customerService.selectedCustomer.level" placeholder="level">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Username</span>
+        </div>
+        <input class="form-control" name="username" #username="ngModel" [(ngModel)]="customerService.selectedCustomer.username" placeholder="Username">
+      </div>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Password</span>
+        </div>
+        <input class="form-control" name="password" #password="ngModel" [(ngModel)]="customerService.selectedCustomer.password" placeholder="Password" type="password">
+      </div>
+
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit" [disabled]="!serviceForm.valid" (click)="onSubmit(customerForm)" (click)="c('Save click')">
+      <i class="fa fa-floppy-o"></i>
+      Submit</button>
+  </div>
+</ng-template>
+
+<!-- Detail -->
+<ng-template #contentDetail let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Service Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #serviceForm="ngForm" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedService.$key">
+
+      <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{customerService.selectedCustomer.fullName}}</button>
+      <div class="row text-center">
+        <div class="col-md-12">
+          <p>
+            <span class="font-weight-bold">Gender:</span> {{customerService.selectedCustomer.gender}}</p>
+          <p>
+            <span class="font-weight-bold">Phone Number:</span> {{customerService.selectedCustomer.phoneNumber}}</p>
+          <p>
+            <span class="font-weight-bold">Level:</span> {{customerService.selectedCustomer.level}}</p>
+          <p>
+            <span class="font-weight-bold">Username:</span> {{customerService.selectedCustomer.username}}</p>
+          <p>
+            <span class="font-weight-bold">Password:</span> {{customerService.selectedCustomer.password}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="c('Save click')">Close</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
