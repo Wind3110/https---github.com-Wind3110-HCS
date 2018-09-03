@@ -57,7 +57,7 @@
   </div>
 
   <div class="modal-body">
-    <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm">
+    <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm" novalidate>
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
 
       <div class="input-group mb-3">

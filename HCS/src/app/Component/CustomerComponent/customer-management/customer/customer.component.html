@@ -18,42 +18,42 @@
         <div class="input-group-prepend">
           <span class="input-group-text">fullName</span>
         </div>
-        <input class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="customerService.selectedCustomer.FullName" placeholder="fullName"
-          required>
+        <input class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="customerService.selectedCustomer.FullName"
+          placeholder="fullName" required>
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">gender</span>
         </div>
-        <input class="form-control" name="Gender" #Gender="ngModel" [(ngModel)]="customerService.selectedCustomer.Gender" placeholder="gender"
-          type="password">
+        <select class="form-control" name="Gender" #Gender="ngModel" [(ngModel)]="customerService.selectedCustomer.Gender"
+          placeholder="gender" type="password">
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">phoneNumber</span>
         </div>
-        <input class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="customerService.selectedCustomer.PhoneNumber" placeholder="phoneNumber">
+        <input class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="customerService.selectedCustomer.PhoneNumber"
+          placeholder="phoneNumber">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">level</span>
         </div>
-        <select class="form-control" name="Level" #Level="ngModel" [(ngModel)]="customerService.selectedCustomer.Level">
-          <option value="Nam">Nam</option>
-          <option value="Nữ">Nữ</option>
-        </select>
-        <!-- <input class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex" placeholder="Sex" required> -->
+        <input class="form-control" name="Level" #Level="ngModel" [(ngModel)]="customerService.selectedCustomer.Level">
       </div>
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">username</span>
         </div>
-        <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="customerService.selectedCustomer.Username" placeholder="username"
-          type="date">
+        <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="customerService.selectedCustomer.Username"
+          placeholder="username">
       </div>
 
       <div class="input-group mb-3">
@@ -61,12 +61,13 @@
           <span class="input-group-text">password</span>
         </div>
         <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="customerService.selectedCustomer.Password"
-          placeholder="PhoneNumber" type="number">
+          placeholder="PhoneNumber" type="password">
       </div>
 
 
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!customerForm.valid" (click)="onSubmit(customerForm)" (click)="c('Save click')">
+        <button class="btn btn-primary" type="submit" [disabled]="!customerForm.valid" (click)="onSubmit(customerForm)"
+          (click)="c('Save click')">
           <i class="fa fa-floppy-o"></i>
           Submit</button>
         <!-- <button class="btn btn-warning" type="button" (click)="resetForm(staffForm)">

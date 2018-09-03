@@ -11,15 +11,17 @@
   </div>
 
   <div class="modal-body">
-    <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm">
+    <form #staffForm="ngForm" (ngSubmit)="staffForm.form.valid && onSubmit(staffForm)" name="myForm" novalidate>
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">Username</span>
         </div>
-        <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username" placeholder="Username"
-          required>
+        <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username" placeholder="Username" [ngClass]="{'is-invalid':staffForm.submitted && Username.invalid}" required>
+        <div class="invalid-feedback">
+          <div>Username is required</div>
+        </div>
       </div>
 
       <div class="input-group mb-3">
@@ -79,19 +81,19 @@
           type="number">
       </div>
 
+      <div>{{staffService.selectedStaff|json}}</div>
+
       <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" (click)="onSubmit(staffForm)">
+          <i class="fa fa-floppy-o"></i>
+          Submit</button>
+      </div>
+
+      <!-- <div class="modal-footer">
         <button class="btn btn-primary" type="submit" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)" (click)="c('Save click')">
           <i class="fa fa-floppy-o"></i>
           Submit</button>
-        <!-- <button class="btn btn-warning" type="button" (click)="resetForm(staffForm)">
-          <i class="fa fa-repeat"></i>
-          Reset</button> -->
-      </div>
+      </div> -->
     </form>
   </div>
-
-  <!-- <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
-  </div> -->
-
 </ng-template>

@@ -35,8 +35,8 @@ import { ServiceListComponent } from './Component/ServiceComponent/service-manag
 import { CustomerManagementComponent } from './Component/CustomerComponent/customer-management/customer-management.component';
 import { CustomerComponent } from './Component/CustomerComponent/customer-management/customer/customer.component';
 import { CustomerListComponent } from './Component/CustomerComponent/customer-management/customer-list/customer-list.component';
-// import { BookingformComponent } from './Component/bookingform/bookingform.component';
-// import { DashboardComponent } from './Component/DashboardComponent/dashboard/dashboard.component';
+import { BookingformComponent } from './Component/bookingform/bookingform.component';
+import { DashboardComponent } from './Component/DashboardComponent/dashboard/dashboard.component';
 
 // const childroutes: Routes = [
 
@@ -53,8 +53,9 @@ import { CustomerListComponent } from './Component/CustomerComponent/customer-ma
 
 const routes: Routes = [
 
-  { path: 'management', component: StaffManagementComponent, canActivate: [AuthGuard]},
-  // { path: 'booking', component: BookingformComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], },
+  { path: 'management', component: StaffManagementComponent },
+  { path: 'booking', component: BookingformComponent },
   { path: 'staffupdate', component: StaffComponent },
   { path: 'sermanagement', component: ServiceManagementComponent },
   { path: 'customermanagement', component: CustomerManagementComponent },
@@ -77,9 +78,9 @@ const routes: Routes = [
     ServiceListComponent,
     CustomerManagementComponent,
     CustomerComponent,
-    CustomerListComponent
-    // BookingformComponent,
-    // DashboardComponent,
+    CustomerListComponent,
+    BookingformComponent,
+    DashboardComponent,
   ],
 
   imports: [

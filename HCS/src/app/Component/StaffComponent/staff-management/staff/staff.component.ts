@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms'
 
 import { StaffService } from '../../../../Service/StaffService/staff.service'
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-staff',
@@ -11,7 +11,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./staff.component.css']
 })
 export class StaffComponent implements OnInit {
-  closeResult: string;
 
   constructor(private staffService: StaffService, private tostr: ToastrService, private modalService: NgbModal) { }
 
@@ -25,10 +24,10 @@ export class StaffComponent implements OnInit {
   }
 
   onSubmit(staffForm: NgForm) {
-    this.staffService.insertStaff(staffForm.value);
-    this.resetForm(staffForm);
-    this.tostr.success('Created Succcessfully', 'Staff Create');
-
+    
+      this.staffService.insertStaff(staffForm.value);
+      this.resetForm(staffForm);
+      this.tostr.success('Created Succcessfully', 'Staff Create');
     // ngay khúc này reload lại datatable nè
   }
 
