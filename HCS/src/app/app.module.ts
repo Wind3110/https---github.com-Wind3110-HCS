@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
@@ -53,14 +54,18 @@ import { DashboardComponent } from './Component/DashboardComponent/dashboard/das
 
 const routes: Routes = [
 
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], },
-  { path: 'management', component: StaffManagementComponent },
-  { path: 'booking', component: BookingformComponent },
-  { path: 'staffupdate', component: StaffComponent },
-  { path: 'sermanagement', component: ServiceManagementComponent },
-  { path: 'customermanagement', component: CustomerManagementComponent },
-  { path: 'stafftable', component: StaffListComponent },
-  { path: 'chart', component: ChartComponent },
+  {
+    path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
+      { path: 'management', component: StaffManagementComponent },
+      { path: 'booking', component: BookingformComponent },
+      { path: 'staffupdate', component: StaffComponent },
+      { path: 'sermanagement', component: ServiceManagementComponent },
+      { path: 'customermanagement', component: CustomerManagementComponent },
+      { path: 'stafftable', component: StaffListComponent },
+      { path: 'chart', component: ChartComponent },
+    ]
+  },
+
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
@@ -85,6 +90,7 @@ const routes: Routes = [
 
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
