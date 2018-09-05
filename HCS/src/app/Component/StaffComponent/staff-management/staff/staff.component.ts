@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms'
 import { StaffService } from '../../../../Service/StaffService/staff.service'
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Md5} from 'ts-md5';
 
 @Component({
   selector: 'app-staff',
@@ -24,11 +25,18 @@ export class StaffComponent implements OnInit {
   }
 
   onSubmit(staffForm: NgForm) {
-    
+
+      console.log(staffForm.value.Password);
+      staffForm.value.Password=this.encryptMD5(staffForm.value.Password);
+      console.log(staffForm.value.Password);
       this.staffService.insertStaff(staffForm.value);
       this.resetForm(staffForm);
       this.tostr.success('Created Succcessfully', 'Staff Create');
     // ngay khúc này reload lại datatable nè
+  }
+
+  encryptMD5(oldPassword : string){
+    return Md5.hashStr(oldPassword).toString();
   }
 
   resetForm(staffForm?: NgForm) {

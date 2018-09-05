@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
+import {Md5} from 'ts-md5/dist/md5';
+
 
 import { CustomerService } from '../../../../Service/CustomerService/customer.service';
 import { ToastrService } from 'ngx-toastr';
@@ -21,14 +23,22 @@ export class CustomerComponent implements OnInit {
   }
 
   onSubmit(customerForm: NgForm) {
-    if (customerForm.value.$key == null)
+    if (customerForm.value.$key == null) {
+      console.log(customerForm.value.Password);
+      customerForm.value.Password=this.encryptMD5(customerForm.value.Password);
+      console.log(customerForm.value.Password);
       this.customerService.insertCustomer(customerForm.value);
+    }
     else
       this.customerService.updateCustomer(customerForm.value);
     this.resetForm(customerForm);
     this.tostr.success('Submitted Succcessfully', 'Added Service ');
 
     // ngay khúc này reload lại datatable nè
+  }
+
+  encryptMD5(oldPassword : string){
+    return Md5.hashStr(oldPassword).toString();
   }
 
   resetForm(customerForm?: NgForm) {
