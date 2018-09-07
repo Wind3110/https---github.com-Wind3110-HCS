@@ -38,19 +38,10 @@ import { CustomerComponent } from './Component/CustomerComponent/customer-manage
 import { CustomerListComponent } from './Component/CustomerComponent/customer-management/customer-list/customer-list.component';
 import { BookingformComponent } from './Component/bookingform/bookingform.component';
 import { DashboardComponent } from './Component/DashboardComponent/dashboard/dashboard.component';
-
-// const childroutes: Routes = [
-
-//   {
-//     path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
-//       { path: 'management', outlet: 'admin', component: StaffManagementComponent,pathMatch: 'full' },
-//       { path: 'staffupdate', outlet: 'admin', component: StaffComponent,pathMatch: 'full'},
-//       { path: 'sermanagement', outlet: 'admin', component: ServiceManagementComponent,pathMatch: 'full' },
-//       { path: 'stafftable', outlet: 'admin', component: StaffListComponent,pathMatch: 'full' },
-//       { path: 'chart', outlet: 'admin', component: ChartComponent,pathMatch: 'full' },
-//     ]
-//   },
-// ];
+import { CustomerpageComponent } from './Component/customerpage/customerpage.component';
+import { CustomerregistrationComponent } from './Component/customerpage/customerregistration/customerregistration.component';
+import { CustomerloginComponent } from './Component/customerpage/customerlogin/customerlogin.component';
+import { CustomerbookingComponent } from './Component/customerpage/customerbooking/customerbooking.component';
 
 const routes: Routes = [
 
@@ -63,6 +54,14 @@ const routes: Routes = [
       { path: 'customermanagement', component: CustomerManagementComponent },
       { path: 'stafftable', component: StaffListComponent },
       { path: 'chart', component: ChartComponent },
+    ]
+  },
+
+  {
+    path: 'customerpage', component: CustomerpageComponent, children: [
+      { path: 'customerregistration', component: CustomerregistrationComponent },
+      { path: 'customerlogin', component: CustomerloginComponent },
+      { path: 'customerbooking', component: CustomerbookingComponent },
     ]
   },
 
@@ -86,6 +85,10 @@ const routes: Routes = [
     CustomerListComponent,
     BookingformComponent,
     DashboardComponent,
+    CustomerpageComponent,
+    CustomerregistrationComponent,
+    CustomerloginComponent,
+    CustomerbookingComponent,
   ],
 
   imports: [
