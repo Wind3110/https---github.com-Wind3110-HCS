@@ -1,0 +1,40 @@
+<!-- <div class="container">
+  <a routerLink="/customerpage/management">Link1</a>
+  <a routerLink="/customerpage/sermanagement">Link2</a>
+  <a routerLink="/customerpage/customermanagement">Link2</a>
+</div> -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/customerpage/customerlogin">HCS</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/customerpage/customerbooking">TRANG CHỦ</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/customerpage/customerlogin">DỊCH VỤ</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/customerpage/customerregistration">LIÊN HỆ</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/customerpage/customerbooking">ĐẶT LỊCH</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/customerpage/customerlogin">ĐĂNG NHẬP</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/customerpage/customerregistration">ĐĂNG KÝ</a>
+        </li>
+      </ul>
+    </span>
+  </div>
+</nav>
+<div class="jumbotron jumbotron jumbotron-fluid">
+</div>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
