@@ -21,8 +21,9 @@ export class CustomerService {
       Gender: customer.Gender,
       PhoneNumber: customer.PhoneNumber,
       Level: customer.Level,
-      Username:customer.Username,
-      Password: customer.Password
+      Username: customer.Username,
+      Password: customer.Password,
+      Address: customer.Address,
     });
   }
 
@@ -33,9 +34,9 @@ export class CustomerService {
         Gender: customer.Gender,
         PhoneNumber: customer.PhoneNumber,
         Level: customer.Level,
-        Username:customer.Username,
-        Password: customer.Password
-       
+        Username: customer.Username,
+        Password: customer.Password,
+        Address: customer.Address,
       });
   }
 
