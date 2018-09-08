@@ -52,6 +52,7 @@ export class CustomerComponent implements OnInit {
       Level: '',
       Username:'',
       Password:'',
+      ConfirmPassword: '',
       Address:'',
     }
   }

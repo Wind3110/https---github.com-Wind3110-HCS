@@ -21,11 +21,11 @@ import { StaffListComponent } from '../app/Component/StaffComponent/staff-manage
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { Routes, RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 
 // Datatable
 import { DataTablesModule } from 'angular-datatables';
-import { DataTableModule } from "angular-6-datatable";
+import { DataTableModule } from 'angular-6-datatable';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartComponent } from './Component/chart/chart.component';
@@ -42,6 +42,7 @@ import { CustomerpageComponent } from './Component/customerpage/customerpage.com
 import { CustomerregistrationComponent } from './Component/customerpage/customerregistration/customerregistration.component';
 import { CustomerloginComponent } from './Component/customerpage/customerlogin/customerlogin.component';
 import { CustomerbookingComponent } from './Component/customerpage/customerbooking/customerbooking.component';
+import { CompareValidatorDirective } from './shared/compare-validator.directive';
 
 const routes: Routes = [
 
@@ -89,6 +90,7 @@ const routes: Routes = [
     CustomerregistrationComponent,
     CustomerloginComponent,
     CustomerbookingComponent,
+    CompareValidatorDirective,
   ],
 
   imports: [

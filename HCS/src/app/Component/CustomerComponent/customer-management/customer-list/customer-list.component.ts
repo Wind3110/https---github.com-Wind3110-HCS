@@ -71,6 +71,7 @@ export class CustomerListComponent implements OnInit {
       Level: '',
       Username:'',
       Password: '',
+      ConfirmPassword: '',
       PhoneNumber:'',
       Address:'',
     }

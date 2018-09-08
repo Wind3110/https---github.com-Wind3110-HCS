@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 export class CustomerregistrationComponent implements OnInit {
   customerList: Customer[];
   returnUrl: string;
+  private genderCombo: any[] = [{value:'Nam', name: "Nam"}, {value: 'Nữ', name: 'Nữ'}];
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private router: Router) { }
 
@@ -34,13 +35,6 @@ export class CustomerregistrationComponent implements OnInit {
 
 
   onSubmit(customerRegistrationForm: NgForm) {
-    // const password = customerRegistrationForm.value.Password;
-    // const repeatPassword = customerRegistrationForm.value.ConfirmPassword;
-    // if (repeatPassword !== password) {
-    //   return {
-    //     doesMatchPassword: true
-    //   };
-    // }
     this.customerService.insertCustomer(customerRegistrationForm.value);
     this.tostr.success('Đăng ký thành công', 'Đăng ký tài khoản');
     this.resetForm(customerRegistrationForm);
