@@ -51,7 +51,8 @@ export class CustomerComponent implements OnInit {
       PhoneNumber: '',
       Level: '',
       Username:'',
-      Password:''
+      Password:'',
+      Address:'',
     }
   }
 }
