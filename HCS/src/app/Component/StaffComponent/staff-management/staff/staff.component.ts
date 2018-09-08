@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
 
-import { StaffService } from '../../../../Service/StaffService/staff.service'
+import { StaffService } from '../../../../Service/StaffService/staff.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Md5} from 'ts-md5';
@@ -27,7 +27,7 @@ export class StaffComponent implements OnInit {
   onSubmit(staffForm: NgForm) {
 
       console.log(staffForm.value.Password);
-      staffForm.value.Password=this.encryptMD5(staffForm.value.Password);
+      staffForm.value.Password = this.encryptMD5(staffForm.value.Password);
       console.log(staffForm.value.Password);
       this.staffService.insertStaff(staffForm.value);
       this.resetForm(staffForm);
@@ -35,13 +35,14 @@ export class StaffComponent implements OnInit {
     // ngay khúc này reload lại datatable nè
   }
 
-  encryptMD5(oldPassword : string){
+  encryptMD5(oldPassword: string) {
     return Md5.hashStr(oldPassword).toString();
   }
 
   resetForm(staffForm?: NgForm) {
-    if (staffForm != null)
+    if (staffForm != null) {
       staffForm.reset();
+    }
     this.staffService.selectedStaff = {
       $key: null,
       Username: '',
@@ -52,6 +53,6 @@ export class StaffComponent implements OnInit {
       PhoneNumber: null,
       Address: '',
       Salary: null,
-    }
+    };
   }
 }

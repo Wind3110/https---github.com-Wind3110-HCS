@@ -6,5 +6,6 @@ export class Customer {
     Level: string;
     Username: string;
     Password: string;
+    ConfirmPassword: string;
     Address: string;
 }
