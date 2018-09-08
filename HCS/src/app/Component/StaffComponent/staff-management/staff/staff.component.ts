@@ -47,6 +47,7 @@ export class StaffComponent implements OnInit {
       $key: null,
       Username: '',
       Password: '',
+      ConfirmPassword:'',
       FullName: '',
       Sex: '',
       DayOfBirth: null,

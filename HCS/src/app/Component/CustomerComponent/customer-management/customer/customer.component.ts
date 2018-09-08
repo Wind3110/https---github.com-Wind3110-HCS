@@ -53,7 +53,7 @@ export class CustomerComponent implements OnInit {
       Username:'',
       Password:'',
       ConfirmPassword: '',
-      Address:'',
+      Address:''
     }
   }
 }

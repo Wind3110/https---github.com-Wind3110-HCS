@@ -2,6 +2,7 @@ export class Staff {
     $key : string;
     Username : string;
     Password : string;
+    ConfirmPassword: string;
     FullName : string;
     Sex : string;
     DayOfBirth : Date;
