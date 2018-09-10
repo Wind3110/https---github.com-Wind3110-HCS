@@ -95,13 +95,14 @@
         </div>
         <input class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel" [(ngModel)]="staffService.selectedStaff.ConfirmPassword" placeholder="Confirm Password"
         type="password"
-        [ngClass]="{'is-invalid':ConfirmPassword.touched && ConfirmPassword.invalid}" 
+        value="staffService.selectedStaff.Password"
+        [ngClass]="{'is-invalid':ConfirmPassword.touched || ConfirmPassword.invalid}" 
         required
         compare="Password">
         <div class="invalid-feedback" *ngIf="ConfirmPassword?.errors?.required">
           <div>Confirm Password is required.</div>
         </div>
-        <div class="invalid-feedback" *ngIf="ConfirmPassword?.errors?.compare">
+        <div class="invalid-feedback" *ngIf="ConfirmPassword?.touched && ConfirmPassword?.errors?.compare">
            Password does not match!
         </div>
       </div>
@@ -181,7 +182,7 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)" (click)="c('Save click')">
+        <button class="btn btn-primary" type="button" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)" (click)="c('Save click')">
           <i class="fa fa-floppy-o"></i>
           Submit</button>
         <!-- <button class="btn btn-warning" type="button" (click)="resetForm(staffForm)">

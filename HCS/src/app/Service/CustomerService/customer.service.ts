@@ -16,6 +16,8 @@ export class CustomerService {
   }
 
   insertCustomer(customer: Customer) {
+    console.log(" enter insertCustomer")
+    console.log(this.customerList)
     this.customerList.push({
       FullName: customer.FullName,
       Gender: customer.Gender,

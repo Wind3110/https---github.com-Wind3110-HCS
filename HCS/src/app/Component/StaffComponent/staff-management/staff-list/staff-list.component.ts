@@ -45,6 +45,7 @@ export class StaffListComponent implements OnInit {
   }
 
   open(content) {
+    console.log(content);
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
@@ -76,6 +77,9 @@ export class StaffListComponent implements OnInit {
   }
 
   onEdit(sta: Staff) {
+    if(sta.Password!==sta.ConfirmPassword){
+      sta.Password=sta.ConfirmPassword;
+    }
     this.staffService.selectedStaff = Object.assign({}, sta);
   }
 
