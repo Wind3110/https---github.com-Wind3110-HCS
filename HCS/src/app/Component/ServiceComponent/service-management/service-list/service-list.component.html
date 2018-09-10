@@ -54,35 +54,36 @@
     <form #serviceForm="ngForm" (ngSubmit)="onSubmit(serviceForm)" name="myForm">
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="serviceService.selectedService.$key">
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">ServiceName</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">ServiceName</label>
+        <div class="col-sm-9">
         <input class="form-control" name="ServiceName" #ServiceName="ngModel" [(ngModel)]="serviceService.selectedService.ServiceName"
           placeholder="ServiceName" required>
       </div>
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Description</span>
-        </div>
-        <input class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr" placeholder="descr">
       </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Time Unit</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Description</label>
+        <div class="col-sm-9">
+        <textarea class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr" placeholder="descr"></textarea>
+      </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Time Unit</label>
+        <div class="col-sm-9">
         <input class="form-control" name="TimeUnit" #TimeUnit="ngModel" [(ngModel)]="serviceService.selectedService.TimeUnit" placeholder="TimeUnit">
       </div>
+      </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Price</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Price</label>
+        <div class="col-sm-9">
         <input class="form-control" name="Price" #Price="ngModel" [(ngModel)]="serviceService.selectedService.Price" placeholder="Price"
           type="number" required>
       </div>
+      </div>
+
     </form>
   </div>
 

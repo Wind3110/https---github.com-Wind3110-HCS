@@ -53,27 +53,24 @@ export class CustomerListComponent implements OnInit {
   }
 
   onSubmit(customerForm: NgForm) {
-    if (customerForm.value.$key == null)
-      this.customerService.insertCustomer(customerForm.value);
-    else
-      this.customerService.updateCustomer(customerForm.value);
+    this.customerService.updateCustomer(customerForm.value);
     this.resetForm(customerForm);
     this.tostr.success('Submitted Succcessfully', 'Staff Register');
   }
 
   resetForm(customerForm?: NgForm) {
     if (customerForm != null)
-    customerForm.reset();
+      customerForm.reset();
     this.customerService.selectedCustomer = {
       $key: null,
       FullName: '',
       Gender: '',
       Level: '',
-      Username:'',
+      Username: '',
       Password: '',
       ConfirmPassword: '',
-      PhoneNumber:'',
-      Address:'',
+      PhoneNumber: '',
+      Address: '',
     }
   }
 

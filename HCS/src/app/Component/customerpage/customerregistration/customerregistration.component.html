@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="form-group col-md-2">
-      <label>Giới tính</label>
+      <label>Giới tính <span class="text-danger">*</span></label>
       <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="customerService.selectedCustomer.Gender" required [ngClass]="{'is-invalid':Gender.touched && Gender.invalid}">
         <option selected>Nam</option>
         <option>Nữ</option>

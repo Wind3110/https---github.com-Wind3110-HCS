@@ -53,10 +53,7 @@ export class ServiceListComponent implements OnInit {
   }
 
   onSubmit(serviceForm: NgForm) {
-    if (serviceForm.value.$key == null)
-      this.serviceService.insertService(serviceForm.value);
-    else
-      this.serviceService.updateService(serviceForm.value);
+    this.serviceService.updateService(serviceForm.value);
     this.resetForm(serviceForm);
     this.tostr.success('Submitted Succcessfully', 'Staff Register');
   }

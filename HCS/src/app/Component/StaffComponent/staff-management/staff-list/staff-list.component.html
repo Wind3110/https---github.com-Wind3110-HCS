@@ -60,10 +60,9 @@
     <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm" novalidate>
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Username</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Username</label>
+        <div class="col-sm-9">
         <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username" placeholder="Username"
         [ngClass]="{'is-invalid':Username.touched && Username.invalid}"
         required 
@@ -75,11 +74,11 @@
             <div>Username has special symbol.</div>
         </div> 
       </div>
+      </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Password</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
         <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="staffService.selectedStaff.Password" placeholder="Password"
         type="password"
         [ngClass]="{'is-invalid':Password.touched && Password.invalid}" 
@@ -88,11 +87,11 @@
           <div>Password is required.</div>
         </div>
       </div>
+      </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Confirm Password</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Confirm Password</label>
+        <div class="col-sm-9">
         <input class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel" [(ngModel)]="staffService.selectedStaff.ConfirmPassword" placeholder="Confirm Password"
         type="password"
         value="staffService.selectedStaff.Password"
@@ -106,11 +105,11 @@
            Password does not match!
         </div>
       </div>
+      </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">FullName</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">FullName</label>
+        <div class="col-sm-9">
         <input class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="staffService.selectedStaff.FullName" placeholder="FullName"
         [ngClass]="{'is-invalid':FullName.touched && FullName.invalid}" 
         required>
@@ -118,11 +117,11 @@
           <div>FullName is required.</div>
         </div>
       </div>
+      </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Gender</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Gender</label>
+        <div class="col-sm-9">
         <select class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex" 
         [ngClass]="{'is-invalid':Sex.touched && Sex.invalid}"
         required>
@@ -132,13 +131,12 @@
         <div class="invalid-feedback" *ngIf="Sex?.errors?.required">
           <div>Gender is required.</div>
         </div>
-        <!-- <input class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex" placeholder="Sex" required> -->
+      </div>
       </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">DayOfBirth</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">DayOfBirth</label>
+        <div class="col-sm-9">
         <input class="form-control" name="DayOfBirth" #DayOfBirth="ngModel" [(ngModel)]="staffService.selectedStaff.DayOfBirth" placeholder="DayOfBirth"
         type="date"
         [ngClass]="{'is-invalid':DayOfBirth.touched && DayOfBirth.invalid}"
@@ -147,11 +145,11 @@
           <div>Birth is required.</div>
         </div>
       </div>
+      </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">PhoneNumber</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">PhoneNumber</label>
+        <div class="col-sm-9">
         <input class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="staffService.selectedStaff.PhoneNumber"
           placeholder="PhoneNumber" type="number"
           [ngClass]="{'is-invalid':PhoneNumber.touched && PhoneNumber.invalid}"
@@ -160,18 +158,18 @@
             <div>Phone Number is required.</div>
           </div>
       </div>
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Address</span>
-        </div>
-        <textarea class="form-control" name="Address" #Address="ngModel" [(ngModel)]="staffService.selectedStaff.Address" placeholder="Address"></textarea>
       </div>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">Salary</span>
-        </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Address</label>
+        <div class="col-sm-9">
+        <textarea class="form-control" name="Address" #Address="ngModel" [(ngModel)]="staffService.selectedStaff.Address" placeholder="Address"></textarea>
+      </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Salary</label>
+        <div class="col-sm-9">
         <input class="form-control" name="Salary" #Salary="ngModel" [(ngModel)]="staffService.selectedStaff.Salary" placeholder="Salary"
         type="number"
         [ngClass]="{'is-invalid':Salary.touched && Salary.invalid}"
@@ -179,6 +177,7 @@
         <div class="invalid-feedback" *ngIf="Salary?.errors?.required">
           <div>Salary is required.</div>
         </div>
+      </div>
       </div>
 
       <div class="modal-footer">

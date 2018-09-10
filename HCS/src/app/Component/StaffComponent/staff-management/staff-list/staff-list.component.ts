@@ -45,7 +45,6 @@ export class StaffListComponent implements OnInit {
   }
 
   open(content) {
-    console.log(content);
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 

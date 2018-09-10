@@ -18,14 +18,12 @@ export class ServiceComponent implements OnInit {
   }
 
   open(content) {
+    this.resetForm();
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   onSubmit(serviceForm: NgForm) {
-    if (serviceForm.value.$key == null)
-      this.serviceService.insertService(serviceForm.value);
-    else
-      this.serviceService.updateService(serviceForm.value);
+    this.serviceService.insertService(serviceForm.value);
     this.resetForm(serviceForm);
     this.tostr.success('Submitted Succcessfully', 'Added Service ');
 
@@ -33,8 +31,9 @@ export class ServiceComponent implements OnInit {
   }
 
   resetForm(serviceForm?: NgForm) {
-    if (serviceForm != null)
+    if (serviceForm != null) {
       serviceForm.reset();
+    }
     this.serviceService.selectedService = {
       $key: null,
       ServiceName: '',

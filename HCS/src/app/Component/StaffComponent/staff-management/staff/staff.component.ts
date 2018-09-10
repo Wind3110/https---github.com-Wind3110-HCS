@@ -25,10 +25,7 @@ export class StaffComponent implements OnInit {
   }
 
   onSubmit(staffForm: NgForm) {
-
-      console.log(staffForm.value.Password);
       staffForm.value.Password = this.encryptMD5(staffForm.value.Password);
-      console.log(staffForm.value.Password);
       this.staffService.insertStaff(staffForm.value);
       this.resetForm(staffForm);
       this.tostr.success('Created Succcessfully', 'Staff Create');

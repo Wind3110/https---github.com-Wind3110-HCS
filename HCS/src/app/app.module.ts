@@ -12,9 +12,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { StaffManagementComponent } from '../app/Component/StaffComponent/staff-management/staff-management.component';
-import { StaffComponent } from '../app/Component/StaffComponent/staff-management/staff/staff.component';
-import { StaffListComponent } from '../app/Component/StaffComponent/staff-management/staff-list/staff-list.component';
+
 
 
 // Font-awesome
@@ -30,6 +28,9 @@ import { DataTableModule } from 'angular-6-datatable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartComponent } from './Component/chart/chart.component';
 import { LoginComponent } from './Component/login/login.component';
+import { StaffManagementComponent } from '../app/Component/StaffComponent/staff-management/staff-management.component';
+import { StaffComponent } from '../app/Component/StaffComponent/staff-management/staff/staff.component';
+import { StaffListComponent } from '../app/Component/StaffComponent/staff-management/staff-list/staff-list.component';
 import { ServiceManagementComponent } from './Component/ServiceComponent/service-management/service-management.component';
 import { ServiceComponent } from './Component/ServiceComponent/service-management/service/service.component';
 import { ServiceListComponent } from './Component/ServiceComponent/service-management/service-list/service-list.component';
@@ -49,18 +50,16 @@ const routes: Routes = [
 
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
-      { path: 'management', component: StaffManagementComponent },
+      { path: 'staff', component: StaffManagementComponent },
       { path: 'booking', component: BookingformComponent },
-      { path: 'staffupdate', component: StaffComponent },
-      { path: 'sermanagement', component: ServiceManagementComponent },
-      { path: 'customermanagement', component: CustomerManagementComponent },
-      { path: 'stafftable', component: StaffListComponent },
+      { path: 'service', component: ServiceManagementComponent },
+      { path: 'customer', component: CustomerManagementComponent },
       { path: 'chart', component: ChartComponent },
     ]
   },
 
   {
-    path: 'customerpage', component: CustomerpageComponent, children: [
+    path: 'homepage', component: CustomerpageComponent, children: [
       { path: 'customerregistration', component: CustomerregistrationComponent },
       { path: 'customerlogin', component: CustomerloginComponent },
       { path: 'customerbooking', component: CustomerbookingComponent },
@@ -76,7 +75,7 @@ const routes: Routes = [
   },
 
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: '/login', pathMatch: 'full' }
+  { path: '**', redirectTo: '/homepage', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -115,7 +114,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     AngularFontAwesomeModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes),
+    // RouterModule.forRoot(routes),
     DataTablesModule,
     DataTableModule,
     HttpClientModule,
