@@ -11,11 +11,9 @@
     <div class="form-group col-md-2">
       <label>Giới tính</label>
       <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="customerService.selectedCustomer.Gender" required [ngClass]="{'is-invalid':Gender.touched && Gender.invalid}">
-        <option *ngFor="let item of genderCombo" [selected]="item.value == Nam" [ngValue]="item">{{item.name}}</option>
+        <option selected>Nam</option>
+        <option>Nữ</option>
       </select>
-
-      <pre>{{customerService.selectedCustomer.Gender | json}}</pre>
-
       <div class="invalid-feedback" *ngIf="Gender?.errors?.required">
         Gender is required!
       </div>

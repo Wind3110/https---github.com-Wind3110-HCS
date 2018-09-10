@@ -25,6 +25,18 @@ export class AuthGuard implements CanActivate {
       return true;
     }
   }
+
+  // verifyUserLogin(url): boolean {
+
+  //   if (!this.isCustomerLoggedIn()) {
+  //     this.router.navigate(['/customerpage']);
+  //     return false;
+  //   }
+  //   else if (this.isCustomerLoggedIn()) {
+  //     return true;
+  //   }
+  // }
+
   public isLoggedIn(): boolean {
     let status = false;
     if (localStorage.getItem('isLoggedIn') == "true") {
@@ -35,5 +47,16 @@ export class AuthGuard implements CanActivate {
     }
     return status;
   }
+
+  // public isCustomerLoggedIn(): boolean {
+  //   let status = false;
+  //   if (localStorage.getItem('isCustomerLoggedIn') == "true") {
+  //     status = true;
+  //   }
+  //   else {
+  //     status = false;
+  //   }
+  //   return status;
+  // }
 
 }

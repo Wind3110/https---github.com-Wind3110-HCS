@@ -43,6 +43,7 @@ import { CustomerregistrationComponent } from './Component/customerpage/customer
 import { CustomerloginComponent } from './Component/customerpage/customerlogin/customerlogin.component';
 import { CustomerbookingComponent } from './Component/customerpage/customerbooking/customerbooking.component';
 import { CompareValidatorDirective } from './shared/compare-validator.directive';
+import { CustomerhomeComponent } from './Component/customerhome/customerhome.component';
 
 const routes: Routes = [
 
@@ -60,6 +61,14 @@ const routes: Routes = [
 
   {
     path: 'customerpage', component: CustomerpageComponent, children: [
+      { path: 'customerregistration', component: CustomerregistrationComponent },
+      { path: 'customerlogin', component: CustomerloginComponent },
+      { path: 'customerbooking', component: CustomerbookingComponent },
+    ]
+  },
+
+  {
+    path: 'customerhome', component: CustomerhomeComponent, canActivate: [AuthGuard], children: [
       { path: 'customerregistration', component: CustomerregistrationComponent },
       { path: 'customerlogin', component: CustomerloginComponent },
       { path: 'customerbooking', component: CustomerbookingComponent },
@@ -91,6 +100,7 @@ const routes: Routes = [
     CustomerloginComponent,
     CustomerbookingComponent,
     CompareValidatorDirective,
+    CustomerhomeComponent,
   ],
 
   imports: [

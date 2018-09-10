@@ -5,6 +5,7 @@ import { Customer } from '../../../Model/CustomerModel/customer.model';
 import { CustomerService } from '../../../Service/CustomerService/customer.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import {Md5} from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-customerregistration',
@@ -14,7 +15,6 @@ import { NgForm } from '@angular/forms';
 export class CustomerregistrationComponent implements OnInit {
   customerList: Customer[];
   returnUrl: string;
-  private genderCombo: any[] = [{value:'Nam', name: "Nam"}, {value: 'Nữ', name: 'Nữ'}];
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private router: Router) { }
 
@@ -35,10 +35,15 @@ export class CustomerregistrationComponent implements OnInit {
 
 
   onSubmit(customerRegistrationForm: NgForm) {
+    customerRegistrationForm.value.Password = this.encryptMD5(customerRegistrationForm.value.Password);
     this.customerService.insertCustomer(customerRegistrationForm.value);
     this.tostr.success('Đăng ký thành công', 'Đăng ký tài khoản');
     this.resetForm(customerRegistrationForm);
     this.router.navigate([this.returnUrl]);
+  }
+
+  encryptMD5(providePassword : string){
+    return Md5.hashStr(providePassword).toString();
   }
 
   resetForm(customerRegistrationForm?: NgForm) {
