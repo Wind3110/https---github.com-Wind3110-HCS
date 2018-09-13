@@ -13,44 +13,108 @@
     </div>
     <div class="form-group col-md-4">
       <label for="inputZip">Số điện thoại</label>
-      <input type="text" class="form-control" id="inputZip">
+      <input type="text" class="form-control" id="inputZip" #ref>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputAddress">Chọn dịch vụ</label>
+      <!-- <select class="custom-select form-control selectpicker" id="serviceSlc" multiple>
+                <option [value]="serviceName" *ngFor="let serviceName of serviceList">{{serviceName}}</option>
+              </select> -->
+
+      <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceList" [settings]="dropdownServiceSettings"
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputAddress2">Chọn Stylish</label>
+      <!-- <select class="custom-select form-control selectpicker">
+            <option [value]="staffName" *ngFor='let staffName of staffList'>{{staffName}}</option>
+          </select> -->
+
+      <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+      </ng-multiselect-dropdown>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Chọn ngày</label>
+      <div class="input-group">
+        <input class="form-control" placeholder="Chọn ngày" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-align-justify"></i></button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputAddress">Chọn dịch vụ</label>
-    <!-- <select class="custom-select form-control selectpicker" id="serviceSlc" multiple>
-          <option [value]="serviceName" *ngFor="let serviceName of serviceList">{{serviceName}}</option>
-        </select> -->
-
-    <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceList"
-      [settings]="dropdownServiceSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-    </ng-multiselect-dropdown>
+    <label>Chọn giờ</label>
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="model">
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="800">8:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" value="830">8:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="900">9:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="930">9:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1000">10:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1030">10:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1100">11:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1130">11:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1300">13:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" value="1330">13:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1400">14:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1430">14:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1500">15:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1530">15:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1600">16:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1630">16:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1700">17:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1730">17:30
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1800">18:00
+      </label>
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="1830">18:30
+      </label>
+    </div>
+    <hr>
+    <pre>{{model}}</pre>
   </div>
-  <div class="form-group">
-    <label for="inputAddress2">Chọn Stylish</label>
-    <!-- <select class="custom-select form-control selectpicker">
-      <option [value]="staffName" *ngFor='let staffName of staffList'>{{staffName}}</option>
-    </select> -->
-
-    <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList"
-      [settings]="dropdownStaffSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-    </ng-multiselect-dropdown>
-  </div>
-
-  <div class="form-group">
-    <label>Ngày</label>
-    <input type="datetime-local" class="form-control" id="inputEmail4">
-  </div>
-  
-  <!-- <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputEmail4">Mật khẩu</label>
-        <input type="password" class="form-control" id="inputEmail4">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputPassword4">Xác nhận mật khẩu</label>
-        <input type="password" class="form-control" id="inputPassword4">
-      </div>
-    </div> -->
   <button type="submit" class="btn btn-primary">Đặt lịch</button>
 </form>

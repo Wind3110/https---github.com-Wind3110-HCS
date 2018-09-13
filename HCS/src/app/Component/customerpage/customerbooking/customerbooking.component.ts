@@ -29,7 +29,7 @@ export class CustomerbookingComponent implements OnInit {
   constructor(private elementRef: ElementRef, private staffService: StaffService, private serviceSevice: ServiceService, private fb: FormBuilder) { }
 
   ngOnInit() {
- 
+
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -37,13 +37,15 @@ export class CustomerbookingComponent implements OnInit {
       textField: 'item_text',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 14,
+      itemsShowLimit: 20,
+      maxHeight: 200,
       // allowSearchFilter: true
     };
 
     this.dropdownStaffSettings = {
       singleSelection: true,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      maxHeight: 200,
     };
 
     var x = this.staffService.getData();
@@ -87,10 +89,10 @@ export class CustomerbookingComponent implements OnInit {
     // });
   }
 
-  onItemSelect (item:any) {
+  onItemSelect(item: any) {
     console.log(item);
   }
-  onSelectAll (items: any) {
+  onSelectAll(items: any) {
     console.log(items);
   }
 }
