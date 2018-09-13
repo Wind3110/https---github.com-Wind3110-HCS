@@ -13,6 +13,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
+
 
 
 // Font-awesome
@@ -24,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
 // Datatable
 import { DataTablesModule } from 'angular-datatables';
 import { DataTableModule } from 'angular-6-datatable';
+
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartComponent } from './Component/chart/chart.component';
@@ -78,6 +82,8 @@ import { CustomerhomeComponent } from './Component/customerhome/customerhome.com
     AngularFireAuthModule,
     ToastrModule.forRoot(),
     NgbModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
+    DlDateTimePickerDateModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFontAwesomeModule,

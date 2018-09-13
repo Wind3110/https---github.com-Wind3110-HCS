@@ -2,8 +2,5 @@
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "~bootstrap/dist/css/bootstrap.css";
+@import '~open-iconic/font/css/open-iconic-bootstrap.css';
 /* @import "~datatables.net-bs4/css/dataTables.bootstrap4.css"; */
-
-.btn-primary {
-  margin-bottom: 1em;
-}
