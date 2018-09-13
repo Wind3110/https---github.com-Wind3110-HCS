@@ -17,17 +17,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CustomerloginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  customerLoginForm: FormGroup;
   message: string;
   returnUrl: string;
   customerList: Customer[];
+  submitted = false;
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private router: Router, public authService: AuthService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+    this.customerLoginForm = this.formBuilder.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required]
     });
     this.returnUrl = '/customerhome';
     this.authService.logoutCustomer();
@@ -43,16 +44,17 @@ export class CustomerloginComponent implements OnInit {
     });
   }
 
-  get f() { return this.loginForm.controls; }
+  get f() { return this.customerLoginForm.controls; }
 
   loginCustomer() {
 
+    this.submitted = true;
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (this.customerLoginForm.invalid) {
       return;
     }
 
-    if (this.loginForm.valid) {
+    if (this.customerLoginForm.valid) {
       let i: number = 0;
       for (i; i <= this.customerList.length - 1; i++) {
 
@@ -65,12 +67,12 @@ export class CustomerloginComponent implements OnInit {
             break;
           }
           else {
-            this.message = "Please check your username and password";
+            this.message = "Please check your Username and Password";
             break;
           }
         }
         else {
-          this.message = "Please check your username and password";
+          this.message = "Please check your Username and Password";
         }
       }
     }

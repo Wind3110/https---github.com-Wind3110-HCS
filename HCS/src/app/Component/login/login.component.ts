@@ -15,13 +15,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   message: string;
   returnUrl: string;
+  submitted = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, public authService: AuthService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      userid: ['', Validators.required],
-      password: ['', Validators.required]
+      'userid': ['', Validators.required],
+      'password': ['', Validators.required]
     });
     this.returnUrl = '/dashboard';
     this.authService.logout();
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
 
 
   login() {
+    this.submitted = true;
 
     // stop here if form is invalid
     if (this.loginForm.invalid) {
@@ -45,7 +47,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       }
       else {
-        this.message = "Please check your userid and password";
+        this.message = "Please check your Username and Password";
       }
     }
   }

@@ -46,38 +46,6 @@ import { CustomerbookingComponent } from './Component/customerpage/customerbooki
 import { CompareValidatorDirective } from './shared/compare-validator.directive';
 import { CustomerhomeComponent } from './Component/customerhome/customerhome.component';
 
-const routes: Routes = [
-
-  {
-    path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
-      { path: 'staff', component: StaffManagementComponent },
-      { path: 'booking', component: BookingformComponent },
-      { path: 'service', component: ServiceManagementComponent },
-      { path: 'customer', component: CustomerManagementComponent },
-      { path: 'chart', component: ChartComponent },
-    ]
-  },
-
-  {
-    path: 'homepage', component: CustomerpageComponent, children: [
-      { path: 'customerregistration', component: CustomerregistrationComponent },
-      { path: 'customerlogin', component: CustomerloginComponent },
-      { path: 'customerbooking', component: CustomerbookingComponent },
-    ]
-  },
-
-  {
-    path: 'customerhome', component: CustomerhomeComponent, canActivate: [AuthGuard], children: [
-      { path: 'customerregistration', component: CustomerregistrationComponent },
-      { path: 'customerlogin', component: CustomerloginComponent },
-      { path: 'customerbooking', component: CustomerbookingComponent },
-    ]
-  },
-
-  { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: '/homepage', pathMatch: 'full' }
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,7 +82,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     AngularFontAwesomeModule,
     AppRoutingModule,
-    // RouterModule.forRoot(routes),
     DataTablesModule,
     DataTableModule,
     HttpClientModule,
