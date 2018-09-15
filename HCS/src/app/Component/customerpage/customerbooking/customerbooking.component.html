@@ -21,13 +21,15 @@
     <div class="form-group col-md-6">
       <label>Chọn dịch vụ <span class="text-danger">*</span></label>
       <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceList" [settings]="dropdownServiceSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel" [(ngModel)]="bookingService.selectedBooking.Services">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel"
+        [(ngModel)]="bookingService.selectedBooking.Services">
       </ng-multiselect-dropdown>
     </div>
     <div class="form-group col-md-6">
       <label>Chọn Stylish</label>
       <ng-multiselect-dropdown [placeholder]="'Mặc định'" [data]="staffList" [settings]="dropdownStaffSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel" [(ngModel)]="bookingService.selectedBooking.StaffName">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel"
+        [(ngModel)]="bookingService.selectedBooking.StaffName">
       </ng-multiselect-dropdown>
     </div>
   </div>
@@ -35,7 +37,8 @@
     <div class="form-group col-md-4">
       <label>Chọn ngày <span class="text-danger">*</span></label>
       <div class="input-group">
-        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker" [markDisabled]="isDisabled" name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date">
+        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker" [markDisabled]="isDisabled"
+          name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date">
         <div class="input-group-append">
           <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-align-justify"></i></button>
         </div>
@@ -109,5 +112,21 @@
     <hr>
     <pre>{{bookingForm.value}}</pre>
   </div>
-  <button type="submit" class="btn btn-primary">Đặt lịch</button>
+  <button type="submit" class="btn btn-primary" (click)="openVerticallyCentered(content)">Đặt lịch</button>
 </form>
+
+<!-- Info Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Modal title</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p *ngIf="message">{{message}}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+    </div>
+  </ng-template>

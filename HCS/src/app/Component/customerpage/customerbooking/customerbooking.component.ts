@@ -2,9 +2,10 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
-import {NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Service } from '../../../Model/ServiceModel/service.model';
 import { ServiceService } from '../../../Service/SerService/service.service';
@@ -28,21 +29,22 @@ export class CustomerbookingComponent implements OnInit {
   serviceList: any[];
   bookList: Booking[];
   bookingForm: FormGroup;
+  message:string;
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
-  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService) { 
-    
+  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private modalService: NgbModal) {
+
     // Seting disable the past date
     const currentDate = new Date();
-    config.minDate = {year:currentDate.getFullYear(), month:currentDate.getMonth()+1, day: currentDate.getDate()};
+    config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
     // config.maxDate = {year:currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()+7};
-    config.outsideDays = 'hidden';  
+    config.outsideDays = 'hidden';
   }
 
   ngOnInit() {
-    
+
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -129,6 +131,11 @@ export class CustomerbookingComponent implements OnInit {
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
     this.tostr.success('Đặt thành công', "Cảm ơn quý khách");
+    this.message ="Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....";
+  }
+
+  openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true });
   }
 
   resetForm(bookingForm?: NgForm) {
