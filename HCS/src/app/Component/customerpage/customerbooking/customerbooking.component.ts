@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
+import {NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -31,10 +32,17 @@ export class CustomerbookingComponent implements OnInit {
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
-  constructor(private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService) { }
+  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService) { 
+    
+    // Seting disable the past date
+    const currentDate = new Date();
+    config.minDate = {year:currentDate.getFullYear(), month:currentDate.getMonth()+1, day: currentDate.getDate()};
+    // config.maxDate = {year:currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()+7};
+    config.outsideDays = 'hidden';  
+  }
 
   ngOnInit() {
-
+    
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -79,6 +87,7 @@ export class CustomerbookingComponent implements OnInit {
       this.staff.forEach(item => {
         this.staffList.push(item.FullName);
       });
+      this.staffList.push('Mặc định');
       console.log(this.staffList)
     });
 
@@ -96,7 +105,6 @@ export class CustomerbookingComponent implements OnInit {
       this.service.forEach(item => {
         this.serviceList.push(item.ServiceName);
       });
-      this.serviceList.push('Mặc định')
     });
 
     // this.bookingForm = this.fb.group({
@@ -113,9 +121,14 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   onSubmit(bookingForm: NgForm) {
+    console.log(bookingForm.value.StaffName);
+    if (bookingForm.value.StaffName === '') {
+      bookingForm.value.StaffName = "Mặc định";
+    }
+    console.log(bookingForm.value.StaffName);
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
-    this.tostr.success('Submitted Succcessfully', 'Added Booking ');
+    this.tostr.success('Đặt thành công', "Cảm ơn quý khách");
   }
 
   resetForm(bookingForm?: NgForm) {
