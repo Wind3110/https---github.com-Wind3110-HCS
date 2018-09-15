@@ -7,7 +7,7 @@ import { Booking } from '../../Model/BookingModel/booking.model';
 })
 export class BookingService {
   bookList: AngularFireList<any>;
-  selectedCustomer: Booking = new Booking();
+  selectedBooking: Booking = new Booking();
   constructor(private firebase: AngularFireDatabase) { }
 
   getData() {
@@ -16,11 +16,11 @@ export class BookingService {
   }
 
   insertBooking(booking: Booking) {
-    console.log(" enter insertCustomer")
-    console.log(this.bookList)
+    console.log(" enter insertBooking")
     this.bookList.push({
       CustomerName: booking.CustomerName,
       Gender: booking.Gender,
+      Phone:booking.Phone,
       Services: booking.Services,
       StaffName: booking.StaffName,
       Date: booking.Date,
@@ -33,6 +33,7 @@ export class BookingService {
       {
         CustomerName: booking.CustomerName,
         Gender: booking.Gender,
+        Phone:booking.Phone,
         Services: booking.Services,
         StaffName: booking.StaffName,
         Date: booking.Date,

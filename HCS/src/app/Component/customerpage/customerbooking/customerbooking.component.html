@@ -1,40 +1,33 @@
-<form>
+<form #bookingForm="ngForm" (ngSubmit)="onSubmit(bookingForm)" name="myForm">
+  <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="bookingService.selectedBooking.$key">
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="inputCity">Họ tên</label>
-      <input type="text" class="form-control" id="inputCity">
+      <label>Họ tên</label>
+      <input type="text" class="form-control" name="CustomerName" #CustomerName="ngModel" [(ngModel)]="bookingService.selectedBooking.CustomerName">
     </div>
     <div class="form-group col-md-2">
-      <label for="inputState">Giới tính</label>
-      <select id="inputState" class="form-control custom-select">
+      <label>Giới tính</label>
+      <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="bookingService.selectedBooking.Gender">
         <option selected>Nam</option>
         <option>Nữ</option>
       </select>
     </div>
     <div class="form-group col-md-4">
-      <label for="inputZip">Số điện thoại</label>
-      <input type="text" class="form-control" id="inputZip" #ref>
+      <label>Số điện thoại</label>
+      <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="bookingService.selectedBooking.Phone">
     </div>
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="inputAddress">Chọn dịch vụ</label>
-      <!-- <select class="custom-select form-control selectpicker" id="serviceSlc" multiple>
-                <option [value]="serviceName" *ngFor="let serviceName of serviceList">{{serviceName}}</option>
-              </select> -->
-
+      <label>Chọn dịch vụ</label>
       <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceList" [settings]="dropdownServiceSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel" [(ngModel)]="bookingService.selectedBooking.Services">
       </ng-multiselect-dropdown>
     </div>
     <div class="form-group col-md-6">
-      <label for="inputAddress2">Chọn Stylish</label>
-      <!-- <select class="custom-select form-control selectpicker">
-            <option [value]="staffName" *ngFor='let staffName of staffList'>{{staffName}}</option>
-          </select> -->
-
+      <label>Chọn Stylish</label>
       <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel" [(ngModel)]="bookingService.selectedBooking.StaffName">
       </ng-multiselect-dropdown>
     </div>
   </div>
@@ -42,7 +35,7 @@
     <div class="form-group col-md-4">
       <label>Chọn ngày</label>
       <div class="input-group">
-        <input class="form-control" placeholder="Chọn ngày" name="dp" [(ngModel)]="model1" ngbDatepicker #d="ngbDatepicker">
+        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker"  name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date">
         <div class="input-group-append">
           <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-align-justify"></i></button>
         </div>
@@ -51,7 +44,7 @@
   </div>
   <div class="form-group">
     <label>Chọn giờ</label>
-    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="model">
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="Time" #Time="ngModel" [(ngModel)]="bookingService.selectedBooking.Time">
       <label ngbButtonLabel class="btn-outline-primary">
         <input ngbButton type="radio" [value]="800">8:00
       </label>
@@ -114,7 +107,7 @@
       </label>
     </div>
     <hr>
-    <pre>{{model}}</pre>
+    <pre>{{bookingService.selectedBooking}}</pre>
   </div>
   <button type="submit" class="btn btn-primary">Đặt lịch</button>
 </form>
