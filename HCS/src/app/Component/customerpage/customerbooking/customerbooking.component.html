@@ -2,43 +2,40 @@
   <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="bookingService.selectedBooking.$key">
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label>Họ tên <span class="text-danger">*</span></label>
+      <label>Họ tên</label>
       <input type="text" class="form-control" name="CustomerName" #CustomerName="ngModel" [(ngModel)]="bookingService.selectedBooking.CustomerName">
     </div>
     <div class="form-group col-md-2">
-      <label>Giới tính <span class="text-danger">*</span></label>
+      <label>Giới tính</label>
       <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="bookingService.selectedBooking.Gender">
         <option selected>Nam</option>
         <option>Nữ</option>
       </select>
     </div>
     <div class="form-group col-md-4">
-      <label>Số điện thoại <span class="text-danger">*</span></label>
+      <label>Số điện thoại</label>
       <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="bookingService.selectedBooking.Phone">
     </div>
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label>Chọn dịch vụ <span class="text-danger">*</span></label>
+      <label>Chọn dịch vụ</label>
       <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceList" [settings]="dropdownServiceSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel"
-        [(ngModel)]="bookingService.selectedBooking.Services">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel" [(ngModel)]="bookingService.selectedBooking.Services">
       </ng-multiselect-dropdown>
     </div>
     <div class="form-group col-md-6">
       <label>Chọn Stylish</label>
-      <ng-multiselect-dropdown [placeholder]="'Mặc định'" [data]="staffList" [settings]="dropdownStaffSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel"
-        [(ngModel)]="bookingService.selectedBooking.StaffName">
+      <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel" [(ngModel)]="bookingService.selectedBooking.StaffName">
       </ng-multiselect-dropdown>
     </div>
   </div>
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label>Chọn ngày <span class="text-danger">*</span></label>
+      <label>Chọn ngày</label>
       <div class="input-group">
-        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker" [markDisabled]="isDisabled"
-          name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date">
+        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker"  name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date">
         <div class="input-group-append">
           <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-align-justify"></i></button>
         </div>
@@ -46,19 +43,19 @@
     </div>
   </div>
   <div class="form-group">
-    <label>Chọn giờ <span class="text-danger">*</span></label>
+    <label>Chọn giờ</label>
     <div class="btn-group btn-group-toggle" ngbRadioGroup name="Time" #Time="ngModel" [(ngModel)]="bookingService.selectedBooking.Time">
-      <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="800">8:00
+      <!-- <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="0800">8:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" value="830">8:30
+        <input ngbButton type="radio" value="0830">8:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="900">9:00
+        <input ngbButton type="radio" [value]="0900">9:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="930">9:30
+        <input ngbButton type="radio" [value]="0930">9:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
         <input ngbButton type="radio" [value]="1000">10:00
@@ -70,7 +67,7 @@
         <input ngbButton type="radio" [value]="1100">11:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1130">11:30
+        <input ngbButton type="radio" [disable] = 'dkasd.true' [value]="1130">11:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
         <input ngbButton type="radio" [value]="1300">13:00
@@ -107,26 +104,30 @@
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
         <input ngbButton type="radio" [value]="1830">18:30
+      </label> -->
+
+      <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="(timer.TimeVal)">{{timer.TimeFrame}}
       </label>
     </div>
     <hr>
-    <pre>{{bookingForm.value}}</pre>
+    <pre>{{bookingService.selectedBooking}}</pre>
   </div>
   <button type="submit" class="btn btn-primary" (click)="openVerticallyCentered(content)">Đặt lịch</button>
 </form>
 
 <!-- Info Modal -->
 <ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title">Modal title</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p *ngIf="message">{{message}}</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
-    </div>
-  </ng-template>
+  <div class="modal-header">
+    <h4 class="modal-title">Thong bao </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p *ngIf="message">{{message}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
