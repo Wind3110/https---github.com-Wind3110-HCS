@@ -48,7 +48,7 @@ export class CustomerbookingComponent implements OnInit {
   check11h30: boolean = false;
   check13h: boolean = false;
   check13h30: boolean = false;
-  check14: boolean = false;
+  check14h: boolean = false;
   check14h30: boolean = false;
   check15h: boolean = false;
   check15h30: boolean = false;
@@ -168,7 +168,7 @@ export class CustomerbookingComponent implements OnInit {
     this.check11h30 = false;
     this.check13h = false;
     this.check13h30 = true;
-    this.check14 = false;
+    this.check14h = false;
     this.check14h30 = false;
     this.check15h = false;
     this.check15h30 = false;
