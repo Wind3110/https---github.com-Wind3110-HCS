@@ -18,23 +18,24 @@ export class BookingService {
 
   insertBooking(booking: Booking) {
     console.log(booking.Date.toString());
-    console.log(booking.Time);
+    console.log(booking.StartTime);
     // booking.Time=this.timeFormat(Number(booking.Time));
 
-    
+
 
     this.bookList.push({
       CustomerName: booking.CustomerName,
       Gender: booking.Gender,
-      Phone:booking.Phone,
+      Phone: booking.Phone,
       Services: booking.Services,
       StaffName: booking.StaffName,
       Date: booking.Date,
-      Time: booking.Time,
+      StartTime: booking.StartTime,
+      EndTime: booking.EndTime,
     });
   }
 
-  
+
 
   // timeFormat(time:string){
   //   let timeStr : string = time.toString();
@@ -65,11 +66,12 @@ export class BookingService {
       {
         CustomerName: booking.CustomerName,
         Gender: booking.Gender,
-        Phone:booking.Phone,
+        Phone: booking.Phone,
         Services: booking.Services,
         StaffName: booking.StaffName,
         Date: booking.Date,
-        Time: booking.Time,
+        StartTime: booking.StartTime,
+        EndTime: booking.EndTime,
       });
   }
 

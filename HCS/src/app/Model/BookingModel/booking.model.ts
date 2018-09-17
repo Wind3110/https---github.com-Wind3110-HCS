@@ -7,5 +7,6 @@ export class Booking {
     Services : Service[];
     StaffName:string;
     Date : Date;
-    Time : string;
+    StartTime : string;
+    EndTime : string;
 }

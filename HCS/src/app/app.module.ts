@@ -49,6 +49,7 @@ import { CustomerloginComponent } from './Component/customerpage/customerlogin/c
 import { CustomerbookingComponent } from './Component/customerpage/customerbooking/customerbooking.component';
 import { CompareValidatorDirective } from './shared/compare-validator.directive';
 import { CustomerhomeComponent } from './Component/customerhome/customerhome.component';
+import { MemberbookingComponent } from './Component/customerhome/memberbooking/memberbooking.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { CustomerhomeComponent } from './Component/customerhome/customerhome.com
     CustomerbookingComponent,
     CompareValidatorDirective,
     CustomerhomeComponent,
+    MemberbookingComponent,
   ],
 
   imports: [

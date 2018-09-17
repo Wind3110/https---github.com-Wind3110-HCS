@@ -23,6 +23,7 @@ import { CustomerloginComponent } from './Component/customerpage/customerlogin/c
 import { CustomerbookingComponent } from './Component/customerpage/customerbooking/customerbooking.component';
 import { CompareValidatorDirective } from './shared/compare-validator.directive';
 import { CustomerhomeComponent } from './Component/customerhome/customerhome.component';
+import { MemberbookingComponent } from './Component/customerhome/memberbooking/memberbooking.component';
 
 const routes: Routes = [
 
@@ -46,9 +47,9 @@ const routes: Routes = [
 
   {
     path: 'customerhome', component: CustomerhomeComponent, canActivate: [AuthGuard], children: [
-      { path: 'customerregistration', component: CustomerregistrationComponent },
-      { path: 'customerlogin', component: CustomerloginComponent },
-      { path: 'customerbooking', component: CustomerbookingComponent },
+      { path: 'memberbooking', component: MemberbookingComponent },
+      // { path: 'customerlogin', component: CustomerloginComponent },
+      // { path: 'customerbooking', component: CustomerbookingComponent },
     ]
   },
 

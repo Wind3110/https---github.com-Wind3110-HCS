@@ -13,7 +13,7 @@ import { StaffService } from '../../../Service/StaffService/staff.service'
 import { Staff } from '../../../Model/StaffModel/staff.model';
 import { Booking } from '../../../Model/BookingModel/booking.model';
 import { BookingService } from '../../../Service/BookingService/booking.sevice';
-import { Time} from '../../../Model/TimeModel/time.model';
+import { Time } from '../../../Model/TimeModel/time.model';
 import { DatePipe, getLocaleDateTimeFormat } from '@angular/common';
 import * as moment from 'moment';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -33,34 +33,34 @@ export class CustomerbookingComponent implements OnInit {
   serviceList: any[];
   bookList: Booking[];
   bookingForm: FormGroup;
-  timer:Time
-  date:Date;
-  message:string;
+  timer: Time
+  date: Date;
+  message: string;
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
-  timeFrame:string[] = ["8:00","8:30","9:00","9:30","10:00","10:30","11:00","11:30",
-                        "12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30",
-                        "16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30",
-                        "20:00","20:30","21:00"];
-  timeVal:string[] =  ["800","830","900","930","1000","1030","1100","1130",
-                        "1200","1230","1300","1330","1400","1430","1500","1530",
-                        "1600","1630","1700","1730","1800","1830","1900","1930",
-                        "2000","2030","2100"];
+  timeFrame: string[] = ["8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30",
+    "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+    "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
+    "20:00", "20:30", "21:00"];
+  timeVal: string[] = ["800", "830", "900", "930", "1000", "1030", "1100", "1130",
+    "1200", "1230", "1300", "1330", "1400", "1430", "1500", "1530",
+    "1600", "1630", "1700", "1730", "1800", "1830", "1900", "1930",
+    "2000", "2030", "2100"];
 
-   time : Time[] ;
-   
+  time: Time[];
 
-  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService,private datepipe: DatePipe, private modalService: NgbModal) {
+
+  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal) {
     this.updateTime();
     // this.myFunction();
-     // Seting disable the past date
-     const currentDate = new Date();
-     config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
-     // config.maxDate = {year:currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()+7};
-     config.outsideDays = 'hidden';
-   }
+    // Seting disable the past date
+    const currentDate = new Date();
+    config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
+    // config.maxDate = {year:currentDate.getFullYear(), month: currentDate.getMonth()+1, day: currentDate.getDate()+7};
+    config.outsideDays = 'hidden';
+  }
 
   ngOnInit() {
 
@@ -141,22 +141,25 @@ export class CustomerbookingComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
-  
+
 
   onSubmit(bookingForm: NgForm) {
     console.log(bookingForm.value);
-    let countService:number=0;
-    let totalTime:number=30;
-    let dateStr:string =bookingForm.value.Date.toString();
-    let timeStr:string =bookingForm.value.Time.toString();
+    let countService: number = 0;
+    let totalTime: number = 30;
+    let dateStr: string = bookingForm.value.Date.toString();
+    let timeStr: string = bookingForm.value.StartTime.toString();
     for (let index = 0; index < bookingForm.value.Services.length; index++) {
       countService++;
     }
 
-    if(countService > 1){
-      totalTime=totalTime*countService;
+    if (countService > 1) {
+      totalTime = totalTime * countService;
       console.log(totalTime);
-      bookingForm.value.Time=this.myFunction(timeStr,totalTime);
+      bookingForm.value.StartTime = this.myFunction(timeStr, 0);
+      console.log('StartTime:' + bookingForm.value.StartTime);
+      bookingForm.value.EndTime = this.myFunction(timeStr, totalTime);
+      console.log('EndTime:' + bookingForm.value.EndTime);
     }
     console.log(bookingForm.value.StaffName);
     if (bookingForm.value.StaffName === '') {
@@ -166,7 +169,7 @@ export class CustomerbookingComponent implements OnInit {
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
     this.tostr.success('Đặt thành công', "Cảm ơn quý khách");
-    this.message ="Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....";
+    this.message = "Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....";
   }
 
   openVerticallyCentered(content) {
@@ -185,31 +188,33 @@ export class CustomerbookingComponent implements OnInit {
       Services: [],
       StaffName: '',
       Date: null,
-      Time: '',
+      StartTime: '',
+      EndTime: '',
     }
   }
 
-  updateTime(){
-    this.time=[];
-    for ( let index = 0; index < this.timeFrame.length; index++) {
-      this.timer={
-        TimeFrame:this.timeFrame[index].toString(),
-        TimeVal:this.timeVal[index].toString()
+  updateTime() {
+    this.time = [];
+    for (let index = 0; index < this.timeFrame.length; index++) {
+      this.timer = {
+        TimeFrame: this.timeFrame[index].toString(),
+        TimeVal: this.timeVal[index].toString()
       }
       // console.log(this.time);
       // console.log(this.timer);
       this.time.push(this.timer);
-      this.timer=null;
+      this.timer = null;
 
     }
   }
 
-  myFunction(time:string,serviceMin:number){
+  myFunction(time: string, serviceMin: number) {
     moment.locale('vi');
-    let now=moment(time,"hmm");
-    now = now.add(serviceMin,'m')
+    let now = moment(time, "hmm");
+    now = now.add(serviceMin, 'm')
     return now.format("HH:mm").toString();
-   }
+    // console.log(now.format("HH:mm").toString());
+  }
 }
 
 
