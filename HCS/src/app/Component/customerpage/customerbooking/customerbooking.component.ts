@@ -36,6 +36,28 @@ export class CustomerbookingComponent implements OnInit {
   timer: Time
   date: Date;
   message: string;
+  
+
+  check8h: boolean = false;
+  check8h30: boolean = false;
+  check9h: boolean = false;
+  check9h30: boolean = false;
+  check10h: boolean = false;
+  check10h30: boolean = false;
+  check11h: boolean = false;
+  check11h30: boolean = false;
+  check13h: boolean = false;
+  check13h30: boolean = false;
+  check14: boolean = false;
+  check14h30: boolean = false;
+  check15h: boolean = false;
+  check15h30: boolean = false;
+  check16h: boolean = false;
+  check16h30: boolean = false;
+  check17h: boolean = false;
+  check17h30: boolean = false;
+  check18h: boolean = false;
+  check18h30: boolean = false;
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
@@ -54,6 +76,7 @@ export class CustomerbookingComponent implements OnInit {
 
   constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal) {
     this.updateTime();
+
     // this.myFunction();
     // Seting disable the past date
     const currentDate = new Date();
@@ -64,7 +87,7 @@ export class CustomerbookingComponent implements OnInit {
 
   ngOnInit() {
 
-
+    this.isDisabled();
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -109,7 +132,6 @@ export class CustomerbookingComponent implements OnInit {
       this.staff.forEach(item => {
         this.staffList.push(item.FullName);
       });
-      // console.log(this.staffList)
     });
 
     var z = this.serviceSevice.getData();
@@ -135,13 +157,35 @@ export class CustomerbookingComponent implements OnInit {
     // });
   }
 
+  isDisabled() {
+    this.check8h = true;
+    this.check8h30 = false;
+    this.check9h = false;
+    this.check9h30 = true;
+    this.check10h = false;
+    this.check10h30 = false;
+    this.check11h = false;
+    this.check11h30 = false;
+    this.check13h = false;
+    this.check13h30 = true;
+    this.check14 = false;
+    this.check14h30 = false;
+    this.check15h = false;
+    this.check15h30 = false;
+    this.check16h = false;
+    this.check16h30 = true;
+    this.check17h = false;
+    this.check17h30 = false;
+    this.check18h = false;
+    this.check18h30 = true;
+  }
+
   onItemSelect(item: any) {
     console.log(item);
   }
   onSelectAll(items: any) {
     console.log(items);
   }
-
 
   onSubmit(bookingForm: NgForm) {
     console.log(bookingForm.value);
@@ -200,8 +244,6 @@ export class CustomerbookingComponent implements OnInit {
         TimeFrame: this.timeFrame[index].toString(),
         TimeVal: this.timeVal[index].toString()
       }
-      // console.log(this.time);
-      // console.log(this.timer);
       this.time.push(this.timer);
       this.timer = null;
 
@@ -213,7 +255,6 @@ export class CustomerbookingComponent implements OnInit {
     let now = moment(time, "hmm");
     now = now.add(serviceMin, 'm')
     return now.format("HH:mm").toString();
-    // console.log(now.format("HH:mm").toString());
   }
 }
 

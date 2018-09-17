@@ -21,13 +21,15 @@
     <div class="form-group col-md-6">
       <label>Chọn dịch vụ</label>
       <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceList" [settings]="dropdownServiceSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel" [(ngModel)]="bookingService.selectedBooking.Services">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel"
+        [(ngModel)]="bookingService.selectedBooking.Services">
       </ng-multiselect-dropdown>
     </div>
     <div class="form-group col-md-6">
       <label>Chọn Stylish</label>
       <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
-        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel" [(ngModel)]="bookingService.selectedBooking.StaffName">
+        (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName" #StaffName="ngModel"
+        [(ngModel)]="bookingService.selectedBooking.StaffName">
       </ng-multiselect-dropdown>
     </div>
   </div>
@@ -35,7 +37,8 @@
     <div class="form-group col-md-4">
       <label>Chọn ngày</label>
       <div class="input-group">
-        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker"  name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date">
+        <input class="form-control" placeholder="Chọn ngày" ngbDatepicker #d="ngbDatepicker" name="Date" #Date="ngModel"
+          [(ngModel)]="bookingService.selectedBooking.Date">
         <div class="input-group-append">
           <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-align-justify"></i></button>
         </div>
@@ -44,71 +47,71 @@
   </div>
   <div class="form-group">
     <label>Chọn giờ</label>
-    <div class="btn-group btn-group-toggle" ngbRadioGroup name="StartTime" #StartTime="ngModel" [(ngModel)]="bookingService.selectedBooking.StartTime">
-      <!-- <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="0800">8:00
+    <div class="btn-group btn-group-toggle" id="TimePicker" ngbRadioGroup name="StartTime" #StartTime="ngModel" [(ngModel)]="bookingService.selectedBooking.StartTime">
+      <label ngbButtonLabel class="btn-outline-primary">
+        <input ngbButton type="radio" [value]="0800" [disabled]="check8h">8:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" value="0830">8:30
+        <input ngbButton type="radio" value="0830" [disabled]="check8h30">8:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="0900">9:00
+        <input ngbButton type="radio" [value]="0900" [disabled]="check9h">9:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="0930">9:30
+        <input ngbButton type="radio" [value]="0930" [disabled]="check9h30">9:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1000">10:00
+        <input ngbButton type="radio" [value]="1000" [disabled]="check10h">10:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1030">10:30
+        <input ngbButton type="radio" [value]="1030" [disabled]="check10h30">10:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1100">11:00
+        <input ngbButton type="radio" [value]="1100" [disabled]="check11h">11:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [disable] = 'dkasd.true' [value]="1130">11:30
+        <input ngbButton type="radio" [value]="1130" [disabled]="check11h30">11:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1300">13:00
+        <input ngbButton type="radio" [value]="1300" [disabled]="check13h">13:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" value="1330">13:30
+        <input ngbButton type="radio" value="1330" [disabled]="check13h30">13:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1400">14:00
+        <input ngbButton type="radio" [value]="1400" [disabled]="check14h">14:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1430">14:30
+        <input ngbButton type="radio" [value]="1430" [disabled]="check14h30">14:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1500">15:00
+        <input ngbButton type="radio" [value]="1500" [disabled]="check15h">15:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1530">15:30
+        <input ngbButton type="radio" [value]="1530" [disabled]="check15h30">15:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1600">16:00
+        <input ngbButton type="radio" [value]="1600" [disabled]="check16h">16:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1630">16:30
+        <input ngbButton type="radio" [value]="1630" [disabled]="check16h30">16:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1700">17:00
+        <input ngbButton type="radio" [value]="1700" [disabled]="check17h">17:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1730">17:30
+        <input ngbButton type="radio" [value]="1730" [disabled]="check17h30">17:30
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1800">18:00
+        <input ngbButton type="radio" [value]="1800" [disabled]="check18h">18:00
       </label>
       <label ngbButtonLabel class="btn-outline-primary">
-        <input ngbButton type="radio" [value]="1830">18:30
-      </label> -->
+        <input ngbButton type="radio" [value]="1830" [disabled]="check18h30">18:30
+      </label>
 
-      <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
+      <!-- <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
         <input ngbButton type="radio" [value]="(timer.TimeVal)">{{timer.TimeFrame}}
-      </label>
+      </label> -->
     </div>
     <input type="hidden" name="EndTime" #EndTime="ngModel" [(ngModel)]="bookingService.selectedBooking.EndTime">
     <hr>
@@ -120,7 +123,7 @@
 <!-- Info Modal -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Thong bao </h4>
+    <h4 class="modal-title">Thông báo </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
