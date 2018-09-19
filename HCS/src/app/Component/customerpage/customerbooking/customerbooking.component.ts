@@ -19,7 +19,7 @@ import * as moment from 'moment';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { messaging } from '../../../../../node_modules/firebase/app';
 import { formArrayNameProvider } from '../../../../../node_modules/@angular/forms/src/directives/reactive_directives/form_group_name';
-
+import {SpaceTime} from '../../../Model/TimeModel/StartEndTimeModel/startendtime.model';
 @Component({
   selector: 'app-customerbooking',
   templateUrl: './customerbooking.component.html',
@@ -29,14 +29,18 @@ export class CustomerbookingComponent implements OnInit {
 
   staff: Staff[];
   service: Service[];
-  staffList: any[];
+  staffList= [];
   serviceList: any[];
   bookList: Booking[];
+  bookingList:Booking[];
   bookingForm: FormGroup;
   timer: Time
   date: Date;
   message: string;
-  
+  startList:string[];
+  endList:string[]
+  selectedItems = [];
+  spaceTimeList:SpaceTime[];
 
   check8h: boolean = false;
   check8h30: boolean = false;
@@ -76,8 +80,6 @@ export class CustomerbookingComponent implements OnInit {
 
   constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal) {
     this.updateTime();
-
-    // this.myFunction();
     // Seting disable the past date
     const currentDate = new Date();
     config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
@@ -99,8 +101,17 @@ export class CustomerbookingComponent implements OnInit {
       maxHeight: 200,
       // allowSearchFilter: true
     };
+    // this.selectedItems=[
+    //   { item_id:3, item_text: 'Mặc định' }
+    // ];
+    this.selectedItems = [
+      { item_id: 1, item_text: 'Mặc định' },
+    ];
+
 
     this.dropdownStaffSettings = {
+      idField: 'item_id',
+      textField: 'item_text',
       singleSelection: true,
       allowSearchFilter: true,
       maxHeight: 200,
@@ -129,8 +140,11 @@ export class CustomerbookingComponent implements OnInit {
 
       //push staff name to staffList
       this.staffList = [];
-      this.staff.forEach(item => {
-        this.staffList.push(item.FullName);
+
+      this.staffList.push({ item_id:1,item_text:'Mặc định'});
+      let i:number=2;
+      this.staff.forEach(item => { 
+        this.staffList.push({ item_id:i++,item_text:item.FullName});
       });
     });
 
@@ -148,7 +162,7 @@ export class CustomerbookingComponent implements OnInit {
       this.service.forEach(item => {
         this.serviceList.push(item.ServiceName);
       });
-      this.serviceList.push('Mặc định')
+      this.serviceList.push('Mặc định');
     });
 
     // this.bookingForm = this.fb.group({
@@ -157,27 +171,84 @@ export class CustomerbookingComponent implements OnInit {
     // });
   }
 
+  // lay data khi chon ngay
+  onChangeDateSelected(dateSelected: any){
+  // ..
+  
+  // console.log(dateSelected);
+
+  let dateSelectedList:string[]=JSON.stringify(dateSelected).substring(2,JSON.stringify(dateSelected).length-1).split(',');
+  let fullDateSelected:string='';
+  dateSelectedList.forEach(str=>{
+    let dateStr:string= str.substring(str.indexOf(':')+1);
+    if(fullDateSelected!=''){
+      fullDateSelected='-'+fullDateSelected;
+    }
+    fullDateSelected=dateStr+fullDateSelected;
+    console.log(fullDateSelected);
+  });
+
+
+  var z = this.bookingService.getData();
+  z.snapshotChanges().subscribe(item => {
+    this.bookingList = [];
+    item.forEach(element => {
+      var s = element.payload.toJSON();
+      s["$key"] = element.key;
+      this.bookingList.push(s as Booking);
+    });
+    this.spaceTimeList=[];
+
+    this.bookingList.forEach(item => {
+
+      let tempList:string[]=JSON.stringify(item.Date).substring(2,JSON.stringify(item.Date).length-1).split(',');
+      let fullDate:string='';
+      tempList.forEach(str=>{
+        let dateStr:string= str.substring(str.indexOf(':')+1);
+        
+        if(fullDate!=''){
+          fullDate=fullDate+'-';
+        }
+
+        fullDate=fullDate+dateStr;
+        console.log(fullDate);
+      });
+      
+      let spacetime:SpaceTime={StartTime:item.StartTime,EndTime:item.EndTime};
+
+     if(fullDateSelected===fullDate){
+      this.spaceTimeList.push(spacetime);
+      console.log('checked');
+     }
+    //  return this.spaceTimeList;
+
+    });
+     console.log(this.spaceTimeList);
+  });
+  // return null;
+  }
+
   isDisabled() {
-    this.check8h = true;
+    this.check8h = false;
     this.check8h30 = false;
     this.check9h = false;
-    this.check9h30 = true;
+    this.check9h30 = false;
     this.check10h = false;
     this.check10h30 = false;
     this.check11h = false;
     this.check11h30 = false;
     this.check13h = false;
-    this.check13h30 = true;
+    this.check13h30 = false;
     this.check14h = false;
     this.check14h30 = false;
     this.check15h = false;
     this.check15h30 = false;
     this.check16h = false;
-    this.check16h30 = true;
+    this.check16h30 = false;
     this.check17h = false;
     this.check17h30 = false;
     this.check18h = false;
-    this.check18h30 = true;
+    this.check18h30 = false;
   }
 
   onItemSelect(item: any) {
@@ -200,16 +271,16 @@ export class CustomerbookingComponent implements OnInit {
     if (countService > 1) {
       totalTime = totalTime * countService;
       console.log(totalTime);
-      bookingForm.value.StartTime = this.myFunction(timeStr, 0);
+      bookingForm.value.StartTime = this.getEndTime(timeStr, 0);
       console.log('StartTime:' + bookingForm.value.StartTime);
-      bookingForm.value.EndTime = this.myFunction(timeStr, totalTime);
+      bookingForm.value.EndTime = this.getEndTime(timeStr, totalTime);
       console.log('EndTime:' + bookingForm.value.EndTime);
     }
     console.log(bookingForm.value.StaffName);
     if (bookingForm.value.StaffName === '') {
       bookingForm.value.StaffName = "Mặc định";
     }
-
+    bookingForm.value.StaffName=bookingForm.value.StaffName[0].item_text;
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
     this.tostr.success('Đặt thành công', "Cảm ơn quý khách");
@@ -250,7 +321,7 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
-  myFunction(time: string, serviceMin: number) {
+  getEndTime(time: string, serviceMin: number) {
     moment.locale('vi');
     let now = moment(time, "hmm");
     now = now.add(serviceMin, 'm')
