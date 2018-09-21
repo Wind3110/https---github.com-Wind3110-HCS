@@ -43,25 +43,45 @@ export class CustomerbookingComponent implements OnInit {
   spaceTimeList:SpaceTime[];
 
   check8h: boolean = false;
+  check8h15: boolean = false;
   check8h30: boolean = false;
+  check8h45: boolean = false;
   check9h: boolean = false;
+  check9h15: boolean = false;
   check9h30: boolean = false;
+  check9h45: boolean = false;
   check10h: boolean = false;
+  check10h15: boolean = false;
   check10h30: boolean = false;
+  check10h45: boolean = false;
   check11h: boolean = false;
+  check11h15: boolean = false;
   check11h30: boolean = false;
+  check11h45: boolean = false;
   check13h: boolean = false;
+  check13h15: boolean = false;
   check13h30: boolean = false;
+  check13h45: boolean = false;
   check14h: boolean = false;
+  check14h15: boolean = false;
   check14h30: boolean = false;
+  check14h45: boolean = false;
   check15h: boolean = false;
+  check15h15: boolean = false;
   check15h30: boolean = false;
+  check15h45: boolean = false;
   check16h: boolean = false;
+  check16h15: boolean = false;
   check16h30: boolean = false;
+  check16h45: boolean = false;
   check17h: boolean = false;
+  check17h15: boolean = false;
   check17h30: boolean = false;
+  check17h45: boolean = false;
   check18h: boolean = false;
+  check18h15: boolean = false;
   check18h30: boolean = false;
+  check18h45: boolean = false;
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
@@ -185,7 +205,7 @@ export class CustomerbookingComponent implements OnInit {
       fullDateSelected='-'+fullDateSelected;
     }
     fullDateSelected=dateStr+fullDateSelected;
-    console.log(fullDateSelected);
+    // console.log(fullDateSelected);
   });
 
 
@@ -230,25 +250,45 @@ export class CustomerbookingComponent implements OnInit {
 
   isDisabled() {
     this.check8h = false;
+    this.check8h15 = false;
     this.check8h30 = false;
+    this.check8h45 = false;
     this.check9h = false;
+    this.check9h15 = false;
     this.check9h30 = false;
+    this.check9h45 = false;
     this.check10h = false;
+    this.check10h15 = false;
     this.check10h30 = false;
+    this.check10h45 = false;
     this.check11h = false;
+    this.check11h15 = false;
     this.check11h30 = false;
+    this.check11h45 = false;
     this.check13h = false;
+    this.check13h15 = false;
     this.check13h30 = false;
+    this.check13h45 = false;
     this.check14h = false;
+    this.check14h15 = false;
     this.check14h30 = false;
+    this.check14h45 = false;
     this.check15h = false;
+    this.check15h15 = false;
     this.check15h30 = false;
+    this.check15h45 = false;
     this.check16h = false;
+    this.check16h15 = false;
     this.check16h30 = false;
+    this.check16h45 = false;
     this.check17h = false;
+    this.check17h15 = false;
     this.check17h30 = false;
+    this.check17h45 = false;
     this.check18h = false;
+    this.check18h15 = false;
     this.check18h30 = false;
+    this.check18h45 = false;
   }
 
   onItemSelect(item: any) {
