@@ -4,25 +4,25 @@
   <div class="col-sm">
     <div class="card card-signin" style="padding:30px 20px; width: 400px;">
       <div class="card-body">
-        <h5 class="card-title text-center">Sign In</h5>
+        <h5 class="card-title text-center">ADMIN</h5>
         <p *ngIf="message" class="text-center text-danger">{{message}}</p>
         <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="login()">
           <div class="form-group clearfix" [ngClass]="{ 'has-error': submitted && f.userid.errors }">
-            <label>Email</label>
-            <input type="text" formControlName="userid" id="inputEmail" class="form-control" placeholder="Email" required autofocus [ngClass]="{'is-invalid':submitted && f.userid.errors}">
+            <label>Tên tài khoản</label>
+            <input type="text" formControlName="userid" id="inputEmail" class="form-control form-control-sm" required autofocus [ngClass]="{'is-invalid':submitted && f.userid.errors}">
             <div *ngIf="submitted && f.userid.errors" class="invalid-feedback">
-              <div *ngIf="f.userid.errors.required">Username is required</div>
+              <div *ngIf="f.userid.errors.required">Vui lòng nhập tên đăng nhập</div>
             </div>
           </div>
           <div class="form-group clearfix" [ngClass]="{ 'has-error': submitted && f.password.errors }">
-            <label>Password</label>
-            <input type="password" formControlName="password" id="inputPassword" class="form-control" placeholder="Password" required [ngClass]="{'is-invalid':submitted && f.password.errors}">
+            <label>Mật khẩu</label>
+            <input type="password" formControlName="password" id="inputPassword" class="form-control form-control-sm" required [ngClass]="{'is-invalid':submitted && f.password.errors}">
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.required">Vui lòng nhập mật khẩu</div>
             </div>
           </div>
-          <div class="form-group">
-            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+          <div class="form-group" id="btnSubmit">
+            <button class="btn btn-sm btn-primary btn-block text-uppercase" type="submit">ĐĂNG NHẬP</button>
           </div>
         </form>
       </div>

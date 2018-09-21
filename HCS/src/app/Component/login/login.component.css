@@ -1,3 +1,10 @@
-#loginpage {
-    background-image: url("../../img/bg_login.PNG");
+.card { 
+    padding: 20px 20px !important;
+    width: 350px !important;
+    height: 350px;
+    background-color: aliceblue;
+}
+
+#btnSubmit {
+    margin-top: 30px
 }
