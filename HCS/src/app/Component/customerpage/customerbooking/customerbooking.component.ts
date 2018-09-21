@@ -343,8 +343,8 @@ export class CustomerbookingComponent implements OnInit {
       Services: [],
       StaffName: '',
       Date: null,
-      StartTime: '',
-      EndTime: '',
+      StartTime: null,
+      EndTime: null,
     }
   }
 
