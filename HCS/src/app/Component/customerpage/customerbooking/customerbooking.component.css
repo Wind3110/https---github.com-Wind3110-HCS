@@ -1,4 +1,4 @@
-#TimePicker>label.disabled {
+.TimePicker>label.disabled {
   background-color: red;
   color: #ffffff;
 }
