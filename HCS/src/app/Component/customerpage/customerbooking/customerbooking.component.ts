@@ -20,6 +20,7 @@ import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { messaging } from '../../../../../node_modules/firebase/app';
 import { formArrayNameProvider } from '../../../../../node_modules/@angular/forms/src/directives/reactive_directives/form_group_name';
 import { SpaceTime } from '../../../Model/TimeModel/StartEndTimeModel/startendtime.model';
+import { CheckTime } from '../../../Model/CheckTimeModel/checktime.model';
 @Component({
   selector: 'app-customerbooking',
   templateUrl: './customerbooking.component.html',
@@ -42,87 +43,49 @@ export class CustomerbookingComponent implements OnInit {
   selectedItems = [];
   spaceTimeList: SpaceTime[];
 
-  check8h: boolean = false;
-  check8h15: boolean = false;
-  check8h30: boolean = false;
-  check8h45: boolean = false;
-  check9h: boolean = false;
-  check9h15: boolean = false;
-  check9h30: boolean = false;
-  check9h45: boolean = false;
-  check10h: boolean = false;
-  check10h15: boolean = false;
-  check10h30: boolean = false;
-  check10h45: boolean = false;
-  check11h: boolean = false;
-  check11h15: boolean = false;
-  check11h30: boolean = false;
-  check11h45: boolean = false;
-  check13h: boolean = false;
-  check13h15: boolean = false;
-  check13h30: boolean = false;
-  check13h45: boolean = false;
-  check14h: boolean = false;
-  check14h15: boolean = false;
-  check14h30: boolean = false;
-  check14h45: boolean = false;
-  check15h: boolean = false;
-  check15h15: boolean = false;
-  check15h30: boolean = false;
-  check15h45: boolean = false;
-  check16h: boolean = false;
-  check16h15: boolean = false;
-  check16h30: boolean = false;
-  check16h45: boolean = false;
-  check17h: boolean = false;
-  check17h15: boolean = false;
-  check17h30: boolean = false;
-  check17h45: boolean = false;
-  check18h: boolean = false;
-  check18h15: boolean = false;
-  check18h30: boolean = false;
-  check18h45: boolean = false;
+  checkTime: CheckTime[];
 
-  checkTimeList: any[] = [this.check8h,
-  this.check8h15,
-  this.check8h30,
-  this.check8h45,
-  this.check9h,
-  this.check9h15,
-  this.check9h30,
-  this.check9h45,
-  this.check10h,
-  this.check10h15,
-  this.check10h30,
-  this.check10h45,
-  this.check11h,
-  this.check11h15,
-  this.check11h30,
-  this.check11h45,
-  this.check13h,
-  this.check13h15,
-  this.check13h30,
-  this.check13h45,
-  this.check14h,
-  this.check14h15,
-  this.check14h30,
-  this.check14h45,
-  this.check15h,
-  this.check15h15,
-  this.check15h30,
-  this.check15h45,
-  this.check16h,
-  this.check16h15,
-  this.check16h30,
-  this.check16h45,
-  this.check17h,
-  this.check17h15,
-  this.check17h30,
-  this.check17h45,
-  this.check18h,
-  this.check18h15,
-  this.check18h30,
-  this.check18h45,];
+
+  // checkTimeList: any[] =[{check8h:false},
+  // {check8h15:false},
+  // {check8h30:false},
+  // {"check8h45":false},
+  // {"check9h":false},
+  // {"check9h15":false},
+  // {"check9h30":false},
+  // {"check9h45":false},
+  // {"check10h":false},
+  // {"check10h15":false},
+  // {"check10h30":false},
+  // {"check10h45":false},
+  // {"check11h":false},
+  // {"check11h15":false},
+  // {"check11h30":false},
+  // {"check11h45":false},
+  // {"check13h":false},
+  // {"check13h15":false},
+  // {"check13h30":false},
+  // {"check13h45":false},
+  // {"check14h":false},
+  // {"check14h15":false},
+  // {"check14h30":false},
+  // {"check14h45":false},
+  // {"check15h":false},
+  // {"check15h15":false},
+  // {"check15h30":false},
+  // {"check15h45":false},
+  // {"check16h":false},
+  // {"check16h15":false},
+  // {"check16h30":false},
+  // {"check16h45":false},
+  // {"check17h":false},
+  // {"check17h15":false},
+  // {"check17h30":false},
+  // {"check17h45":false},
+  // {"check18h":false},
+  // {"check18h15":false},
+  // {"check18h30":false},
+  // {"check18h45":false}];
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
@@ -133,7 +96,10 @@ export class CustomerbookingComponent implements OnInit {
   timeVal: number[] = [800, 815, 830, 845, 900, 915, 930, 945, 1000, 1015, 1030, 1045, 1100, 1115, 1130,
     1145, 1300, 1315, 1330, 1345, 1400, 1415, 1430, 1445, 1500, 1515, 1530, 1545,
     1600, 1615, 1630, 1645, 1700, 1715, 1730, 1745, 1800, 1815, 1830, 1845];
-
+  timeName: string[] = ["check8h", "check8h15", "check8h30", "check8h45", "check9h", "check9h15", "check9h30", "check9h45", "check10h", "check10h15", "check10h30", "check10h45", "check11h", "check11h15", "check11h30", "check11h45", "check13h", "check13h15", "check13h30", "check13h45", "check14h", "check14h15", "check14h30", "check14h45", "check15h", "check15h15", "check15h30", "check15h45", "check16h", "check16h15", "check16h30", "check16h45", "check17h", "check17h15", "check17h30", "check17h45", "check18h", "check18h15", "check18h30", "check18h45"];
+  isDisable: boolean[] = [
+    false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,
+  ];
   time: Time[];
 
 
@@ -263,7 +229,8 @@ export class CustomerbookingComponent implements OnInit {
           console.log('checked');
         }
         //  return this.spaceTimeList;
-
+        let mot: number = 1;
+        let hai: number = 2;
       });
       console.log(this.spaceTimeList);
       this.isDisabled(this.spaceTimeList);
@@ -273,25 +240,17 @@ export class CustomerbookingComponent implements OnInit {
 
   // Check to disable time.
   isDisabled(spaceTimeList: SpaceTime[]) {
-    let i: number = 0;
-    let j: number = 0;
-
     spaceTimeList.forEach(element => {
+      console.log(element);
       let startTime = element.StartTime.toString();
+      console.log("co start");
       let endTime = element.EndTime.toString();
-      for (i; i < this.timeFrame.length; i++) {
-        if (startTime === this.timeFrame[i]) {
-          console.log(i)
-          let startTimeValue = this.timeVal[i];
-          for (j; j < this.timeFrame.length; j++) {
-            if (endTime === this.timeFrame[j]) {
-              console.log(j)
-              // let endTimeValue = this.timeVal[j];
-            }
-          }
-          
-        }
+      let startIdex = this.timeFrame.indexOf(startTime);
+      let endIdex = this.timeFrame.indexOf(endTime);
+      for (startIdex; startIdex < endIdex; startIdex++) {
+        this.isDisable[startIdex] = true;
       }
+
     });
 
     // this.check8h = false;
@@ -392,10 +351,17 @@ export class CustomerbookingComponent implements OnInit {
   // updateTime() {
   //   this.time = [];
   //   for (let index = 0; index < this.timeFrame.length; index++) {
+
+  //   if(){
   //     this.timer = {
   //       TimeFrame: this.timeFrame[index].toString(),
-  //       TimeVal: this.timeVal[index].toString()
+  //       TimeVal: this.timeVal[index].toString(),
+  //       TimeName:this.timeName[index],
+  //       isDisable:this.isDisable
   //     }
+
+  //   }
+
   //     this.time.push(this.timer);
   //     this.timer = null;
 

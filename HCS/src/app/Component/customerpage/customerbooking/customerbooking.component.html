@@ -56,37 +56,38 @@
             <div class="col-md-12">
               <label>Chọn giờ</label>
               <div class="form-group">
+                
                 <div class="btn-group btn-group-toggle TimePicker" ngbRadioGroup name="StartTime" #StartTime="ngModel"
                   [(ngModel)]="bookingService.selectedBooking.StartTime">
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0800" [disabled]="check8h">08:00
+                    <input ngbButton type="radio" [value]="0800" [disabled]="isDisable[0]">08:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0815" [disabled]="check8h15">08:15
+                    <input ngbButton type="radio" [value]="0815" [disabled]="isDisable[1]">08:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0830" [disabled]="check8h30">08:30
+                    <input ngbButton type="radio" [value]="0830" [disabled]="isDisable[2]">08:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0845" [disabled]="check8h45">08:45
+                    <input ngbButton type="radio" [value]="0845" [disabled]="isDisable[3]">08:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0900" [disabled]="check9h">09:00
+                    <input ngbButton type="radio" [value]="0900" [disabled]="isDisable[4]">09:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0915" [disabled]="check9h15">09:15
+                    <input ngbButton type="radio" [value]="0915" [disabled]="isDisable[5]">09:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0930" [disabled]="check9h30">09:30
+                    <input ngbButton type="radio" [value]="0930" [disabled]="isDisable[6]">09:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="0945" [disabled]="check9h45">09:45
+                    <input ngbButton type="radio" [value]="0945" [disabled]="isDisable[7]">09:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1000" [disabled]="check10h">10:00
+                    <input ngbButton type="radio" [value]="1000" [disabled]="isDisable[8]">10:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1015" [disabled]="check10h15">10:15
+                    <input ngbButton type="radio" [value]="1015" [disabled]="isDisable[9]">10:15
                   </label>
 
                   <!-- <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
@@ -97,34 +98,34 @@
                 <div class="btn-group btn-group-toggle TimePicker" ngbRadioGroup name="StartTime" #StartTime="ngModel"
                   [(ngModel)]="bookingService.selectedBooking.StartTime">
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1030" [disabled]="check10h30">10:30
+                    <input ngbButton type="radio" [value]="1030" [disabled]="isDisable[10]">10:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1045" [disabled]="check10h45">10:45
+                    <input ngbButton type="radio" [value]="1045" [disabled]="isDisable[11]">10:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1100" [disabled]="check11h">11:00
+                    <input ngbButton type="radio" [value]="1100" [disabled]="isDisable[12]">11:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1115" [disabled]="check11h15">11:15
+                    <input ngbButton type="radio" [value]="1115" [disabled]="isDisable[13]">11:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1130" [disabled]="check11h30">11:30
+                    <input ngbButton type="radio" [value]="1130" [disabled]="isDisable[14]">11:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1145" [disabled]="check11h45">11:45
+                    <input ngbButton type="radio" [value]="1145" [disabled]="isDisable[15]">11:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1300" [disabled]="check13h">13:00
+                    <input ngbButton type="radio" [value]="1300" [disabled]="isDisable[16]">13:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1315" [disabled]="check13h15">13:15
+                    <input ngbButton type="radio" [value]="1315" [disabled]="isDisable[17]">13:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" value="1330" [disabled]="check13h30">13:30
+                    <input ngbButton type="radio" value="1330" [disabled]="isDisable[18]">13:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" value="1345" [disabled]="check13h45">13:45
+                    <input ngbButton type="radio" value="1345" [disabled]="isDisable[19]">13:45
                   </label>
                   <!-- <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
               <input ngbButton type="radio" [value]="(timer.TimeVal)">{{timer.TimeFrame}}
@@ -135,68 +136,68 @@
                   [(ngModel)]="bookingService.selectedBooking.StartTime">
 
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1400" [disabled]="check14h">14:00
+                    <input ngbButton type="radio" [value]="1400" [disabled]="isDisable[20]">14:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1415" [disabled]="check14h15">14:15
+                    <input ngbButton type="radio" [value]="1415" [disabled]="isDisable[21]">14:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1430" [disabled]="check14h30">14:30
+                    <input ngbButton type="radio" [value]="1430" [disabled]="isDisable[22]">14:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1445" [disabled]="check14h45">14:45
+                    <input ngbButton type="radio" [value]="1445" [disabled]="isDisable[23]">14:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1500" [disabled]="check15h">15:00
+                    <input ngbButton type="radio" [value]="1500" [disabled]="isDisable[24]">15:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1515" [disabled]="check15h15">15:15
+                    <input ngbButton type="radio" [value]="1515" [disabled]="isDisable[25]">15:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1530" [disabled]="check15h30">15:30
+                    <input ngbButton type="radio" [value]="1530" [disabled]="isDisable[26]">15:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1545" [disabled]="check15h45">15:45
+                    <input ngbButton type="radio" [value]="1545" [disabled]="isDisable[27]">15:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1600" [disabled]="check16h">16:00
+                    <input ngbButton type="radio" [value]="1600" [disabled]="isDisable[28]">16:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1615" [disabled]="check16h15">16:15
+                    <input ngbButton type="radio" [value]="1615" [disabled]="isDisable[29]">16:15
                   </label>
                 </div>
 
                 <div class="btn-group btn-group-toggle TimePicker" ngbRadioGroup name="StartTime" #StartTime="ngModel"
                   [(ngModel)]="bookingService.selectedBooking.StartTime">
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1630" [disabled]="check16h30">16:30
+                    <input ngbButton type="radio" [value]="1630" [disabled]="isDisable[30]">16:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1645" [disabled]="check16h45">16:45
+                    <input ngbButton type="radio" [value]="1645" [disabled]="isDisable[31]">16:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1700" [disabled]="check17h">17:00
+                    <input ngbButton type="radio" [value]="1700" [disabled]="isDisable[32]">17:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1715" [disabled]="check17h15">17:15
+                    <input ngbButton type="radio" [value]="1715" [disabled]="isDisable[33]">17:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1730" [disabled]="check17h30">17:30
+                    <input ngbButton type="radio" [value]="1730" [disabled]="isDisable[34]">17:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1745" [disabled]="check17h45">17:45
+                    <input ngbButton type="radio" [value]="1745" [disabled]="isDisable[35]">17:45
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1800" [disabled]="check18h">18:00
+                    <input ngbButton type="radio" [value]="1800" [disabled]="isDisable[36]">18:00
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1815" [disabled]="check18h15">18:15
+                    <input ngbButton type="radio" [value]="1815" [disabled]="isDisable[37]">18:15
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1830" [disabled]="check18h30">18:30
+                    <input ngbButton type="radio" [value]="1830" [disabled]="isDisable[38]">18:30
                   </label>
                   <label ngbButtonLabel class="btn-outline-primary">
-                    <input ngbButton type="radio" [value]="1845" [disabled]="check18h45">18:45
+                    <input ngbButton type="radio" [value]="1845" [disabled]="isDisable[39]">18:45
                   </label>
                   <!-- <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
               <input ngbButton type="radio" [value]="(timer.TimeVal)">{{timer.TimeFrame}}
