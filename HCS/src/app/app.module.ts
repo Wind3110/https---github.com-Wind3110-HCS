@@ -87,7 +87,7 @@ import { MemberbookingComponent } from './Component/customerhome/memberbooking/m
     NgMultiSelectDropDownModule.forRoot(),
     DlDateTimePickerDateModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'always'}),
     AngularFontAwesomeModule,
     AppRoutingModule,
     DataTablesModule,

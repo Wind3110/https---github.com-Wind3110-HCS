@@ -1,10 +1,13 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
 
 import { Service } from '../../../Model/ServiceModel/service.model';
 import { ServiceService } from '../../../Service/SerService/service.service';
@@ -21,6 +24,7 @@ import { messaging } from '../../../../../node_modules/firebase/app';
 import { formArrayNameProvider } from '../../../../../node_modules/@angular/forms/src/directives/reactive_directives/form_group_name';
 import { SpaceTime } from '../../../Model/TimeModel/StartEndTimeModel/startendtime.model';
 import { CheckTime } from '../../../Model/CheckTimeModel/checktime.model';
+import { ServiceView } from '../../../Model/ServiceModel/serviceview.model';
 @Component({
   selector: 'app-customerbooking',
   templateUrl: './customerbooking.component.html',
@@ -31,10 +35,12 @@ export class CustomerbookingComponent implements OnInit {
   staff: Staff[];
   service: Service[];
   staffList = [];
-  serviceList: any[];
+  serviceList: ServiceView[];
+  serviceNameList: any[];
   bookList: Booking[];
   bookingList: Booking[];
   bookingForm: FormGroup;
+  myGroup: FormGroup;
   timer: Time
   date: Date;
   message: string;
@@ -42,69 +48,32 @@ export class CustomerbookingComponent implements OnInit {
   endList: string[]
   selectedItems = [];
   spaceTimeList: SpaceTime[];
-
   checkTime: CheckTime[];
-
-
-  // checkTimeList: any[] =[{check8h:false},
-  // {check8h15:false},
-  // {check8h30:false},
-  // {"check8h45":false},
-  // {"check9h":false},
-  // {"check9h15":false},
-  // {"check9h30":false},
-  // {"check9h45":false},
-  // {"check10h":false},
-  // {"check10h15":false},
-  // {"check10h30":false},
-  // {"check10h45":false},
-  // {"check11h":false},
-  // {"check11h15":false},
-  // {"check11h30":false},
-  // {"check11h45":false},
-  // {"check13h":false},
-  // {"check13h15":false},
-  // {"check13h30":false},
-  // {"check13h45":false},
-  // {"check14h":false},
-  // {"check14h15":false},
-  // {"check14h30":false},
-  // {"check14h45":false},
-  // {"check15h":false},
-  // {"check15h15":false},
-  // {"check15h30":false},
-  // {"check15h45":false},
-  // {"check16h":false},
-  // {"check16h15":false},
-  // {"check16h30":false},
-  // {"check16h45":false},
-  // {"check17h":false},
-  // {"check17h15":false},
-  // {"check17h30":false},
-  // {"check17h45":false},
-  // {"check18h":false},
-  // {"check18h15":false},
-  // {"check18h30":false},
-  // {"check18h45":false}];
+  returnUrl: string;
+  submitted = false;
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
   timeFrame: string[] = ["08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30",
-    "11:45", "13:00", "13:15", "13:30", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45",
-    "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45"];
+    "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:00", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45",
+    "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00"];
   timeVal: number[] = [800, 815, 830, 845, 900, 915, 930, 945, 1000, 1015, 1030, 1045, 1100, 1115, 1130,
-    1145, 1300, 1315, 1330, 1345, 1400, 1415, 1430, 1445, 1500, 1515, 1530, 1545,
-    1600, 1615, 1630, 1645, 1700, 1715, 1730, 1745, 1800, 1815, 1830, 1845];
-  timeName: string[] = ["check8h", "check8h15", "check8h30", "check8h45", "check9h", "check9h15", "check9h30", "check9h45", "check10h", "check10h15", "check10h30", "check10h45", "check11h", "check11h15", "check11h30", "check11h45", "check13h", "check13h15", "check13h30", "check13h45", "check14h", "check14h15", "check14h30", "check14h45", "check15h", "check15h15", "check15h30", "check15h45", "check16h", "check16h15", "check16h30", "check16h45", "check17h", "check17h15", "check17h30", "check17h45", "check18h", "check18h15", "check18h30", "check18h45"];
+    1145, 1200, 1215, 1230, 1245, 1300, 1315, 1330, 1345, 1400, 1415, 1430, 1445, 1500, 1515, 1530, 1545,
+    1600, 1615, 1630, 1645, 1700, 1715, 1730, 1745, 1800, 1815, 1830, 1845, 1900];
+  timeName: string[] = ["check8h", "check8h15", "check8h30", "check8h45", "check9h", "check9h15", "check9h30", "check9h45", "check10h", "check10h15", "check10h30", "check10h45", "check11h", "check11h15", "check11h30", "check11h45", "check12h", "check12h15", "check12h30", "check12h45", "check13h", "check13h15", "check13h30", "check13h45", "check14h", "check14h15", "check14h30", "check14h45", "check15h", "check15h15", "check15h30", "check15h45", "check16h", "check16h15", "check16h30", "check16h45", "check17h", "check17h15", "check17h30", "check17h45", "check18h", "check18h15", "check18h30", "check18h45", "check19h"];
   isDisable: boolean[] = [
-    false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
   ];
+  isEnabledAll: boolean[] = [
+    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+  ];
+
   time: Time[];
 
+  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router, private formBuilder: FormBuilder) {
 
-  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal) {
-    // this.updateTime();
+    this.updateTime();
     // Seting disable the past date
     const currentDate = new Date();
     config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
@@ -113,7 +82,24 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.myGroup = new FormGroup({
+    //   customerName: new FormControl({ value: '' }, Validators.compose([Validators.required])),
+    //   gender: new FormControl({ value: '' }, Validators.compose([Validators.required])),
+    //   phone: new FormControl({ value: '' }, Validators.compose([Validators.required])),
+    //   services: new FormControl({ value: '' }, Validators.compose([Validators.required])),
+    //   date: new FormControl({ value: '' }, Validators.compose([Validators.required])),
+    //   startTime: new FormControl({ value: '' }, Validators.compose([Validators.required])),
+    // });
 
+    // this.bookingForm = this.formBuilder.group({
+    //   customerName: [null, Validators.required],
+    //   gender: [null, Validators.required],
+    //   phone: [null, Validators.required],
+    //   services: [null, Validators.required],
+    //   date: [null, Validators.required],
+    //   startTime: [null, Validators.required],
+    // });
+    this.returnUrl = "/homepage";
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -138,7 +124,6 @@ export class CustomerbookingComponent implements OnInit {
       maxHeight: 200,
     };
 
-    this.resetForm();
     var x = this.bookingService.getData();
     x.snapshotChanges().subscribe(item => {
       this.bookList = [];
@@ -180,10 +165,12 @@ export class CustomerbookingComponent implements OnInit {
 
       //push service name to serviceList
       this.serviceList = [];
+      this.serviceNameList = [];
       this.service.forEach(item => {
-        this.serviceList.push(item.ServiceName);
+        let newItem: ServiceView = { ServiceName: item.ServiceName, TimeUnit: item.TimeUnit };
+        this.serviceList.push(newItem);
+        this.serviceNameList.push(item.ServiceName);
       });
-      this.serviceList.push('Mặc định');
     });
   }
 
@@ -228,71 +215,35 @@ export class CustomerbookingComponent implements OnInit {
           this.spaceTimeList.push(spacetime);
           console.log('checked');
         }
-        //  return this.spaceTimeList;
-        let mot: number = 1;
-        let hai: number = 2;
       });
-      console.log(this.spaceTimeList);
       this.isDisabled(this.spaceTimeList);
+      this.updateTime();
     });
-    // return null;
   }
 
   // Check to disable time.
   isDisabled(spaceTimeList: SpaceTime[]) {
     spaceTimeList.forEach(element => {
-      console.log(element);
       let startTime = element.StartTime.toString();
-      console.log("co start");
       let endTime = element.EndTime.toString();
       let startIdex = this.timeFrame.indexOf(startTime);
       let endIdex = this.timeFrame.indexOf(endTime);
       for (startIdex; startIdex < endIdex; startIdex++) {
         this.isDisable[startIdex] = true;
       }
-
     });
+  }
 
-    // this.check8h = false;
-    // this.check8h15 = false;
-    // this.check8h30 = false;
-    // this.check8h45 = false;
-    // this.check9h = false;
-    // this.check9h15 = false;
-    // this.check9h30 = false;
-    // this.check9h45 = false;
-    // this.check10h = false;
-    // this.check10h15 = false;
-    // this.check10h30 = false;
-    // this.check10h45 = false;
-    // this.check11h = false;
-    // this.check11h15 = false;
-    // this.check11h30 = false;
-    // this.check11h45 = false;
-    // this.check13h = false;
-    // this.check13h15 = false;
-    // this.check13h30 = false;
-    // this.check13h45 = false;
-    // this.check14h = false;
-    // this.check14h15 = false;
-    // this.check14h30 = false;
-    // this.check14h45 = false;
-    // this.check15h = false;
-    // this.check15h15 = false;
-    // this.check15h30 = false;
-    // this.check15h45 = false;
-    // this.check16h = false;
-    // this.check16h15 = false;
-    // this.check16h30 = false;
-    // this.check16h45 = false;
-    // this.check17h = false;
-    // this.check17h15 = false;
-    // this.check17h30 = false;
-    // this.check17h45 = false;
-    // this.check18h = false;
-    // this.check18h15 = false;
-    // this.check18h30 = false;
-    // this.check18h45 = false;
+  isEnabled(spaceTimeList: SpaceTime[]) {
+    spaceTimeList.forEach(element => {
+      let startTime = element.StartTime.toString();
+      let endTime = element.EndTime.toString();
+      let startIdex = this.timeFrame.indexOf(startTime);
+      let endIdex = this.timeFrame.indexOf(endTime);
+      for (startIdex; startIdex < endIdex; startIdex++) {
+        this.isDisable[startIdex] = false;
+      }
+    });
   }
 
   onItemSelect(item: any) {
@@ -303,19 +254,21 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   onSubmit(bookingForm: NgForm) {
-    console.log(bookingForm.value);
+    this.submitted = true;
     let countService: number = 0;
-    let totalTime: number = 30;
     let dateStr: string = bookingForm.value.Date.toString();
     let timeStr: string = bookingForm.value.StartTime.toString();
     for (let index = 0; index < bookingForm.value.Services.length; index++) {
-      countService++;
+      this.serviceList.forEach(element => {
+        if (element.ServiceName === bookingForm.value.Services[index]) {
+          countService = countService + element.TimeUnit;
+        }
+      });
     }
 
     if (countService > 1) {
-      totalTime = totalTime * countService;
       bookingForm.value.StartTime = this.getEndTime(timeStr, 0);
-      bookingForm.value.EndTime = this.getEndTime(timeStr, totalTime);
+      bookingForm.value.EndTime = this.getEndTime(timeStr, countService);
     }
     if (bookingForm.value.StaffName === '') {
       bookingForm.value.StaffName = "Mặc định";
@@ -323,8 +276,12 @@ export class CustomerbookingComponent implements OnInit {
     bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
-    this.tostr.success('Đặt thành công', "Cảm ơn quý khách");
+    this.tostr.success('Đặt thành công', "Cảm ơn quý khách", {
+      timeOut: 1000,
+      progressBar: true
+    });
     this.message = "Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....";
+    this.router.navigate([this.returnUrl]);
   }
 
   openVerticallyCentered(content) {
@@ -348,25 +305,34 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
-  // updateTime() {
-  //   this.time = [];
-  //   for (let index = 0; index < this.timeFrame.length; index++) {
+  updateTime() {
+    this.time = [];
+    for (let index = 0; index < this.timeFrame.length; index++) {
+      this.timer = {
+        TimeFrame: this.timeFrame[index].toString(),
+        TimeVal: this.timeVal[index].toString(),
+        TimeName: this.timeName[index],
+        isDisable: this.isDisable[index],
+      }
+      this.time.push(this.timer);
+      this.timer = null;
 
-  //   if(){
-  //     this.timer = {
-  //       TimeFrame: this.timeFrame[index].toString(),
-  //       TimeVal: this.timeVal[index].toString(),
-  //       TimeName:this.timeName[index],
-  //       isDisable:this.isDisable
-  //     }
+    }
+  }
+  updateForEnableTime() {
+    this.time = [];
+    for (let index = 0; index < this.timeFrame.length; index++) {
+      this.timer = {
+        TimeFrame: this.timeFrame[index].toString(),
+        TimeVal: this.timeVal[index].toString(),
+        TimeName: this.timeName[index],
+        isDisable: this.isEnabledAll[index],
+      }
+      this.time.push(this.timer);
+      this.timer = null;
 
-  //   }
-
-  //     this.time.push(this.timer);
-  //     this.timer = null;
-
-  //   }
-  // }
+    }
+  }
 
   getEndTime(time: string, serviceMin: number) {
     moment.locale('vi');
@@ -375,20 +341,3 @@ export class CustomerbookingComponent implements OnInit {
     return now.format("HH:mm").toString();
   }
 }
-
-
-// let timeWorking =  ;
-// timeForm;
-// if( timeForm > timeWorking) {
-//   message = 'gio nay da co nguoi dat';
-
-// }
-// message = ''
-
-
-// let timeWorking
-// let startTime = form.value.Time;
-// let endTime = totalTime;
-// if(startTime > timeWorking ||timeWorking >endTime) {
-//   true
-// }

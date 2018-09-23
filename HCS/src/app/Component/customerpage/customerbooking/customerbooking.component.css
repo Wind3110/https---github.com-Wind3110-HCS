@@ -4,6 +4,8 @@
 }
 
 .TimePicker {
-  margin-top: 10px;
+  /* margin-top: 10px !important; */
   margin-left: 0;
+  display: inline-block;
+  line-height: 3;
 }
