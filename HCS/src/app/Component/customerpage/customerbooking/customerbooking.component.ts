@@ -72,7 +72,7 @@ export class CustomerbookingComponent implements OnInit {
   time: Time[];
 
   constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router, private formBuilder: FormBuilder) {
-
+    
     this.updateTime();
     // Seting disable the past date
     const currentDate = new Date();
@@ -82,6 +82,7 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     // this.myGroup = new FormGroup({
     //   customerName: new FormControl({ value: '' }, Validators.compose([Validators.required])),
     //   gender: new FormControl({ value: '' }, Validators.compose([Validators.required])),
@@ -223,6 +224,18 @@ export class CustomerbookingComponent implements OnInit {
 
   // Check to disable time.
   isDisabled(spaceTimeList: SpaceTime[]) {
+
+    //Check disable time < current
+    for (let i = 0; i < this.timeFrame.length; i++) {
+      let beginCheckTime = moment(this.timeFrame[i], 'HH:mm');
+      let endTimeCheck = moment(this.getCurrentTime(),'HH:mm');
+      console.log(beginCheckTime.isBefore(endTimeCheck));
+      if(beginCheckTime.isBefore(endTimeCheck)) {
+        this.isDisable[i] = true;
+      }
+    }
+
+    //Check disable time which is booked
     spaceTimeList.forEach(element => {
       let startTime = element.StartTime.toString();
       let endTime = element.EndTime.toString();
@@ -339,5 +352,10 @@ export class CustomerbookingComponent implements OnInit {
     let now = moment(time, "hmm");
     now = now.add(serviceMin, 'm')
     return now.format("HH:mm").toString();
+  }
+
+  getCurrentTime() {
+    var current = moment().format("HH:mm");
+    return current;
   }
 }
