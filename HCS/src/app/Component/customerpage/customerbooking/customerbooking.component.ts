@@ -82,24 +82,7 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    // this.myGroup = new FormGroup({
-    //   customerName: new FormControl({ value: '' }, Validators.compose([Validators.required])),
-    //   gender: new FormControl({ value: '' }, Validators.compose([Validators.required])),
-    //   phone: new FormControl({ value: '' }, Validators.compose([Validators.required])),
-    //   services: new FormControl({ value: '' }, Validators.compose([Validators.required])),
-    //   date: new FormControl({ value: '' }, Validators.compose([Validators.required])),
-    //   startTime: new FormControl({ value: '' }, Validators.compose([Validators.required])),
-    // });
-
-    // this.bookingForm = this.formBuilder.group({
-    //   customerName: [null, Validators.required],
-    //   gender: [null, Validators.required],
-    //   phone: [null, Validators.required],
-    //   services: [null, Validators.required],
-    //   date: [null, Validators.required],
-    //   startTime: [null, Validators.required],
-    // });
+    // Return to home page when submit succsess
     this.returnUrl = "/homepage";
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
@@ -222,7 +205,7 @@ export class CustomerbookingComponent implements OnInit {
     });
   }
 
-  // Check to disable time.
+  // Check disable time.
   isDisabled(spaceTimeList: SpaceTime[]) {
 
     //Check disable time < current
@@ -243,18 +226,6 @@ export class CustomerbookingComponent implements OnInit {
       let endIdex = this.timeFrame.indexOf(endTime);
       for (startIdex; startIdex < endIdex; startIdex++) {
         this.isDisable[startIdex] = true;
-      }
-    });
-  }
-
-  isEnabled(spaceTimeList: SpaceTime[]) {
-    spaceTimeList.forEach(element => {
-      let startTime = element.StartTime.toString();
-      let endTime = element.EndTime.toString();
-      let startIdex = this.timeFrame.indexOf(startTime);
-      let endIdex = this.timeFrame.indexOf(endTime);
-      for (startIdex; startIdex < endIdex; startIdex++) {
-        this.isDisable[startIdex] = false;
       }
     });
   }
@@ -280,12 +251,13 @@ export class CustomerbookingComponent implements OnInit {
     }
 
     if (countService > 1) {
-      bookingForm.value.StartTime = this.getEndTime(timeStr, 0);
-      bookingForm.value.EndTime = this.getEndTime(timeStr, countService);
+      bookingForm.value.StartTime = this.getTotalTime(timeStr, 0);
+      bookingForm.value.EndTime = this.getTotalTime(timeStr, countService);
     }
     if (bookingForm.value.StaffName === '') {
       bookingForm.value.StaffName = "Mặc định";
     }
+
     bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
@@ -297,10 +269,12 @@ export class CustomerbookingComponent implements OnInit {
     this.router.navigate([this.returnUrl]);
   }
 
+  //Open popup
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true });
   }
 
+  //Reset data on form
   resetForm(bookingForm?: NgForm) {
     if (bookingForm != null) {
       bookingForm.reset();
@@ -332,28 +306,16 @@ export class CustomerbookingComponent implements OnInit {
 
     }
   }
-  updateForEnableTime() {
-    this.time = [];
-    for (let index = 0; index < this.timeFrame.length; index++) {
-      this.timer = {
-        TimeFrame: this.timeFrame[index].toString(),
-        TimeVal: this.timeVal[index].toString(),
-        TimeName: this.timeName[index],
-        isDisable: this.isEnabledAll[index],
-      }
-      this.time.push(this.timer);
-      this.timer = null;
 
-    }
-  }
-
-  getEndTime(time: string, serviceMin: number) {
+  //Get total time of total services on booking form
+  getTotalTime(time: string, serviceMin: number) {
     moment.locale('vi');
     let now = moment(time, "hmm");
     now = now.add(serviceMin, 'm')
     return now.format("HH:mm").toString();
   }
 
+  //Get current time (hour and minutes)
   getCurrentTime() {
     var current = moment().format("HH:mm");
     return current;
