@@ -1,0 +1,12 @@
+.TimePicker>label.disabled {
+    background-color:rgb(212, 0, 255);
+    color: #ffffff;
+  }
+  
+  .TimePicker {
+    /* margin-top: 10px !important; */
+    margin-left: 0;
+    display: inline-block;
+    line-height: 3;
+  }
+  

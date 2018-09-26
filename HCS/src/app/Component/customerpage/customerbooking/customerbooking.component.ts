@@ -72,7 +72,7 @@ export class CustomerbookingComponent implements OnInit {
   time: Time[];
 
   constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router, private formBuilder: FormBuilder) {
-    
+
     this.updateTime();
     // Seting disable the past date
     const currentDate = new Date();
@@ -125,12 +125,10 @@ export class CustomerbookingComponent implements OnInit {
         var y = element.payload.toJSON();
         y["$key"] = element.key;
         this.staff.push(y as Staff);
-
       });
 
       //push staff name to staffList
       this.staffList = [];
-
       this.staffList.push({ item_id: 1, item_text: 'Mặc định' });
       let i: number = 2;
       this.staff.forEach(item => {
@@ -160,6 +158,7 @@ export class CustomerbookingComponent implements OnInit {
 
   // lay data khi chon ngay
   onChangeDateSelected(dateSelected: any) {
+    // console.log(dateSelected);
     let dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
     let fullDateSelected: string = '';
     dateSelectedList.forEach(str => {
@@ -200,24 +199,17 @@ export class CustomerbookingComponent implements OnInit {
           console.log('checked');
         }
       });
-      this.isDisabled(this.spaceTimeList);
+      let datePick = dateSelected.day+'-'+dateSelected.month+'-'+dateSelected.year ;
+      console.log(datePick);
+      this.isDisablePastTime(datePick);
+      this.isDisableTimeBooked(this.spaceTimeList);
       this.updateTime();
+      
     });
   }
 
   // Check disable time.
-  isDisabled(spaceTimeList: SpaceTime[]) {
-
-    //Check disable time < current
-    for (let i = 0; i < this.timeFrame.length; i++) {
-      let beginCheckTime = moment(this.timeFrame[i], 'HH:mm');
-      let endTimeCheck = moment(this.getCurrentTime(),'HH:mm');
-      console.log(beginCheckTime.isBefore(endTimeCheck));
-      if(beginCheckTime.isBefore(endTimeCheck)) {
-        this.isDisable[i] = true;
-      }
-    }
-
+  isDisableTimeBooked(spaceTimeList: SpaceTime[]) {
     //Check disable time which is booked
     spaceTimeList.forEach(element => {
       let startTime = element.StartTime.toString();
@@ -228,6 +220,22 @@ export class CustomerbookingComponent implements OnInit {
         this.isDisable[startIdex] = true;
       }
     });
+  }
+
+  //Check disable time < current
+  isDisablePastTime(datePick:string) {
+    for (let i = 0; i < this.timeFrame.length; i++) {
+      let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
+      console.log(beginCheckTime);
+      let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      console.log(beginCheckTime.isBefore(endTimeCheck));
+      if (beginCheckTime.isBefore(endTimeCheck)) {
+        this.isDisable[i] = true;
+      }
+      else {
+        this.isDisable[i] = false;
+      }
+    }
   }
 
   onItemSelect(item: any) {
@@ -303,7 +311,6 @@ export class CustomerbookingComponent implements OnInit {
       }
       this.time.push(this.timer);
       this.timer = null;
-
     }
   }
 
@@ -317,7 +324,11 @@ export class CustomerbookingComponent implements OnInit {
 
   //Get current time (hour and minutes)
   getCurrentTime() {
-    var current = moment().format("HH:mm");
+    var current = moment().format("DD-MM-YYYY HH:mm");
+    return current;
+  }
+  getCurrentDate() {
+    var current = moment().format("DD-MM-YYYY");
     return current;
   }
 }

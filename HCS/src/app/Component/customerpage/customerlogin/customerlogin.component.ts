@@ -56,10 +56,8 @@ export class CustomerloginComponent implements OnInit {
 
     if (this.customerLoginForm.valid) {
       let i: number = 0;
-      for (i; i <= this.customerList.length - 1; i++) {
-
+      for (i; i < this.customerList.length; i++) {
         if (this.f.username.value === this.customerList[i].Username) {
-
           if (this.encryptMD5(this.f.password.value) === this.customerList[i].Password) {
             localStorage.setItem('isLoggedIn', "true");
             localStorage.setItem('token', this.f.username.value);

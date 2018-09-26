@@ -1,3 +1,35 @@
-<p>
-  customerhome works!
-</p>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/customerhome">Customer homepage</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/customerhome/memberbooking">Member Booking</a>
+      </li>
+      <!-- <li class="nav-item active">
+        <a class="nav-link" routerLink="/homepage/customerregistration">LIÊN HỆ</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/homepage/customerbooking">ĐẶT LỊCH</a>
+      </li> -->
+    </ul>
+    <!-- <span class="navbar-text">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/homepage/customerlogin">ĐĂNG NHẬP</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/homepage/customerregistration">ĐĂNG KÝ</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/login">ADMIN</a>
+        </li>
+      </ul>
+    </span> -->
+  </div>
+</nav>
+<div class="second-header">
+</div>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

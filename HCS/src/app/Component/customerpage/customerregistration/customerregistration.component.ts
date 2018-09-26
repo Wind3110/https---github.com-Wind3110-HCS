@@ -19,7 +19,7 @@ export class CustomerregistrationComponent implements OnInit {
   constructor(private customerService: CustomerService, private tostr: ToastrService, private router: Router) { }
 
   ngOnInit() {
-    this.returnUrl = '/customerpage/customerlogin';
+    this.returnUrl = '/homepage/customerlogin';
 
     this.resetForm();
     const x = this.customerService.getData();
