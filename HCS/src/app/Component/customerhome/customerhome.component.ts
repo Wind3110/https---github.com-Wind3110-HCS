@@ -17,9 +17,8 @@ export class CustomerhomeComponent implements OnInit {
   }
 
   logout(): void {
-    console.log("Logout");
+    console.log("user Logout");
     this.authService.logoutCustomer();
-    this.router.navigate(['/customerpage']);
+    this.router.navigate(['/homepage']);
   }
-
 }

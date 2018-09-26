@@ -46,7 +46,10 @@ const routes: Routes = [
   },
 
   {
-    path: 'customerhome', component: CustomerhomeComponent, canActivate: [AuthGuard], children: [
+    path: 'customerhome', component: CustomerhomeComponent, canActivate: [AuthGuard], data: {
+      expectedRole: 'user'
+    },
+    children: [
       { path: 'memberbooking', component: MemberbookingComponent },
       // { path: 'customerlogin', component: CustomerloginComponent },
       // { path: 'customerbooking', component: CustomerbookingComponent },

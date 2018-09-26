@@ -82,6 +82,7 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetForm();
     // Return to home page when submit succsess
     this.returnUrl = "/homepage";
     // Mutiple select service (ng-mutiselect-dropdown)
@@ -199,12 +200,11 @@ export class CustomerbookingComponent implements OnInit {
           console.log('checked');
         }
       });
-      let datePick = dateSelected.day+'-'+dateSelected.month+'-'+dateSelected.year ;
+      let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
       console.log(datePick);
       this.isDisablePastTime(datePick);
       this.isDisableTimeBooked(this.spaceTimeList);
       this.updateTime();
-      
     });
   }
 
@@ -223,7 +223,7 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   //Check disable time < current
-  isDisablePastTime(datePick:string) {
+  isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {
       let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
       console.log(beginCheckTime);
@@ -327,6 +327,7 @@ export class CustomerbookingComponent implements OnInit {
     var current = moment().format("DD-MM-YYYY HH:mm");
     return current;
   }
+
   getCurrentDate() {
     var current = moment().format("DD-MM-YYYY");
     return current;

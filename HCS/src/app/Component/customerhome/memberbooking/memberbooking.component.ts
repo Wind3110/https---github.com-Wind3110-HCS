@@ -87,8 +87,8 @@ export class MemberbookingComponent implements OnInit {
   }
 
   ngOnInit() {
-    //test
-    this.showCustomerInfo();
+
+    this.resetForm();
     // Return to home page when submit succsess
     this.returnUrl = "/customerhome";
     // Mutiple select service (ng-mutiselect-dropdown)
@@ -115,28 +115,48 @@ export class MemberbookingComponent implements OnInit {
       maxHeight: 200,
     };
 
-    var x = this.bookingService.getData();
-    x.snapshotChanges().subscribe(item => {
+    var a = this.customerService.getData();
+    a.snapshotChanges().subscribe(item => {
+      this.customerList = [];
+      item.forEach(element => {
+        var b = element.payload.toJSON();
+        b["$key"] = element.key;
+        this.customerList.push(b as Customer);
+      });
+
+      //Show memeber info on booking form
+      if (this.bookingForm == null) {
+        this.bookingService.selectedBooking.CustomerName = localStorage.getItem('token');
+        this.customerList.forEach(element => {
+          if (element.Username === localStorage.getItem('token')) {
+            this.bookingService.selectedBooking.Gender = element.Gender;
+            this.bookingService.selectedBooking.Phone = element.PhoneNumber;
+          }
+        });
+        console.log(localStorage.getItem('token'));
+      }
+    });
+
+    var c = this.bookingService.getData();
+    c.snapshotChanges().subscribe(item => {
       this.bookList = [];
       item.forEach(element => {
-        var y = element.payload.toJSON();
-        y["$key"] = element.key;
-        this.bookList.push(y as Booking);
+        var d = element.payload.toJSON();
+        d["$key"] = element.key;
+        this.bookList.push(d as Booking);
       });
     });
 
-    var x = this.staffService.getData();
-    x.snapshotChanges().subscribe(item => {
+    var e = this.staffService.getData();
+    e.snapshotChanges().subscribe(item => {
       this.staff = [];
       item.forEach(element => {
-        var y = element.payload.toJSON();
-        y["$key"] = element.key;
-        this.staff.push(y as Staff);
+        var f = element.payload.toJSON();
+        f["$key"] = element.key;
+        this.staff.push(f as Staff);
       });
-
       //push staff name to staffList
       this.staffList = [];
-
       this.staffList.push({ item_id: 1, item_text: 'Mặc định' });
       let i: number = 2;
       this.staff.forEach(item => {
@@ -166,6 +186,7 @@ export class MemberbookingComponent implements OnInit {
 
   // lay data khi chon ngay
   onChangeDateSelected(dateSelected: any) {
+    // console.log(dateSelected);
     let dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
     let fullDateSelected: string = '';
     dateSelectedList.forEach(str => {
@@ -206,24 +227,16 @@ export class MemberbookingComponent implements OnInit {
           console.log('checked');
         }
       });
-      this.isDisabled(this.spaceTimeList);
+      let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
+      console.log(datePick);
+      this.isDisablePastTime(datePick);
+      this.isDisableTimeBooked(this.spaceTimeList);
       this.updateTime();
     });
-  };
+  }
 
   // Check disable time.
-  isDisabled(spaceTimeList: SpaceTime[]) {
-
-    //Check disable time < current
-    // for (let i = 0; i < this.timeFrame.length; i++) {
-    //   let beginCheckTime = moment(this.timeFrame[i], 'HH:mm');
-    //   let endTimeCheck = moment(this.getCurrentTime(), 'HH:mm');
-    //   console.log(beginCheckTime.isBefore(endTimeCheck));
-    //   if (beginCheckTime.isBefore(endTimeCheck)) {
-    //     this.isDisable[i] = true;
-    //   }
-    // };
-
+  isDisableTimeBooked(spaceTimeList: SpaceTime[]) {
     //Check disable time which is booked
     spaceTimeList.forEach(element => {
       let startTime = element.StartTime.toString();
@@ -234,7 +247,23 @@ export class MemberbookingComponent implements OnInit {
         this.isDisable[startIdex] = true;
       }
     });
-  };
+  }
+
+  //Check disable time < current
+  isDisablePastTime(datePick: string) {
+    for (let i = 0; i < this.timeFrame.length; i++) {
+      let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
+      console.log(beginCheckTime);
+      let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      console.log(beginCheckTime.isBefore(endTimeCheck));
+      if (beginCheckTime.isBefore(endTimeCheck)) {
+        this.isDisable[i] = true;
+      }
+      else {
+        this.isDisable[i] = false;
+      }
+    }
+  }
 
   onItemSelect(item: any) {
     console.log(item);
@@ -242,31 +271,6 @@ export class MemberbookingComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   };
-
-  showCustomerInfo(bookingForm?: NgForm) {
-    if (bookingForm == null) {
-      this.bookingService.selectedBooking.CustomerName = localStorage.getItem('token');
-
-      var x = this.customerService.getData();
-      x.snapshotChanges().subscribe(item => {
-        this.customerList = [];
-        item.forEach(element => {
-          var y = element.payload.toJSON();
-          y["$key"] = element.key;
-          this.customerList.push(y as Customer);
-        });
-      });
-      console.log(this.customerList);
-
-     this.customerList.forEach(element => {
-      if (element.Username === localStorage.getItem('token')) {
-        this.bookingService.selectedBooking.Gender = element.Gender;
-      }
-     });
-      // this.bookingService.selectedBooking.Gender = "Nam";
-      console.log(localStorage.getItem('token'));
-    }
-  }
 
   onSubmit(bookingForm: NgForm) {
     this.submitted = true;
@@ -348,7 +352,7 @@ export class MemberbookingComponent implements OnInit {
 
   //Get current time (hour and minutes)
   getCurrentTime() {
-    var current = moment().format("HH:mm");
+    var current = moment().format("DD-MM-YYYY HH:mm");
     return current;
   }
 }
