@@ -10,14 +10,16 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label>Họ tên <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="CustomerName" #CustomerName="ngModel" [(ngModel)]="bookingService.selectedBooking.CustomerName" required [ngClass]="{'is-invalid':CustomerName.touched && CustomerName.errors}">
+              <input id="FullName" type="text" class="form-control" name="CustomerName" #CustomerName="ngModel"
+                [(ngModel)]="bookingService.selectedBooking.CustomerName" required [ngClass]="{'is-invalid':CustomerName.touched && CustomerName.errors}">
               <div *ngIf="CustomerName.touched && CustomerName.errors" class="invalid-feedback">
                 <div *ngIf="CustomerName.errors.required">Vui lòng nhập họ tên</div>
               </div>
             </div>
             <div class="form-group col-md-2">
               <label>Giới tính <span class="text-danger">*</span></label>
-              <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="bookingService.selectedBooking.Gender" required [ngClass]="{'is-invalid':Gender.touched && Gender.errors}">
+              <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="bookingService.selectedBooking.Gender"
+                required [ngClass]="{'is-invalid':Gender.touched && Gender.errors}">
                 <option selected>Nam</option>
                 <option>Nữ</option>
               </select>
@@ -27,7 +29,8 @@
             </div>
             <div class="form-group col-md-4">
               <label>Số điện thoại <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="bookingService.selectedBooking.Phone" required [ngClass]="{'is-invalid':Phone.touched  && Phone.errors}">
+              <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="bookingService.selectedBooking.Phone"
+                required [ngClass]="{'is-invalid':Phone.touched  && Phone.errors}">
               <div *ngIf="Phone.touched && Phone.errors" class="invalid-feedback">
                 <div *ngIf="Phone.errors.required">Vui lòng nhập số điện thoại</div>
               </div>
@@ -37,7 +40,7 @@
             <div class="form-group col-md-6">
               <label>Chọn dịch vụ <span class="text-danger">*</span></label>
               <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceNameList" [settings]="dropdownServiceSettings"
-                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="Services" #Services="ngModel"
+                (onSelect)="onItemServiceSelect($event)" (onSelectAll)="onServiceSelectAll($event)" name="Services" #Services="ngModel"
                 [(ngModel)]="bookingService.selectedBooking.Services" required [ngClass]="{'is-invalid':Services.touched  && Services.errors}">
               </ng-multiselect-dropdown>
               <div *ngIf="Services.touched && Services.errors" class="invalid-feedback">
@@ -47,8 +50,8 @@
             <div class="form-group col-md-6">
               <label>Chọn Stylish</label>
               <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
-                [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" name="StaffName"
-                #StaffName="ngModel">
+                [(ngModel)]="selectedItems" (onSelect)="onItemStylishSelect($event)" (onSelectAll)="onStylishSelectAll($event)" name="StaffName"
+                #StaffName="ngModel" id="slcStaff">
               </ng-multiselect-dropdown>
             </div>
           </div>
@@ -56,8 +59,8 @@
             <div class="form-group col-md-4">
               <label>Chọn ngày <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input class="form-control" ngbDatepicker #d="ngbDatepicker" name="Date" #Date="ngModel" [(ngModel)]="bookingService.selectedBooking.Date"
-                  (ngModelChange)="onChangeDateSelected($event)" required [ngClass]="{'is-invalid':Date.touched && Date.errors}">
+                <input class="form-control" ngbDatepicker #d="ngbDatepicker" name="Date" #Date="ngModel" [(ngModel)]="model"
+                  (ngModelChange)="onChangeDateSelected($event)" required [ngClass]="{'is-invalid':Date.touched && Date.errors}" (navigate)="date = $event.next">
                 <div class="input-group-append">
                   <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-align-justify"></i></button>
                 </div>
@@ -88,7 +91,8 @@
           </div>
           <hr>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid" (click)="openVerticallyCentered(content)">Đặt lịch</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid" (click)="openVerticallyCentered(content)">Đặt
+              lịch</button>
           </div>
         </form>
       </div>

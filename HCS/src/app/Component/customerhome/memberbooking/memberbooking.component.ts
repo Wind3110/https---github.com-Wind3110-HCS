@@ -45,11 +45,11 @@ export class MemberbookingComponent implements OnInit {
   customerList: Customer[];
   bookingForm: FormGroup;
   myGroup: FormGroup;
-  timer: Time
+  timer: Time;
   date: Date;
   message: string;
   startList: string[];
-  endList: string[]
+  endList: string[];
   selectedItems = [];
   spaceTimeList: SpaceTime[];
   checkTime: CheckTime[];
@@ -59,23 +59,36 @@ export class MemberbookingComponent implements OnInit {
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
-  timeFrame: string[] = ["08:00", "08:15", "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15", "11:30",
-    "11:45", "12:00", "12:15", "12:30", "12:45", "13:00", "13:15", "13:00", "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "15:45",
-    "16:00", "16:15", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15", "18:30", "18:45", "19:00"];
+  timeFrame: string[] = ['08:00', '08:15', '08:30', '08:45', '09:00', '09:15', '09:30', '09:45', '10:00', '10:15',
+    '10:30', '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00', '13:15',
+    '13:00', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15', '15:30', '15:45',
+    '16:00', '16:15', '16:30', '16:45', '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00'];
   timeVal: number[] = [800, 815, 830, 845, 900, 915, 930, 945, 1000, 1015, 1030, 1045, 1100, 1115, 1130,
     1145, 1200, 1215, 1230, 1245, 1300, 1315, 1330, 1345, 1400, 1415, 1430, 1445, 1500, 1515, 1530, 1545,
     1600, 1615, 1630, 1645, 1700, 1715, 1730, 1745, 1800, 1815, 1830, 1845, 1900];
-  timeName: string[] = ["check8h", "check8h15", "check8h30", "check8h45", "check9h", "check9h15", "check9h30", "check9h45", "check10h", "check10h15", "check10h30", "check10h45", "check11h", "check11h15", "check11h30", "check11h45", "check12h", "check12h15", "check12h30", "check12h45", "check13h", "check13h15", "check13h30", "check13h45", "check14h", "check14h15", "check14h30", "check14h45", "check15h", "check15h15", "check15h30", "check15h45", "check16h", "check16h15", "check16h30", "check16h45", "check17h", "check17h15", "check17h30", "check17h45", "check18h", "check18h15", "check18h30", "check18h45", "check19h"];
+  timeName: string[] = ['check8h', 'check8h15', 'check8h30', 'check8h45', 'check9h', 'check9h15', 'check9h30',
+    'check9h45', 'check10h', 'check10h15', 'check10h30', 'check10h45', 'check11h', 'check11h15', 'check11h30',
+    'check11h45', 'check12h', 'check12h15', 'check12h30', 'check12h45', 'check13h', 'check13h15', 'check13h30',
+    'check13h45', 'check14h', 'check14h15', 'check14h30', 'check14h45', 'check15h', 'check15h15', 'check15h30',
+    'check15h45', 'check16h', 'check16h15', 'check16h30', 'check16h45', 'check17h', 'check17h15', 'check17h30',
+    'check17h45', 'check18h', 'check18h15', 'check18h30', 'check18h45', 'check19h'];
   isDisable: boolean[] = [
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false
   ];
   isEnabledAll: boolean[] = [
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+    false, false, false, false, false, false, false, false, false, false, false, false, false
   ];
 
   time: Time[];
 
-  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder, private customerService: CustomerService, private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router, private formBuilder: FormBuilder) {
+  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService,
+    private bookingService: BookingService, private fb: FormBuilder, private customerService: CustomerService,
+    private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router,
+    private formBuilder: FormBuilder) {
 
     this.updateTime();
 
@@ -90,7 +103,7 @@ export class MemberbookingComponent implements OnInit {
 
     this.resetForm();
     // Return to home page when submit succsess
-    this.returnUrl = "/customerhome";
+    this.returnUrl = '/customerhome';
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -115,16 +128,16 @@ export class MemberbookingComponent implements OnInit {
       maxHeight: 200,
     };
 
-    var a = this.customerService.getData();
+    const a = this.customerService.getData();
     a.snapshotChanges().subscribe(item => {
       this.customerList = [];
       item.forEach(element => {
-        var b = element.payload.toJSON();
-        b["$key"] = element.key;
+        const b = element.payload.toJSON();
+        b['$key'] = element.key;
         this.customerList.push(b as Customer);
       });
 
-      //Show memeber info on booking form
+      // Show memeber info on booking form
       if (this.bookingForm == null) {
         this.bookingService.selectedBooking.CustomerName = localStorage.getItem('token');
         this.customerList.forEach(element => {
@@ -137,97 +150,97 @@ export class MemberbookingComponent implements OnInit {
       }
     });
 
-    var c = this.bookingService.getData();
+    const c = this.bookingService.getData();
     c.snapshotChanges().subscribe(item => {
       this.bookList = [];
       item.forEach(element => {
-        var d = element.payload.toJSON();
-        d["$key"] = element.key;
+        const d = element.payload.toJSON();
+        d['$key'] = element.key;
         this.bookList.push(d as Booking);
       });
     });
 
-    var e = this.staffService.getData();
+    const e = this.staffService.getData();
     e.snapshotChanges().subscribe(item => {
       this.staff = [];
       item.forEach(element => {
-        var f = element.payload.toJSON();
-        f["$key"] = element.key;
+        const f = element.payload.toJSON();
+        f['$key'] = element.key;
         this.staff.push(f as Staff);
       });
-      //push staff name to staffList
+      // push staff name to staffList
       this.staffList = [];
       this.staffList.push({ item_id: 1, item_text: 'Mặc định' });
-      let i: number = 2;
+      let i = 2;
       this.staff.forEach(item => {
         this.staffList.push({ item_id: i++, item_text: item.FullName });
       });
     });
 
-    var z = this.serviceSevice.getData();
+    const z = this.serviceSevice.getData();
     z.snapshotChanges().subscribe(item => {
       this.service = [];
       item.forEach(element => {
-        var s = element.payload.toJSON();
-        s["$key"] = element.key;
+        const s = element.payload.toJSON();
+        s['$key'] = element.key;
         this.service.push(s as Service);
       });
 
-      //push service name to serviceList
+      // push service name to serviceList
       this.serviceList = [];
       this.serviceNameList = [];
       this.service.forEach(item => {
-        let newItem: ServiceView = { ServiceName: item.ServiceName, TimeUnit: item.TimeUnit };
+        const newItem: ServiceView = { ServiceName: item.ServiceName, TimeUnit: item.TimeUnit };
         this.serviceList.push(newItem);
         this.serviceNameList.push(item.ServiceName);
       });
     });
-  };
+  }
 
   // lay data khi chon ngay
   onChangeDateSelected(dateSelected: any) {
     // console.log(dateSelected);
-    let dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
-    let fullDateSelected: string = '';
+    const dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
+    let fullDateSelected = '';
     dateSelectedList.forEach(str => {
-      let dateStr: string = str.substring(str.indexOf(':') + 1);
-      if (fullDateSelected != '') {
+      const dateStr: string = str.substring(str.indexOf(':') + 1);
+      if (fullDateSelected !== '') {
         fullDateSelected = '-' + fullDateSelected;
       }
       fullDateSelected = dateStr + fullDateSelected;
     });
 
-    var z = this.bookingService.getData();
+    const z = this.bookingService.getData();
     z.snapshotChanges().subscribe(item => {
       this.bookingList = [];
       item.forEach(element => {
-        var s = element.payload.toJSON();
-        s["$key"] = element.key;
+        const s = element.payload.toJSON();
+        s['$key'] = element.key;
         this.bookingList.push(s as Booking);
       });
       this.spaceTimeList = [];
 
       this.bookingList.forEach(item => {
-        let tempList: string[] = JSON.stringify(item.Date).substring(2, JSON.stringify(item.Date).length - 1).split(',');
-        let fullDate: string = '';
+        const tempList: string[] = JSON.stringify(item.Date).substring(2, JSON.stringify(item.Date).length - 1).split(',');
+        let fullDate = '';
         tempList.forEach(str => {
-          let dateStr: string = str.substring(str.indexOf(':') + 1);
+          const dateStr: string = str.substring(str.indexOf(':') + 1);
 
-          if (fullDate != '') {
+          if (fullDate !== '') {
             fullDate = fullDate + '-';
           }
 
           fullDate = fullDate + dateStr;
         });
 
-        let spacetime: SpaceTime = { StartTime: item.StartTime, EndTime: item.EndTime };
+        const spacetime: SpaceTime = { StartTime: item.StartTime, EndTime: item.EndTime };
 
         if (fullDateSelected === fullDate) {
           this.spaceTimeList.push(spacetime);
           console.log('checked');
         }
       });
-      let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
+      const datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
       console.log(datePick);
       this.isDisablePastTime(datePick);
       this.isDisableTimeBooked(this.spaceTimeList);
@@ -237,29 +250,28 @@ export class MemberbookingComponent implements OnInit {
 
   // Check disable time.
   isDisableTimeBooked(spaceTimeList: SpaceTime[]) {
-    //Check disable time which is booked
+    // Check disable time which is booked
     spaceTimeList.forEach(element => {
-      let startTime = element.StartTime.toString();
-      let endTime = element.EndTime.toString();
+      const startTime = element.StartTime.toString();
+      const endTime = element.EndTime.toString();
       let startIdex = this.timeFrame.indexOf(startTime);
-      let endIdex = this.timeFrame.indexOf(endTime);
+      const endIdex = this.timeFrame.indexOf(endTime);
       for (startIdex; startIdex < endIdex; startIdex++) {
         this.isDisable[startIdex] = true;
       }
     });
   }
 
-  //Check disable time < current
+  // Check disable time < current
   isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {
-      let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
+      const beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
       console.log(beginCheckTime);
-      let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      const endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
       console.log(beginCheckTime.isBefore(endTimeCheck));
       if (beginCheckTime.isBefore(endTimeCheck)) {
         this.isDisable[i] = true;
-      }
-      else {
+      } else {
         this.isDisable[i] = false;
       }
     }
@@ -267,16 +279,16 @@ export class MemberbookingComponent implements OnInit {
 
   onItemSelect(item: any) {
     console.log(item);
-  };
+  }
   onSelectAll(items: any) {
     console.log(items);
-  };
+  }
 
   onSubmit(bookingForm: NgForm) {
     this.submitted = true;
-    let countService: number = 0;
-    let dateStr: string = bookingForm.value.Date.toString();
-    let timeStr: string = bookingForm.value.StartTime.toString();
+    let countService = 0;
+    const dateStr: string = bookingForm.value.Date.toString();
+    const timeStr: string = bookingForm.value.StartTime.toString();
     for (let index = 0; index < bookingForm.value.Services.length; index++) {
       this.serviceList.forEach(element => {
         if (element.ServiceName === bookingForm.value.Services[index]) {
@@ -290,26 +302,26 @@ export class MemberbookingComponent implements OnInit {
       bookingForm.value.EndTime = this.getTotalTime(timeStr, countService);
     }
     if (bookingForm.value.StaffName === '') {
-      bookingForm.value.StaffName = "Mặc định";
+      bookingForm.value.StaffName = 'Mặc định';
     }
 
     bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
-    this.tostr.success('Đặt thành công', "Cảm ơn quý khách", {
+    this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
       timeOut: 1000,
       progressBar: true
     });
-    this.message = "Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....";
+    this.message = 'Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....';
     this.router.navigate([this.returnUrl]);
   }
 
-  //Open popup
+  // Open popup
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true });
   }
 
-  //Reset data on form
+  // Reset data on form
   resetForm(bookingForm?: NgForm) {
     if (bookingForm != null) {
       bookingForm.reset();
@@ -324,7 +336,7 @@ export class MemberbookingComponent implements OnInit {
       Date: null,
       StartTime: null,
       EndTime: null,
-    }
+    };
   }
 
   updateTime() {
@@ -335,24 +347,24 @@ export class MemberbookingComponent implements OnInit {
         TimeVal: this.timeVal[index].toString(),
         TimeName: this.timeName[index],
         isDisable: this.isDisable[index],
-      }
+      };
       this.time.push(this.timer);
       this.timer = null;
 
     }
   }
 
-  //Get total time of total services on booking form
+  // Get total time of total services on booking form
   getTotalTime(time: string, serviceMin: number) {
     moment.locale('vi');
-    let now = moment(time, "hmm");
-    now = now.add(serviceMin, 'm')
-    return now.format("HH:mm").toString();
+    let now = moment(time, 'hmm');
+    now = now.add(serviceMin, 'm');
+    return now.format('HH:mm').toString();
   }
 
-  //Get current time (hour and minutes)
+  // Get current time (hour and minutes)
   getCurrentTime() {
-    var current = moment().format("DD-MM-YYYY HH:mm");
+    const current = moment().format('DD-MM-YYYY HH:mm');
     return current;
   }
 }

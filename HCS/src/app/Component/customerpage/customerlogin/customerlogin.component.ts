@@ -23,7 +23,8 @@ export class CustomerloginComponent implements OnInit {
   customerList: Customer[];
   submitted = false;
 
-  constructor(private customerService: CustomerService, private tostr: ToastrService, private router: Router, public authService: AuthService, private formBuilder: FormBuilder) { }
+  constructor(private customerService: CustomerService, private tostr: ToastrService,
+    private router: Router, public authService: AuthService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.customerLoginForm = this.formBuilder.group({
@@ -33,12 +34,12 @@ export class CustomerloginComponent implements OnInit {
     this.returnUrl = '/customerhome';
     this.authService.logoutCustomer();
 
-    var x = this.customerService.getData();
+    const x = this.customerService.getData();
     x.snapshotChanges().subscribe(item => {
       this.customerList = [];
       item.forEach(element => {
-        var y = element.payload.toJSON();
-        y["$key"] = element.key;
+        const y = element.payload.toJSON();
+        y['$key'] = element.key;
         this.customerList.push(y as Customer);
       });
     });
@@ -55,22 +56,20 @@ export class CustomerloginComponent implements OnInit {
     }
 
     if (this.customerLoginForm.valid) {
-      let i: number = 0;
+      let i = 0;
       for (i; i < this.customerList.length; i++) {
         if (this.f.username.value === this.customerList[i].Username) {
           if (this.encryptMD5(this.f.password.value) === this.customerList[i].Password) {
-            localStorage.setItem('isLoggedIn', "true");
+            localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('token', this.f.username.value);
             this.router.navigate([this.returnUrl]);
             break;
-          }
-          else {
-            this.message = "Please check your Username and Password";
+          } else {
+            this.message = 'Please check your Username and Password';
             break;
           }
-        }
-        else {
-          this.message = "Please check your Username and Password";
+        } else {
+          this.message = 'Please check your Username and Password';
         }
       }
     }
