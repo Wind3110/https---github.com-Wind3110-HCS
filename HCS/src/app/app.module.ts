@@ -50,6 +50,9 @@ import { CustomerbookingComponent } from './Component/customerpage/customerbooki
 import { CompareValidatorDirective } from './shared/compare-validator.directive';
 import { CustomerhomeComponent } from './Component/customerhome/customerhome.component';
 import { MemberbookingComponent } from './Component/customerhome/memberbooking/memberbooking.component';
+import { BookingManagementComponent } from './Component/BookingComponent/booking-management/booking-management.component';
+import { BookingComponent } from './Component/BookingComponent/booking-management/booking/booking.component';
+import { BookingListComponent } from './Component/BookingComponent/booking-management/booking-list/booking-list.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +77,9 @@ import { MemberbookingComponent } from './Component/customerhome/memberbooking/m
     CompareValidatorDirective,
     CustomerhomeComponent,
     MemberbookingComponent,
+    BookingManagementComponent,
+    BookingComponent,
+    BookingListComponent,
   ],
 
   imports: [

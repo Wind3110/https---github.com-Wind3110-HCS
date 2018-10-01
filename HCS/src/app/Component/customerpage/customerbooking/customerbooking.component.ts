@@ -307,8 +307,6 @@ export class CustomerbookingComponent implements OnInit {
         }
       });
     }
-
-
   }
 
   // Check disable time < current time
@@ -317,6 +315,7 @@ export class CustomerbookingComponent implements OnInit {
       let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
       let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
       if (beginCheckTime.isBefore(endTimeCheck)) {
+
         this.isDisable[i] = true;
       } else {
         this.isDisable[i] = false;
@@ -343,15 +342,64 @@ export class CustomerbookingComponent implements OnInit {
       bookingForm.value.EndTime = this.getTotalTime(timeStr, countService);
     }
 
-    bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
-    this.bookingService.insertBooking(bookingForm.value);
-    this.resetForm(bookingForm);
-    this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
-      timeOut: 1000,
-      progressBar: true
-    });
-    this.message = 'Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....';
-    this.router.navigate([this.returnUrl]);
+    //check endtime if it overide on another's starttime item
+    let checkValidTimeBook: boolean = true;
+    for (let index = 0; index < this.spaceTimeList.length; index++) {
+      const element = this.spaceTimeList[index];
+      if (moment(bookingForm.value.StartTime, 'HH:mm').isBefore(moment(element.StartTime, 'HH:mm'))
+        && moment(bookingForm.value.EndTime, 'HH:mm').isAfter(moment(element.StartTime, 'HH:mm'))) {
+        checkValidTimeBook = false;
+      }
+    }
+
+    //Assign work for staff who has minimum work time
+    
+    // if(bookingForm.value.StaffName[0].item_text === 'Mặc định') {
+      
+    //   var stylishNameSelect = [];
+    //   var timeEffort = [];
+    //   let value:number=0;
+    //   console.log(this.bookingList);
+    //   for (let index = 0; index < this.bookingList.length; index++) {
+    //     const element = this.bookingList[index];
+        
+        
+    //     if(stylishNameSelect.indexOf(element.StaffName)) {
+    //       value=value + element.StartTime;
+    //     }else{
+    //       stylishNameSelect.push(element.StaffName);
+    //     }
+
+    //     for (let index = 0; index < stylishNameSelect.length; index++) {
+    //       const elementItem = stylishNameSelect[index];
+    //       if(element.StaffName===elementItem){
+    //         timeEffort.push(value);
+    //       }
+    //     }
+       
+    //   }
+    //   console.log(stylishNameSelect);
+    //   console.log(timeEffort);
+    //   // bookingForm.value.StaffName = '';
+    // }
+    
+    if (checkValidTimeBook) {
+      bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+      this.bookingService.insertBooking(bookingForm.value);
+      this.resetForm(bookingForm);
+      this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
+        timeOut: 1000,
+        progressBar: true
+      });
+      this.message = 'Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....';
+      this.router.navigate([this.returnUrl]);
+
+    } else {
+      this.message = 'Không thể đặt';
+      checkValidTimeBook = true;
+    }
+
+
   }
 
   // Open info popup
