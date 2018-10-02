@@ -178,7 +178,9 @@ export class CustomerbookingComponent implements OnInit {
   //Get stylish name when select
   stylishName = [];
   onItemStylishSelect(item: any) {
-    this.isDisableTimeBooked(null);
+    this.isDisableTimeBooked(this.spaceTimeList);
+    let dateOnPick = this.model.day + '-' + this.model.month + '_' + this.model.year;
+    this.isDisablePastTime(dateOnPick);
     this.onChangeDateSelected(this.model);
     this.updateTime();
     this.stylishName = [];
@@ -242,12 +244,6 @@ export class CustomerbookingComponent implements OnInit {
                 this.isDisableTimeBooked(this.spaceTimeList);
                 this.updateTime();
               }
-              //In case of stylish select does not have in booking list
-              // if (item.StaffName !== element.item_text) {
-              //   this.getSpaceTime(null, dateSelected);
-              //   let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
-              //   this.isDisablePastTime(datePick);
-              // }
 
               //In case of stylish select is "Mặc định"
               if (element.item_text === 'Mặc định') {
@@ -281,7 +277,6 @@ export class CustomerbookingComponent implements OnInit {
       let fullDate = '';
       tempList.forEach(str => {
         let dateStr: string = str.substring(str.indexOf(':') + 1);
-
         if (fullDate !== '') {
           fullDate = fullDate + '-';
         }
@@ -292,10 +287,6 @@ export class CustomerbookingComponent implements OnInit {
         let spacetime: SpaceTime = { StartTime: booking.StartTime, EndTime: booking.EndTime };
         this.spaceTimeList.push(spacetime);
       }
-      // else {
-      //   let spacetime: SpaceTime = { StartTime: booking.StartTime, EndTime: booking.EndTime };
-      //   this.spaceTimeList.push(spacetime);
-      // }
     }
   }
 
@@ -323,7 +314,8 @@ export class CustomerbookingComponent implements OnInit {
   isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {
       let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
-      let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      // let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      let endTimeCheck = moment('3-10-2018 13:00', 'DD-MM-YYYY HH:mm');
       if (beginCheckTime.isBefore(endTimeCheck)) {
 
         this.isDisable[i] = true;
