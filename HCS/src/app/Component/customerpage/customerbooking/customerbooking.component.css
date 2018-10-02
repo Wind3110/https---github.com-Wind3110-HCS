@@ -1,5 +1,9 @@
+.TimePicker>label {
+  width: 120px;
+}
+
 .TimePicker>label.disabled {
-  background-color:rgb(212, 0, 255);
+  background-color:cornflowerblue;
   color: #ffffff;
 }
 

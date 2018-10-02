@@ -5,10 +5,7 @@
   [dtTrigger]="dtTrigger">
   <thead class="text-center thead-dark">
     <tr>
-      <!-- <td>{{staff.Username}}</td> -->
-      <!-- <td>{{staff.Password}}</td> -->
       <th>ServiceName</th>
-      <!-- <td>{{staff.Username}}</td> -->
       <th>Description</th>
       <th>TimeUnit</th>
       <th>Price</th>
@@ -17,10 +14,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let service of serviceList">
-      <!-- <td>{{staff.Username}}</td> -->
-      <!-- <td>{{staff.Password}}</td> -->
       <td>{{service.ServiceName}}</td>
-      <!-- <td>{{staff.Username}}</td> -->
       <td>{{service.descr}}</td>
       <td>{{service.TimeUnit}}</td>
       <td>{{service.Price}}</td>
@@ -57,38 +51,41 @@
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">ServiceName</label>
         <div class="col-sm-9">
-        <input class="form-control" name="ServiceName" #ServiceName="ngModel" [(ngModel)]="serviceService.selectedService.ServiceName"
-          placeholder="ServiceName" required>
-      </div>
+          <input class="form-control" name="ServiceName" #ServiceName="ngModel" [(ngModel)]="serviceService.selectedService.ServiceName"
+            placeholder="ServiceName" required>
+        </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Description</label>
         <div class="col-sm-9">
-        <textarea class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr" placeholder="descr"></textarea>
-      </div>
+          <textarea class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr"
+            placeholder="descr"></textarea>
+        </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Time Unit</label>
         <div class="col-sm-9">
-        <input class="form-control" name="TimeUnit" #TimeUnit="ngModel" [(ngModel)]="serviceService.selectedService.TimeUnit" placeholder="TimeUnit">
-      </div>
+          <input class="form-control" name="TimeUnit" #TimeUnit="ngModel" [(ngModel)]="serviceService.selectedService.TimeUnit"
+            placeholder="TimeUnit">
+        </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Price</label>
         <div class="col-sm-9">
-        <input class="form-control" name="Price" #Price="ngModel" [(ngModel)]="serviceService.selectedService.Price" placeholder="Price"
-          type="number" required>
-      </div>
+          <input class="form-control" name="Price" #Price="ngModel" [(ngModel)]="serviceService.selectedService.Price"
+            placeholder="Price" type="number" required>
+        </div>
       </div>
 
     </form>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-primary" type="submit" [disabled]="!serviceForm.valid" (click)="onSubmit(serviceForm)" (click)="c('Save click')">
+    <button class="btn btn-primary" type="submit" [disabled]="!serviceForm.valid" (click)="onSubmit(serviceForm)"
+      (click)="c('Save click')">
       <i class="fa fa-floppy-o"></i>
       Submit</button>
   </div>

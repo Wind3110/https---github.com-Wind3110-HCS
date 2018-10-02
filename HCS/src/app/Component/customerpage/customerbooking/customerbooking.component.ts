@@ -75,11 +75,6 @@ export class CustomerbookingComponent implements OnInit {
     false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false, false
   ];
-  isEnabledAll: boolean[] = [
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false
-  ];
 
   time: Time[];
 
@@ -87,7 +82,6 @@ export class CustomerbookingComponent implements OnInit {
     private serviceSevice: ServiceService, private bookingService: BookingService, private fb: FormBuilder,
     private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router,
     private formBuilder: FormBuilder) {
-
 
     //Show current day when load booking form
     this.setToday();
@@ -184,10 +178,10 @@ export class CustomerbookingComponent implements OnInit {
   //Get stylish name when select
   stylishName = [];
   onItemStylishSelect(item: any) {
-    this.stylishName = [];
     this.isDisableTimeBooked(null);
     this.onChangeDateSelected(this.model);
     this.updateTime();
+    this.stylishName = [];
     this.stylishName.push(item);
     console.log(this.stylishName);
   }
@@ -229,12 +223,16 @@ export class CustomerbookingComponent implements OnInit {
 
       if (dateSelected !== null) {
         this.bookingList.forEach(item => {
+
+          //In case of stylish select is null
           if (this.stylishName.length === 0) {
             this.getSpaceTime(item, dateSelected);
             let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
             this.isDisablePastTime(datePick);
             this.isDisableTimeBooked(this.spaceTimeList);
             this.updateTime();
+
+            //In case of stylish select is not null
           } else {
             this.stylishName.forEach(element => {
               if (item.StaffName === element.item_text) {
@@ -244,6 +242,14 @@ export class CustomerbookingComponent implements OnInit {
                 this.isDisableTimeBooked(this.spaceTimeList);
                 this.updateTime();
               }
+              //In case of stylish select does not have in booking list
+              // if (item.StaffName !== element.item_text) {
+              //   this.getSpaceTime(null, dateSelected);
+              //   let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
+              //   this.isDisablePastTime(datePick);
+              // }
+
+              //In case of stylish select is "Mặc định"
               if (element.item_text === 'Mặc định') {
                 this.getSpaceTime(item, dateSelected);
                 let datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
@@ -286,6 +292,10 @@ export class CustomerbookingComponent implements OnInit {
         let spacetime: SpaceTime = { StartTime: booking.StartTime, EndTime: booking.EndTime };
         this.spaceTimeList.push(spacetime);
       }
+      // else {
+      //   let spacetime: SpaceTime = { StartTime: booking.StartTime, EndTime: booking.EndTime };
+      //   this.spaceTimeList.push(spacetime);
+      // }
     }
   }
 
@@ -353,17 +363,17 @@ export class CustomerbookingComponent implements OnInit {
     }
 
     //Assign work for staff who has minimum work time
-    
+
     // if(bookingForm.value.StaffName[0].item_text === 'Mặc định') {
-      
+
     //   var stylishNameSelect = [];
     //   var timeEffort = [];
     //   let value:number=0;
     //   console.log(this.bookingList);
     //   for (let index = 0; index < this.bookingList.length; index++) {
     //     const element = this.bookingList[index];
-        
-        
+
+
     //     if(stylishNameSelect.indexOf(element.StaffName)) {
     //       value=value + element.StartTime;
     //     }else{
@@ -376,13 +386,13 @@ export class CustomerbookingComponent implements OnInit {
     //         timeEffort.push(value);
     //       }
     //     }
-       
+
     //   }
     //   console.log(stylishNameSelect);
     //   console.log(timeEffort);
     //   // bookingForm.value.StaffName = '';
     // }
-    
+
     if (checkValidTimeBook) {
       bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
       this.bookingService.insertBooking(bookingForm.value);
@@ -398,8 +408,6 @@ export class CustomerbookingComponent implements OnInit {
       this.message = 'Không thể đặt';
       checkValidTimeBook = true;
     }
-
-
   }
 
   // Open info popup
