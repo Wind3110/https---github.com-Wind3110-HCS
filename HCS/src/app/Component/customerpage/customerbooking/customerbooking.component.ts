@@ -26,7 +26,7 @@ import { SpaceTime } from '../../../Model/TimeModel/StartEndTimeModel/startendti
 import { CheckTime } from '../../../Model/CheckTimeModel/checktime.model';
 import { ServiceView } from '../../../Model/ServiceModel/serviceview.model';
 import { element } from '@angular/core/src/render3/instructions';
-import { isNgTemplate } from '@angular/compiler';
+import { isNgTemplate, templateJitUrl } from '@angular/compiler';
 @Component({
   selector: 'app-customerbooking',
   templateUrl: './customerbooking.component.html',
@@ -49,10 +49,12 @@ export class CustomerbookingComponent implements OnInit {
   endList: string[];
   selectedItems = [];
   spaceTimeList: SpaceTime[];
+  spaceTimeListOfStaff: SpaceTime[];
   checkTime: CheckTime[];
   returnUrl: string;
   submitted = false;
   checkValidTimeBook: boolean = true;
+  dateSelectOnForm: string;
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
@@ -104,6 +106,7 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.assignServiceForStaff();
     // Return to home page when submit succsess
     this.returnUrl = '/homepage';
 
@@ -217,6 +220,7 @@ export class CustomerbookingComponent implements OnInit {
           fullDateSelected = '-' + fullDateSelected;
         }
         fullDateSelected = dateStr + fullDateSelected;
+        this.dateSelectOnForm = fullDateSelected;
       });
     }
 
@@ -347,6 +351,84 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
+  assignServiceForStaff() {
+    var staffNameTemp = [];
+    var tempStaffArray = [];
+    var tempTimeNumberArr = [];
+
+    let x = this.staffService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.staff = [];
+      item.forEach(element => {
+        let y = element.payload.toJSON();
+        y['$key'] = element.key;
+        this.staff.push(y as Staff);
+      });
+      console.log(this.staff);
+
+
+      this.staff.forEach(item => {
+        this.bookingList.forEach(element => {
+          if (item.FullName === element.StaffName) {
+
+            let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
+            let fullDateSelected = '';
+            dateSelectedList.forEach(str => {
+              let dateStr: string = str.substring(str.indexOf(':') + 1);
+              if (fullDateSelected !== '') {
+                fullDateSelected = '-' + fullDateSelected;
+              }
+              fullDateSelected = dateStr + fullDateSelected;
+            });
+
+            if (fullDateSelected === "2018-10-4") {
+              var tempStaffArray = [];
+              tempStaffArray.push(element.StaffName);
+
+              let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
+
+              this.spaceTimeListOfStaff = [];
+              this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
+
+              //Get number time worked of staff
+              let j = 0;
+              this.spaceTimeListOfStaff.forEach(element => {
+                let startTime = element.StartTime.toString();
+                let endTime = element.EndTime.toString();
+                let startIdex = this.timeFrame.indexOf(startTime);
+                let endIdex = this.timeFrame.indexOf(endTime);
+                for (startIdex; startIdex < endIdex; startIdex++) {
+                  j = j + 1;
+                }
+                console.log(j);
+              })
+              tempTimeNumberArr.push(j);
+
+            }
+          }
+        });
+      })
+    });
+
+    console.log(tempTimeNumberArr);
+    let temp = tempTimeNumberArr[0];
+    let position = 0;
+    // for (let i = 0; i < tempStaffArray.length; i++) {
+
+    for (let a = 0; a < tempTimeNumberArr.length; a++) {
+      if (tempTimeNumberArr[a] > tempTimeNumberArr[a + 1]) {
+        if (temp > tempTimeNumberArr[a + 1]) {
+          temp = tempTimeNumberArr[a + 1];
+          position = a + 1;
+          console.log(position);
+        }
+        // }
+      }
+    }
+
+    return tempStaffArray[position];
+  }
+
   // Event on submit booking form
   onSubmit(bookingForm: NgForm) {
     this.submitted = true;
@@ -364,18 +446,18 @@ export class CustomerbookingComponent implements OnInit {
     if (countService > 1) {
       bookingForm.value.StartTime = this.getTotalTime(timeStr, 0);
       bookingForm.value.EndTime = this.getTotalTime(timeStr, countService);
-      let lastIndex = this.timeVal.indexOf(1900)+1;
+      let lastIndex = this.timeVal.indexOf(1900) + 1;
       let endTimeIndex = this.timeFrame.indexOf(bookingForm.value.EndTime);
-      if(bookingForm.value.EndTime === '19:15') {
+      if (bookingForm.value.EndTime === '19:15') {
         endTimeIndex = -2;
       }
-      if(endTimeIndex < lastIndex) {
+      if (endTimeIndex < lastIndex) {
         this.checkValidTimeBook = true;
       }
-      if(endTimeIndex === -1) {
+      if (endTimeIndex === -1) {
         this.checkValidTimeBook = false;
       }
-      if(endTimeIndex === -2) {
+      if (endTimeIndex === -2) {
         this.checkValidTimeBook = true;
       }
     }
@@ -388,6 +470,7 @@ export class CustomerbookingComponent implements OnInit {
         this.checkValidTimeBook = false;
       }
     }
+
 
     //Assign work for staff who has minimum work time
 
