@@ -52,15 +52,17 @@ export class CustomerbookingComponent implements OnInit {
   checkTime: CheckTime[];
   returnUrl: string;
   submitted = false;
+  checkValidTimeBook: boolean = true;
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
 
   model: NgbDateStruct;
   date: { year: number, month: number };
 
+
   timeFrame: string[] = ['08:00', '08:15', '08:30', '08:45', '09:00', '09:15', '09:30', '09:45', '10:00', '10:15', '10:30',
     '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00',
-    '13:15', '13:00', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15', '15:30', '15:45',
+    '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00', '15:15', '15:30', '15:45',
     '16:00', '16:15', '16:30', '16:45', '17:00', '17:15', '17:30', '17:45', '18:00', '18:15', '18:30', '18:45', '19:00'];
   timeVal: number[] = [800, 815, 830, 845, 900, 915, 930, 945, 1000, 1015, 1030, 1045, 1100, 1115, 1130,
     1145, 1200, 1215, 1230, 1245, 1300, 1315, 1330, 1345, 1400, 1415, 1430, 1445, 1500, 1515, 1530, 1545,
@@ -74,12 +76,12 @@ export class CustomerbookingComponent implements OnInit {
     false, false, false, false, false,
     false, false, false, false, false,
     false, false, false, false, false,
-    false, false,false, false, false,
     false, false, false, false, false,
     false, false, false, false, false,
-    false, false, false, false,false,
     false, false, false, false, false,
-     false, false, false, false, false
+    false, false, false, false, false,
+    false, false, false, false, false,
+    false, false, false, false, false
   ];
 
   time: Time[];
@@ -296,8 +298,10 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
+
   // Set disable time which is booked
   isDisableTimeBooked(spaceTimeList: SpaceTime[]) {
+
     if (spaceTimeList === null) {
       for (let i = 0; i < this.timeFrame.length; i++) {
         this.isDisable[i] = false;
@@ -308,27 +312,32 @@ export class CustomerbookingComponent implements OnInit {
         let startTime = element.StartTime.toString();
         let endTime = element.EndTime.toString();
         let startIdex = this.timeFrame.indexOf(startTime);
-        let endIdex
-        if(endTime !=="19:15"){
+        let endIdex;
+        if (endTime === "19:15") {
+          endIdex = this.timeFrame.indexOf("19:00") + 1;
+        }
+
+        if (endTime !== "19:15") {
           endIdex = this.timeFrame.indexOf(endTime);
         }
-        if(endTime ==="19:15"){
-          endIdex = this.timeFrame.indexOf("19:00")+1;
-        }
-        
+
         for (startIdex; startIdex < endIdex; startIdex++) {
           this.isDisable[startIdex] = true;
         }
+
       });
     }
   }
+
+
+
 
   // Check disable time < current time
   isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {
       let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
-      // let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
-      let endTimeCheck = moment('3-10-2018 13:00', 'DD-MM-YYYY HH:mm');
+      let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      // let endTimeCheck = moment('3-10-2018 13:00', 'DD-MM-YYYY HH:mm');
       if (beginCheckTime.isBefore(endTimeCheck)) {
 
         this.isDisable[i] = true;
@@ -355,15 +364,28 @@ export class CustomerbookingComponent implements OnInit {
     if (countService > 1) {
       bookingForm.value.StartTime = this.getTotalTime(timeStr, 0);
       bookingForm.value.EndTime = this.getTotalTime(timeStr, countService);
+      let lastIndex = this.timeVal.indexOf(1900)+1;
+      let endTimeIndex = this.timeFrame.indexOf(bookingForm.value.EndTime);
+      if(bookingForm.value.EndTime === '19:15') {
+        endTimeIndex = -2;
+      }
+      if(endTimeIndex < lastIndex) {
+        this.checkValidTimeBook = true;
+      }
+      if(endTimeIndex === -1) {
+        this.checkValidTimeBook = false;
+      }
+      if(endTimeIndex === -2) {
+        this.checkValidTimeBook = true;
+      }
     }
 
     //check endtime if it overide on another's starttime item
-    let checkValidTimeBook: boolean = true;
     for (let index = 0; index < this.spaceTimeList.length; index++) {
       const element = this.spaceTimeList[index];
       if (moment(bookingForm.value.StartTime, 'HH:mm').isBefore(moment(element.StartTime, 'HH:mm'))
         && moment(bookingForm.value.EndTime, 'HH:mm').isAfter(moment(element.StartTime, 'HH:mm'))) {
-        checkValidTimeBook = false;
+        this.checkValidTimeBook = false;
       }
     }
 
@@ -398,7 +420,7 @@ export class CustomerbookingComponent implements OnInit {
     //   // bookingForm.value.StaffName = '';
     // }
 
-    if (checkValidTimeBook) {
+    if (this.checkValidTimeBook) {
       bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
       this.bookingService.insertBooking(bookingForm.value);
       this.resetForm(bookingForm);
@@ -411,7 +433,7 @@ export class CustomerbookingComponent implements OnInit {
 
     } else {
       this.message = 'Không thể đặt';
-      checkValidTimeBook = true;
+      this.checkValidTimeBook = true;
     }
   }
 
