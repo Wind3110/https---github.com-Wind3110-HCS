@@ -71,9 +71,15 @@ export class CustomerbookingComponent implements OnInit {
     'check14h30', 'check14h45', 'check15h', 'check15h15', 'check15h30', 'check15h45', 'check16h', 'check16h15', 'check16h30',
     'check16h45', 'check17h', 'check17h15', 'check17h30', 'check17h45', 'check18h', 'check18h15', 'check18h30', 'check18h45', 'check19h'];
   isDisable: boolean[] = [
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-    false, false, false, false, false, false, false, false, false, false, false
+    false, false, false, false, false,
+    false, false, false, false, false,
+    false, false, false, false, false,
+    false, false,false, false, false,
+    false, false, false, false, false,
+    false, false, false, false, false,
+    false, false, false, false,false,
+    false, false, false, false, false,
+     false, false, false, false, false
   ];
 
   time: Time[];
@@ -290,7 +296,7 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
-  // Check disable time which is booked
+  // Set disable time which is booked
   isDisableTimeBooked(spaceTimeList: SpaceTime[]) {
     if (spaceTimeList === null) {
       for (let i = 0; i < this.timeFrame.length; i++) {
@@ -302,7 +308,14 @@ export class CustomerbookingComponent implements OnInit {
         let startTime = element.StartTime.toString();
         let endTime = element.EndTime.toString();
         let startIdex = this.timeFrame.indexOf(startTime);
-        let endIdex = this.timeFrame.indexOf(endTime);
+        let endIdex
+        if(endTime !=="19:15"){
+          endIdex = this.timeFrame.indexOf(endTime);
+        }
+        if(endTime ==="19:15"){
+          endIdex = this.timeFrame.indexOf("19:00")+1;
+        }
+        
         for (startIdex; startIdex < endIdex; startIdex++) {
           this.isDisable[startIdex] = true;
         }
