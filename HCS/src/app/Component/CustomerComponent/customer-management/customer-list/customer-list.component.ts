@@ -27,7 +27,7 @@ export class CustomerListComponent implements OnInit {
       processing: true,
       scrollX: true,
       language: {
-        searchPlaceholder: "Search"
+        searchPlaceholder: "Tìm"
       },
     }
 

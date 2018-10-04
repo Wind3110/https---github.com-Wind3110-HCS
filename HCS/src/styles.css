@@ -4,3 +4,22 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import '~open-iconic/font/css/open-iconic-bootstrap.css';
 /* @import "~datatables.net-bs4/css/dataTables.bootstrap4.css"; */
+
+.btn-primary {
+  background-color: slateblue !important;
+  border-color: slateblue !important;
+}
+
+.btn-primary:hover {
+  background-color: blueviolet !important;
+  border-color: slateblue !important;
+}
+
+.thead-blue {
+  background-color: slateblue !important;
+  color: #ffffff;
+}
+
+table > tbody > tr:nth-child(odd) {
+    background-color: rgba(105, 90, 205, 0.13) !important;
+}
