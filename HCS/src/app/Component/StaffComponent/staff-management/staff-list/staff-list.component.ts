@@ -17,11 +17,13 @@ export class StaffListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   staffList: Staff[];
-
+  requiredMsg:string;
+  
   constructor(private staffService: StaffService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.resetForm();
+    this.requiredMsg = 'Trường bắt buộc';
+    // this.resetForm();
     this.dtOptions = {
       retrieve: true,
       processing: true,
@@ -45,7 +47,7 @@ export class StaffListComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { size: 'lg' });
   }
 
   openDetail(detailContent) {

@@ -11,21 +11,23 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./service.component.css']
 })
 export class ServiceComponent implements OnInit {
+  requiredMsg: string;
 
   constructor(private serviceService: ServiceService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.requiredMsg = 'Trường bắt buộc';
   }
 
   open(content) {
     this.resetForm();
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { size: 'lg' });
   }
 
   onSubmit(serviceForm: NgForm) {
     this.serviceService.insertService(serviceForm.value);
     this.resetForm(serviceForm);
-    this.tostr.success('Submitted Succcessfully', 'Added Service ');
+    this.tostr.success('Thêm dịch vụ thành công', 'Thêm dịch vụ');
 
     // ngay khúc này reload lại datatable nè
   }

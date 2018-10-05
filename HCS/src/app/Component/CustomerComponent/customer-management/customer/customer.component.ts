@@ -12,15 +12,17 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
+  requiredMsg:string;
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.requiredMsg = 'Trường bắt buộc';
   }
 
   open(content) {
     this.resetForm();
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { size: 'lg' });
   }
 
   onSubmit(customerForm: NgForm) {

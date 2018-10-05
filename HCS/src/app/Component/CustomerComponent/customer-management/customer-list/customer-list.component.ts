@@ -16,11 +16,12 @@ export class CustomerListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   customerList: Customer[];
+  requiredMsg:string;
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-
+    this.requiredMsg = 'Trường bắt buộc';
     this.resetForm();
     this.dtOptions = {
       retrieve: true,
@@ -45,7 +46,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { size: 'lg' });
   }
 
   openDetail(contentDetail) {
@@ -55,7 +56,7 @@ export class CustomerListComponent implements OnInit {
   onSubmit(customerForm: NgForm) {
     this.customerService.updateCustomer(customerForm.value);
     this.resetForm(customerForm);
-    this.tostr.success('Submitted Succcessfully', 'Staff Register');
+    this.tostr.success('Cập nhật thành công', 'Cập nhật thông tin khách hàng');
   }
 
   resetForm(customerForm?: NgForm) {
@@ -79,9 +80,9 @@ export class CustomerListComponent implements OnInit {
   }
 
   onDelete(key: string) {
-    if (confirm('Are you sure to delete this record ?') == true) {
+    if (confirm('Bạn có chắc muốn xoá dữ liệu này?') == true) {
       this.customerService.deleteCustomer(key);
-      this.tostr.warning("Deleted Successfully", "Added Customer");
+      this.tostr.warning("Xoá thành công", "Xoá thông tin khách hàng");
     }
   }
 }

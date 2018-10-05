@@ -5,11 +5,11 @@
   [dtTrigger]="dtTrigger">
   <thead class="text-center thead-blue">
     <tr>
-      <th>ServiceName</th>
-      <th>Description</th>
-      <th>TimeUnit</th>
-      <th>Price</th>
-      <th>Action</th>
+      <th>Tên dịch vụ</th>
+      <th>Mô tả</th>
+      <th>Thời gian</th>
+      <th>Giá</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -39,7 +39,7 @@
 <!-- Popup form -->
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Update Service</h4>
+    <h4 class="modal-title" id="modal-basic-title">Cập nhật thông tin dịch vụ</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -49,34 +49,42 @@
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="serviceService.selectedService.$key">
 
       <div class="form-group row">
-        <label class="col-sm-3 col-form-label">ServiceName</label>
+        <label class="col-sm-3 col-form-label">Tên dịch vụ <span class="text-danger">*</span></label>
         <div class="col-sm-9">
           <input class="form-control" name="ServiceName" #ServiceName="ngModel" [(ngModel)]="serviceService.selectedService.ServiceName"
-            placeholder="ServiceName" required>
+            [ngClass]="{'is-invalid':ServiceName.touched && ServiceName.invalid}" required>
+          <div class="invalid-feedback" *ngIf="ServiceName?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Description</label>
+        <label class="col-sm-3 col-form-label">Mô tả</label>
         <div class="col-sm-9">
-          <textarea class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr"
-            placeholder="descr"></textarea>
+          <textarea class="form-control" name="descr" #descr="ngModel" [(ngModel)]="serviceService.selectedService.descr"></textarea>
         </div>
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Time Unit</label>
+        <label class="col-sm-3 col-form-label">Thời gian (Phút) <span class="text-danger">*</span></label>
         <div class="col-sm-9">
           <input class="form-control" name="TimeUnit" #TimeUnit="ngModel" [(ngModel)]="serviceService.selectedService.TimeUnit"
-            placeholder="TimeUnit">
+            [ngClass]="{'is-invalid':TimeUnit.touched && TimeUnit.invalid}" required>
+          <div class="invalid-feedback" *ngIf="TimeUnit?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Price</label>
+        <label class="col-sm-3 col-form-label">Giá <span class="text-danger">*</span></label>
         <div class="col-sm-9">
           <input class="form-control" name="Price" #Price="ngModel" [(ngModel)]="serviceService.selectedService.Price"
-            placeholder="Price" type="number" required>
+            [ngClass]="{'is-invalid':Price.touched && Price.invalid}" required>
+          <div class="invalid-feedback" *ngIf="Price?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
         </div>
       </div>
 
@@ -87,14 +95,14 @@
     <button class="btn btn-primary" type="submit" [disabled]="!serviceForm.valid" (click)="onSubmit(serviceForm)"
       (click)="c('Save click')">
       <i class="fa fa-floppy-o"></i>
-      Submit</button>
+      Save</button>
   </div>
 </ng-template>
 
 <!-- Detail -->
 <ng-template #contentDetail let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Service Details</h4>
+    <h4 class="modal-title" id="modal-basic-title">Thông tin dịch vụ</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -107,15 +115,15 @@
       <div class="row text-center">
         <div class="col-md-12">
           <p>
-            <span class="font-weight-bold">Time unit:</span> {{serviceService.selectedService.TimeUnit}}</p>
+            <span class="font-weight-bold">Thời gian:</span> {{serviceService.selectedService.TimeUnit}}</p>
           <p>
-            <span class="font-weight-bold">Price:</span> {{serviceService.selectedService.Price}}</p>
+            <span class="font-weight-bold">Giá:</span> {{serviceService.selectedService.Price}}</p>
           <p>
-            <span class="font-weight-bold">Description:</span> {{serviceService.selectedService.descr}}</p>
+            <span class="font-weight-bold">Mô tả:</span> {{serviceService.selectedService.descr}}</p>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" (click)="c('Save click')">Close</button>
+        <button class="btn btn-primary" (click)="c('Save click')">Đóng</button>
       </div>
     </form>
   </div>

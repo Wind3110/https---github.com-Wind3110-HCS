@@ -87,7 +87,9 @@
 }
 
 .sidebar-nav li a:active,
-.sidebar-nav li a:focus {
+.sidebar-nav li a:focus,
+.sidebar-nav li a:visited,
+.sidebar-nav li a.active  {
     text-decoration: none;
     background-color: blueviolet;
 }

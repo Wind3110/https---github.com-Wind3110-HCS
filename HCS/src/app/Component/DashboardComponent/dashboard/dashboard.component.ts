@@ -22,4 +22,7 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  activateClass(subModule) {
+    subModule.active = !subModule.active;
+  }
 }

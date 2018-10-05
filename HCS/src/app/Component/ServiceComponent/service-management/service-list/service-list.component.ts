@@ -16,11 +16,12 @@ export class ServiceListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   serviceList: Service[];
+  requiredMsg:string;
 
   constructor(private serviceService: ServiceService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-
+    this.requiredMsg = 'Trường bắt buộc';
     this.resetForm();
     this.dtOptions = {
       retrieve: true,
@@ -45,7 +46,7 @@ export class ServiceListComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content,{ size: 'lg' });
   }
 
   openDetail(contentDetail) {
@@ -55,7 +56,7 @@ export class ServiceListComponent implements OnInit {
   onSubmit(serviceForm: NgForm) {
     this.serviceService.updateService(serviceForm.value);
     this.resetForm(serviceForm);
-    this.tostr.success('Submitted Succcessfully', 'Staff Register');
+    this.tostr.success('Cập nhận thông tin dịch vụ thành công', 'Cập nhật thông tin dịch vụ');
   }
 
   resetForm(serviceForm?: NgForm) {
@@ -75,9 +76,9 @@ export class ServiceListComponent implements OnInit {
   }
 
   onDelete(key: string) {
-    if (confirm('Are you sure to delete this record ?') == true) {
+    if (confirm('Bạn có chắc muốn xoá dữ liệu này ?') == true) {
       this.serviceService.deleteService(key);
-      this.tostr.warning("Deleted Successfully", "Added Service");
+      this.tostr.warning("Xoá thành công", "Xoá thông tin dịch vụ");
     }
   }
 }

@@ -13,15 +13,17 @@ import {Md5} from 'ts-md5';
 })
 export class StaffComponent implements OnInit {
 
+  requiredMsg: string;
   constructor(private staffService: StaffService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.requiredMsg = "Trường bắt buộc";
     this.resetForm();
   }
 
   open(content) {
     this.resetForm();
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { size: 'lg' });
   }
 
   onSubmit(staffForm: NgForm) {
