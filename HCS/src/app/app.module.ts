@@ -26,7 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Datatable
 import { DataTablesModule } from 'angular-datatables';
-import { DataTableModule } from 'angular-6-datatable';
+// import { DataTableModule } from 'angular-6-datatable';
 
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -97,7 +97,7 @@ import { BookingListComponent } from './Component/BookingComponent/booking-manag
     AngularFontAwesomeModule,
     AppRoutingModule,
     DataTablesModule,
-    DataTableModule,
+    // DataTableModule,
     HttpClientModule,
   ],
   providers: [],

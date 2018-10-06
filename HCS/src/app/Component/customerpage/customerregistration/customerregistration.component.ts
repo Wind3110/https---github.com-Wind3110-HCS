@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Customer } from '../../../Model/CustomerModel/customer.model';
 import { CustomerService } from '../../../Service/CustomerService/customer.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgForm } from '@angular/forms';
-import {Md5} from 'ts-md5/dist/md5';
+import { NgForm, FormGroup } from '@angular/forms';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-customerregistration',
@@ -15,13 +15,13 @@ import {Md5} from 'ts-md5/dist/md5';
 export class CustomerregistrationComponent implements OnInit {
   customerList: Customer[];
   returnUrl: string;
+  customerRegistrationForm: FormGroup;
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private router: Router) { }
 
   ngOnInit() {
-    this.returnUrl = '/homepage/customerlogin';
-
     this.resetForm();
+    this.returnUrl = '/homepage/customerlogin';
     const x = this.customerService.getData();
     x.snapshotChanges().subscribe(item => {
       this.customerList = [];
@@ -31,8 +31,12 @@ export class CustomerregistrationComponent implements OnInit {
         this.customerList.push(y as Customer);
       });
     });
-  }
 
+    // Show memeber info on customerRegistrationForm form
+    if (this.customerRegistrationForm == null) {
+      this.customerService.selectedCustomer.Level = "member";
+    }
+  }
 
   onSubmit(customerRegistrationForm: NgForm) {
     customerRegistrationForm.value.Password = this.encryptMD5(customerRegistrationForm.value.Password);
@@ -42,7 +46,7 @@ export class CustomerregistrationComponent implements OnInit {
     this.router.navigate([this.returnUrl]);
   }
 
-  encryptMD5(providePassword : string){
+  encryptMD5(providePassword: string) {
     return Md5.hashStr(providePassword).toString();
   }
 
@@ -57,6 +61,7 @@ export class CustomerregistrationComponent implements OnInit {
       Gender: '',
       Level: '',
       Username: '',
+      OldPassword: '',
       Password: '',
       ConfirmPassword: '',
       PhoneNumber: '',

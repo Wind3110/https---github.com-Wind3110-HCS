@@ -1,37 +1,77 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 import { Md5 } from 'ts-md5/dist/md5';
 
 
 import { CustomerService } from '../../../../Service/CustomerService/customer.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Customer } from '../../../../Model/CustomerModel/customer.model';
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
-  requiredMsg:string;
+  requiredMsg: string;
+  customerForm: FormGroup;
+  customerList: Customer[];
+  ErrorMessage: string;
 
   constructor(private customerService: CustomerService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.requiredMsg = 'Trường bắt buộc';
+    var x = this.customerService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.customerList = [];
+      item.forEach(element => {
+        var y = element.payload.toJSON();
+        y["$key"] = element.key;
+        this.customerList.push(y as Customer);
+      })
+    })
   }
 
+  private modalRef: NgbModalRef;
   open(content) {
     this.resetForm();
-    this.modalService.open(content, { size: 'lg' });
+    this.ErrorMessage = "";
+    this.modalRef = this.modalService.open(content, { size: 'lg' });
+    if (this.customerForm == null) {
+      this.customerService.selectedCustomer.Level = "member";
+    }
   }
 
   onSubmit(customerForm: NgForm) {
-    customerForm.value.Password = this.encryptMD5(customerForm.value.Password);
-    this.customerService.insertCustomer(customerForm.value);
-    this.resetForm(customerForm);
-    this.tostr.success('Submitted Succcessfully', 'Added Service ');
+    var x = this.customerService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.customerList = [];
+      item.forEach(element => {
+        var y = element.payload.toJSON();
+        y["$key"] = element.key;
+        this.customerList.push(y as Customer);
+      });
 
-    // ngay khúc này reload lại datatable nè
+      //Check exists username
+      let isExitsUsername: boolean = false;
+      this.customerList.forEach(item => {
+        if (this.customerService.selectedCustomer.Username === item.Username) {
+          isExitsUsername = true;
+        } else {
+          return isExitsUsername;
+        }
+      })
+      if (!isExitsUsername) {
+        customerForm.value.Password = this.encryptMD5(this.customerService.selectedCustomer.Password);
+        this.customerService.insertCustomer(customerForm.value);
+        this.modalRef.close();
+        // this.resetForm(customerForm);
+        this.tostr.success('Thêm thành công', 'Thêm khách hàng');
+      } else {
+        this.ErrorMessage = "Tên tài khoản đã tồn tại";
+      }
+    });
   }
 
   encryptMD5(oldPassword: string) {
@@ -48,6 +88,7 @@ export class CustomerComponent implements OnInit {
       PhoneNumber: '',
       Level: '',
       Username: '',
+      OldPassword: '',
       Password: '',
       ConfirmPassword: '',
       Address: ''

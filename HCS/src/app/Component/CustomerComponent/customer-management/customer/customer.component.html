@@ -14,8 +14,8 @@
 
   <div class="modal-body">
     <form #customerForm="ngForm" (ngSubmit)="onSubmit(customerForm)" name="myForm">
+      <p class="text-center text-danger alert-danger" *ngIf="ErrorMessage">{{ErrorMessage}}</p>
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedCustomer.$key">
-
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Họ tên <span class="text-danger">*</span></label>
         <div class="col-sm-9">
@@ -63,7 +63,7 @@
         <label class="col-sm-3 col-form-label">Thành viên <span class="text-danger">*</span></label>
         <div class="col-sm-9">
           <input class="form-control" name="Level" #Level="ngModel" [(ngModel)]="customerService.selectedCustomer.Level"
-            [ngClass]="{'is-invalid':Level.touched && Level.invalid}" required>
+            [ngClass]="{'is-invalid':Level.touched && Level.invalid}" required readonly>
           <div class="invalid-feedback" *ngIf="Level?.errors?.required">
             <div>{{requiredMsg}}</div>
           </div>
@@ -107,10 +107,8 @@
         </div>
       </div>
 
-
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!customerForm.valid" (click)="onSubmit(customerForm)"
-          (click)="c('Save click')">
+        <button class="btn btn-primary" type="submit" [disabled]="!customerForm.valid" (click)="onSubmit(customerForm)">
           <i class="fa fa-floppy-o"></i>
           Thêm</button>
       </div>

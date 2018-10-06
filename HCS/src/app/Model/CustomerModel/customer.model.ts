@@ -5,6 +5,7 @@ export class Customer {
     PhoneNumber: string;
     Level: string;
     Username: string;
+    OldPassword: string;
     Password: string;
     ConfirmPassword: string;
     Address: string;
