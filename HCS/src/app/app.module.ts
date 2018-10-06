@@ -53,6 +53,7 @@ import { MemberbookingComponent } from './Component/customerhome/memberbooking/m
 import { BookingManagementComponent } from './Component/BookingComponent/booking-management/booking-management.component';
 import { BookingComponent } from './Component/BookingComponent/booking-management/booking/booking.component';
 import { BookingListComponent } from './Component/BookingComponent/booking-management/booking-list/booking-list.component';
+import { TimelineComponent } from './Component/StaffComponent/timeline/timeline.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { BookingListComponent } from './Component/BookingComponent/booking-manag
     BookingManagementComponent,
     BookingComponent,
     BookingListComponent,
+    TimelineComponent,
   ],
 
   imports: [
