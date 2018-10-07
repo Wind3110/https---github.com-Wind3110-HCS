@@ -75,8 +75,4 @@ export class DashboardComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-
-  activateClass(subModule) {
-    subModule.active = !subModule.active;
-  }
 }

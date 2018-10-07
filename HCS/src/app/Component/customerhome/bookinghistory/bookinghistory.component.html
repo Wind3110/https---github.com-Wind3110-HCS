@@ -9,29 +9,33 @@
       <th>Giờ</th>
       <th>Dịch vụ</th>
       <th>Stylish</th>
-      <th>Huỷ lịch đặt</th>
+      <th>Trạng thái</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let booking of bookingMemberList">
-      <td>
-        <!-- <span *ngFor="let date of objectValue(booking.Date)">{{date}}/</span> -->
-        {{booking.Date}}
-      </td>
+      <td>{{booking.Date}}</td>
       <td>{{booking.StartTime}}</td>
-      <td>
-          {{booking.Services}}
-        <!-- <span *ngFor="let service of objectValue(booking.Services)">{{service}}, </span> -->
-      </td>
+      <td>{{booking.Services}}</td>
       <td>{{booking.StaffName}}</td>
+
+      <td *ngIf="booking.Status === 1">Đang chờ</td>
+      <td *ngIf="booking.Status === 2">Đã xác nhận</td>
+      <td *ngIf="booking.Status === 3">Đã huỷ</td>
 
       <td class="text-center" style="white-space: nowrap;">
         <!-- <a class="btn" (click)="onEdit(booking)" (click)="open(content)">
           <i class="fa fa-pencil-square-o"></i>
         </a> -->
-        <a class="btn" (click)="onDelete(booking.$key)">
-          Huỷ
+        <a title="Huỷ đơn đặt" *ngIf="booking.Status === 1" class="btn" (click)="onCancelBooking(booking.$key)">
           <i class="fa fa-trash"></i>
+        </a>
+        <a *ngIf="booking.Status !== 1">
+          -
+        </a>
+        <a title="Xem thông tin đơn đặt" class="btn" (click)="onEdit(booking)" (click)="openDetail(contentDetail)">
+          <i class="fa fa-info-circle"></i>
         </a>
         <!-- <a class="btn" (click)="onEdit(booking)" (click)="openDetail(contentDetail)">
           <i class="fa fa-info-circle"></i>
@@ -39,10 +43,13 @@
       </td>
     </tr>
   </tbody>
+  <tfoot>
+    <tr></tr>
+  </tfoot>
 </table>
 
 <!-- Popup form -->
-<ng-template #content let-c="close" let-d="dismiss">
+<!-- <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Update Customer</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -150,38 +157,40 @@
       <i class="fa fa-floppy-o"></i>
       Submit</button>
   </div>
-</ng-template>
+</ng-template> -->
 
 <!-- Detail -->
 <ng-template #contentDetail let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Service Details</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form #customerForm="ngForm" name="myForm">
-      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedCustomer.$key">
-
-      <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{customerService.selectedCustomer.FullName}}</button>
-      <div class="row text-center">
-        <div class="col-md-12">
-          <p>
-            <span class="font-weight-bold">Gender:</span> {{customerService.selectedCustomer.Gender}}</p>
-          <p>
-            <span class="font-weight-bold">Phone Number:</span> {{customerService.selectedCustomer.PhoneNumber}}</p>
-          <p>
-            <span class="font-weight-bold">Level:</span> {{customerService.selectedCustomer.Level}}</p>
-          <p>
-            <span class="font-weight-bold">Username:</span> {{customerService.selectedCustomer.Username}}</p>
-          <p>
-            <span class="font-weight-bold">Password:</span> {{customerService.selectedCustomer.Password}}</p>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Thông tin đơn đặt</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #bookingForm="ngForm" name="myForm">
+        <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="BookingService.selectedBooking.$key">
+  
+        <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{BookingService.selectedBooking.CustomerName}}</button>
+        <div class="row text-center">
+          <div class="col-md-12">
+            <p>
+              <span class="font-weight-bold">Giới tính:</span> {{BookingService.selectedBooking.Gender}}</p>
+            <p>
+              <span class="font-weight-bold">Điện thoại:</span> {{BookingService.selectedBooking.Phone}}</p>
+            <p>
+              <span class="font-weight-bold">Dịch vụ:</span> {{BookingService.selectedBooking.Services}}</p>
+            <p>
+              <span class="font-weight-bold">Stylish:</span> {{BookingService.selectedBooking.StaffName}}</p>
+            <p>
+              <span class="font-weight-bold">Ngày:</span> {{BookingService.selectedBooking.Date}}</p>
+            <p>
+              <span class="font-weight-bold">Giờ:</span> {{BookingService.selectedBooking.StartTime}}</p>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" (click)="c('Save click')">Close</button>
-      </div>
-    </form>
-  </div>
-</ng-template>
+        <div class="modal-footer">
+          <button class="btn btn-primary" (click)="c('Save click')">Close</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>

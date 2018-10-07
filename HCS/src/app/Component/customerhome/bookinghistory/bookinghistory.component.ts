@@ -19,9 +19,9 @@ export class BookinghistoryComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject();
   bookingList: Booking[];
   bookingMemberList: BookingHistory[];
-  
 
-  objectValue = Object.values;
+
+  // objectValue = Object.values;
 
   constructor(private BookingService: BookingService, private tostr: ToastrService, private modalService: NgbModal) { }
 
@@ -47,7 +47,6 @@ export class BookinghistoryComponent implements OnInit {
 
       this.bookingMemberList = [];
       this.bookingList.forEach(record => {
-        let bookingIns:BookingHistory;
         if (record.CustomerName === localStorage.getItem('token')) {
           // bookingIns.Date=this.changeDateTypeToString(record.Date);
           // bookingIns.CustomerName=record.CustomerName;
@@ -59,22 +58,21 @@ export class BookinghistoryComponent implements OnInit {
           // bookingIns.Services=record.Services;
           // bookingIns.StaffName=record.StaffName;
           // bookingIns.Status=record.Status;
-          this.bookingMemberList.push({ Date:this.changeDateTypeToString(record.Date),
-            CustomerName:record.CustomerName,
-            $key:record.$key,
-            EndTime:record.EndTime,
-            StartTime:record.StartTime,
-            Gender:record.Gender,
-            Phone:record.Phone,
-            Services:this.changeServicesToString(record.Services),
-            StaffName:record.StaffName,
-            Status:record.Status
+          this.bookingMemberList.push({
+            Date: this.changeDateTypeToString(record.Date),
+            CustomerName: record.CustomerName,
+            $key: record.$key,
+            EndTime: record.EndTime,
+            StartTime: record.StartTime,
+            Gender: record.Gender,
+            Phone: record.Phone,
+            Services: this.changeServicesToString(record.Services),
+            StaffName: record.StaffName,
+            Status: record.Status
           });
-
           this.dtTrigger.next();
         }
       })
-
     });
   }
 
@@ -113,12 +111,42 @@ export class BookinghistoryComponent implements OnInit {
     this.BookingService.selectedBooking = Object.assign({}, booking);
   }
 
-  onDelete(key: string) {
+  // onDelete(key: string) {
+  //   if (confirm('Are you sure to delete this record ?') == true) {
+
+  //     this.BookingService.deleteBooking(key);
+  //     this.tostr.warning("Deleted Successfully", "Added Customer");
+  //   }
+  // }
+
+  onCancelBooking(keys: string) {
     if (confirm('Are you sure to delete this record ?') == true) {
-      this.BookingService.deleteBooking(key);
-      this.tostr.warning("Deleted Successfully", "Added Customer");
+      var x = this.BookingService.getData();
+      x.snapshotChanges().subscribe(item => {
+        this.bookingList = [];
+        item.forEach(element => {
+          var y = element.payload.toJSON();
+          y["$key"] = element.key;
+          this.bookingList.push(y as Booking);
+        });
+
+        this.bookingList.forEach(element => {
+          if (element.$key === keys) {
+            if (element.Status === 1) {
+              console.log(element)
+              element.Status = 3;
+              this.BookingService.updateBooking(element);
+            }
+          }
+        });
+      });
+      this.tostr.info("Huỷ thành công", "Huỷ lịch đặt", {
+        timeOut: 1200,
+        positionClass: 'toast-bottom-right'
+      });
     }
   }
+
   changeDateTypeToString(dateSelected: Date) {
 
     let dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
@@ -130,23 +158,39 @@ export class BookinghistoryComponent implements OnInit {
       }
       fullDateSelected = dateStr + fullDateSelected;
     });
-    let date=moment(fullDateSelected).format('DD/MM/YYYY');
+    let date = moment(fullDateSelected).format('DD/MM/YYYY');
     return date;
-    // let date = dateSelected.day + "/" + dateSelected.month + "/" + dateSelected.year;
-    // return date;
   }
   changeServicesToString(Services: any) {
-    let str:string="";
-    let valueOfServices=Object.values(Services);
+    let str: string = "";
+    let valueOfServices = Object.values(Services);
     for (let index = 0; index < valueOfServices.length; index++) {
-      if(index==valueOfServices.length-1){
-        str=str+ valueOfServices[index];
+      if (index == valueOfServices.length - 1) {
+        str = str + valueOfServices[index];
       }
-      else{
-        str=str+ valueOfServices[index] +", ";
+      else {
+        str = str + valueOfServices[index] + ", ";
       }
-      
+
     }
     return str;
+  }
+
+  changeStatus(status: number) {
+    let statusStr = "";
+    switch (status) {
+      case 1:
+        statusStr = "Đang chờ";
+        break;
+      case 2:
+        statusStr = "Đã xác nhận";
+        break;
+      case 3:
+        statusStr = "Đã huỷ";
+        break;
+      default:
+        break;
+    }
+    return statusStr;
   }
 }

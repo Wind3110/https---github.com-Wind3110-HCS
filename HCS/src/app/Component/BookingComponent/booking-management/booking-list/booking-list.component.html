@@ -1,9 +1,9 @@
 <app-booking></app-booking>
 
 <!-- Datatable -->
-<table datatable id="booking_table" class="table table-sm table-hover table-striped table-bordered" [dtOptions]="dtOptions"
+<table datatable id="booking_table" class="table table-hover table-bordered" [dtOptions]="dtOptions"
   [dtTrigger]="dtTrigger">
-  <thead class="text-center thead-dark">
+  <thead class="text-center thead-blue">
     <tr>
       <th>Customer Name</th>
       <th>Gender</th>
@@ -11,25 +11,29 @@
       <th>Stylish</th>
       <th>Date</th>
       <th>StartTime</th>
+      <th>Status</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let booking of bookingList">
+    <tr *ngFor="let booking of allBookingList">
       <td>{{booking.CustomerName}}</td>
       <td>{{booking.Gender}}</td>
       <td>{{booking.Phone}}</td>
       <td>{{booking.StaffName}}</td>
       <td>{{booking.Date}}</td>
       <td>{{booking.StartTime}}</td>
+      <td *ngIf="booking.Status === 1">Đang chờ</td>
+      <td *ngIf="booking.Status === 2">Đã xác nhận</td>
+      <td *ngIf="booking.Status === 3">Đã huỷ</td>
       <td class="text-center" style="white-space: nowrap;">
-        <a class="btn" (click)="onEdit(booking)" (click)="open(content)">
-          <i class="fa fa-pencil-square-o"></i>
+        <a *ngIf="booking.Status === 1" title="Xác nhận đơn đặt" class="btn" (click)="onConfirmBooking(booking.$key)">
+          <fa name="check-circle"></fa>
         </a>
-        <a class="btn" (click)="onDelete(booking.$key)">
-          <i class="fa fa-trash-o"></i>
+        <a title="Huỷ đơn đặt" *ngIf="booking.Status === 1" class="btn" (click)="onCancelBooking(booking.$key)">
+          <i class="fa fa-trash"></i>
         </a>
-        <a class="btn" (click)="onEdit(booking)" (click)="openDetail(contentDetail)">
+        <a title="Xem thông tin đơn đặt" class="btn" (click)="onEdit(booking)" (click)="openDetail(contentDetail)">
           <i class="fa fa-info-circle"></i>
         </a>
       </td>
@@ -41,7 +45,7 @@
 </table>
 
 <!-- Popup form -->
-<ng-template #content let-c="close" let-d="dismiss">
+<!-- <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Update Customer</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -149,33 +153,35 @@
       <i class="fa fa-floppy-o"></i>
       Submit</button>
   </div>
-</ng-template>
+</ng-template> -->
 
 <!-- Detail -->
 <ng-template #contentDetail let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Service Details</h4>
+    <h4 class="modal-title" id="modal-basic-title">Thông tin đơn đặt</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <form #customerForm="ngForm" name="myForm">
-      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedCustomer.$key">
+    <form #bookingForm="ngForm" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="BookingService.selectedBooking.$key">
 
-      <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{customerService.selectedCustomer.FullName}}</button>
+      <button type="button" class="btn btn-lg btn-primary col-md-12" disabled>{{BookingService.selectedBooking.CustomerName}}</button>
       <div class="row text-center">
         <div class="col-md-12">
           <p>
-            <span class="font-weight-bold">Gender:</span> {{customerService.selectedCustomer.Gender}}</p>
+            <span class="font-weight-bold">Giới tính:</span> {{BookingService.selectedBooking.Gender}}</p>
           <p>
-            <span class="font-weight-bold">Phone Number:</span> {{customerService.selectedCustomer.PhoneNumber}}</p>
+            <span class="font-weight-bold">Điện thoại:</span> {{BookingService.selectedBooking.Phone}}</p>
           <p>
-            <span class="font-weight-bold">Level:</span> {{customerService.selectedCustomer.Level}}</p>
+            <span class="font-weight-bold">Dịch vụ:</span> {{BookingService.selectedBooking.Services}}</p>
           <p>
-            <span class="font-weight-bold">Username:</span> {{customerService.selectedCustomer.Username}}</p>
+            <span class="font-weight-bold">Stylish:</span> {{BookingService.selectedBooking.StaffName}}</p>
           <p>
-            <span class="font-weight-bold">Password:</span> {{customerService.selectedCustomer.Password}}</p>
+            <span class="font-weight-bold">Ngày:</span> {{BookingService.selectedBooking.Date}}</p>
+          <p>
+            <span class="font-weight-bold">Giờ:</span> {{BookingService.selectedBooking.StartTime}}</p>
         </div>
       </div>
       <div class="modal-footer">

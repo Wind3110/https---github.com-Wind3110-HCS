@@ -18,7 +18,6 @@ export class StaffComponent implements OnInit {
 
   ngOnInit() {
     this.requiredMsg = "Trường bắt buộc";
-    this.resetForm();
   }
 
   open(content) {
