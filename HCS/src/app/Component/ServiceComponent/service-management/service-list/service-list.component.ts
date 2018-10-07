@@ -25,8 +25,8 @@ export class ServiceListComponent implements OnInit {
     this.resetForm();
     this.dtOptions = {
       retrieve: true,
-      processing: true,
-      scrollX: true,
+      // processing: true,
+      // scrollX: true,
       language: {
         searchPlaceholder: "Search"
       },

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Booking } from '../../Model/BookingModel/booking.model';
 import { DatePipe } from '@angular/common'
+import { Key } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,6 @@ export class BookingService {
   }
 
   insertBooking(booking: Booking) {
-    console.log(booking.Date.toString());
-    console.log(booking.StartTime);
-    // booking.Time=this.timeFormat(Number(booking.Time));
-
-
-
     this.bookList.push({
       CustomerName: booking.CustomerName,
       Gender: booking.Gender,
@@ -34,8 +29,6 @@ export class BookingService {
       EndTime: booking.EndTime,
     });
   }
-
-
 
   // timeFormat(time:string){
   //   let timeStr : string = time.toString();

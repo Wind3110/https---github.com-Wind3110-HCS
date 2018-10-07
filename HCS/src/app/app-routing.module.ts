@@ -28,6 +28,7 @@ import { BookingManagementComponent } from './Component/BookingComponent/booking
 import { BookingComponent } from './Component/BookingComponent/booking-management/booking/booking.component';
 import { BookingListComponent } from './Component/BookingComponent/booking-management/booking-list/booking-list.component';
 import { TimelineComponent } from './Component/StaffComponent/timeline/timeline.component';
+import { BookinghistoryComponent } from './Component/customerhome/bookinghistory/bookinghistory.component';
 
 const routes: Routes = [
 
@@ -55,7 +56,7 @@ const routes: Routes = [
     },
     children: [
       { path: 'memberbooking', component: MemberbookingComponent },
-      // { path: 'customerlogin', component: CustomerloginComponent },
+      { path: 'bookinghistory', component: BookinghistoryComponent },
       // { path: 'customerbooking', component: CustomerbookingComponent },
     ]
   },

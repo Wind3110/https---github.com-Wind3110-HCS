@@ -61,6 +61,10 @@ export class CustomerbookingComponent implements OnInit {
   model: NgbDateStruct;
   date: { year: number, month: number };
 
+  staffNameTemp = [];
+  tempStaffArray = [];
+  tempTimeNumberArr = [];
+
 
   timeFrame: string[] = ['08:00', '08:15', '08:30', '08:45', '09:00', '09:15', '09:30', '09:45', '10:00', '10:15', '10:30',
     '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00',
@@ -117,7 +121,7 @@ export class CustomerbookingComponent implements OnInit {
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 20,
-      maxHeight: 200,
+      maxHeight: 220,
     };
     this.selectedItems = [
       { item_id: 1, item_text: 'Mặc định' },
@@ -129,7 +133,7 @@ export class CustomerbookingComponent implements OnInit {
       textField: 'item_text',
       singleSelection: true,
       allowSearchFilter: true,
-      maxHeight: 200,
+      maxHeight: 300,
     };
 
     let a = this.bookingService.getData();
@@ -350,10 +354,12 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
+  // assignForStaffNotBooked() {
+
+  // }
+
   assignServiceForStaff() {
-    var staffNameTemp = [];
-    var tempStaffArray = [];
-    var tempTimeNumberArr = [];
+
 
     let x = this.staffService.getData();
     x.snapshotChanges().subscribe(item => {
@@ -363,69 +369,100 @@ export class CustomerbookingComponent implements OnInit {
         y['$key'] = element.key;
         this.staff.push(y as Staff);
       });
-      console.log(this.staff);
 
+      this.staff.forEach(staffs => {
+        this.bookingList.forEach(staffBooks => {
+          let j = 0;
 
-      this.staff.forEach(item => {
-        this.bookingList.forEach(element => {
-          if (item.FullName === element.StaffName) {
+          let dateSelectedList: string[] = JSON.stringify(staffBooks.Date).substring(2, JSON.stringify(staffBooks.Date).length - 1).split(',');
+          let fullDateSelected = '';
+          dateSelectedList.forEach(str => {
+            let dateStr: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected !== '') {
+              fullDateSelected = '-' + fullDateSelected;
+            }
+            fullDateSelected = dateStr + fullDateSelected;
+          });
 
-            let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
-            let fullDateSelected = '';
-            dateSelectedList.forEach(str => {
-              let dateStr: string = str.substring(str.indexOf(':') + 1);
-              if (fullDateSelected !== '') {
-                fullDateSelected = '-' + fullDateSelected;
-              }
-              fullDateSelected = dateStr + fullDateSelected;
-            });
-
-            if (fullDateSelected === "2018-10-4") {
-              var tempStaffArray = [];
-              tempStaffArray.push(element.StaffName);
-
-              let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
-
-              this.spaceTimeListOfStaff = [];
-              this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
-
-              //Get number time worked of staff
-              let j = 0;
-              this.spaceTimeListOfStaff.forEach(element => {
-                let startTime = element.StartTime.toString();
-                let endTime = element.EndTime.toString();
-                let startIdex = this.timeFrame.indexOf(startTime);
-                let endIdex = this.timeFrame.indexOf(endTime);
-                for (startIdex; startIdex < endIdex; startIdex++) {
-                  j = j + 1;
-                }
-                console.log(j);
-              })
-              tempTimeNumberArr.push(j);
-
+          if (fullDateSelected === "2018-10-7") {
+            if (staffs.FullName !== staffBooks.StaffName) {
+              this.staffNameTemp.push(staffs.FullName);
+              
             }
           }
-        });
+        }
+          //   if (staffs.FullName === staffBooks.StaffName) {
+
+          //     let dateSelectedList: string[] = JSON.stringify(staffBooks.Date).substring(2, JSON.stringify(staffBooks.Date).length - 1).split(',');
+          //     let fullDateSelected = '';
+          //     dateSelectedList.forEach(str => {
+          //       let dateStr: string = str.substring(str.indexOf(':') + 1);
+          //       if (fullDateSelected !== '') {
+          //         fullDateSelected = '-' + fullDateSelected;
+          //       }
+          //       fullDateSelected = dateStr + fullDateSelected;
+          //     });
+
+          //     if (fullDateSelected === "2018-10-7") {
+
+          //       // var tempStaffArray = [];
+          //       // tempStaffArray.push(staffBooks.StaffName);
+
+          //       // let spaceTimeOfStaff: SpaceTime = { StartTime: staffBooks.StartTime, EndTime: staffBooks.EndTime };
+
+          //       // this.spaceTimeListOfStaff = [];
+          //       // this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
+
+          //       // //Get number time worked of staff
+
+          //       // this.spaceTimeListOfStaff.forEach(element => {
+          //       //   let startTime = element.StartTime.toString();
+          //       //   let endTime = element.EndTime.toString();
+          //       //   let startIdex = this.timeFrame.indexOf(startTime);
+          //       //   let endIdex = this.timeFrame.indexOf(endTime);
+          //       //   for (startIdex; startIdex < endIdex; startIdex++) {
+          //       //     if (this.isDisable[startIdex] == true) {
+          //       //       j = j + 1;
+
+          //       //     }
+          //       //   }
+
+          //       //   console.log("số j- " + j);
+          //       // })
+          //     }
+          //   }
+          //   this.tempTimeNumberArr.push(j);
+          //   let totalNumber = 0;
+          //   this.tempTimeNumberArr.forEach(number => {
+          //     totalNumber = totalNumber + number;
+          //   })
+          //   console.log("total- " + totalNumber);
+          //   console.log("mảng j- " + this.tempTimeNumberArr);
+        );
+
+
       })
+
+      console.log(this.staffNameTemp);
     });
 
-    console.log(tempTimeNumberArr);
-    let temp = tempTimeNumberArr[0];
-    let position = 0;
-    // for (let i = 0; i < tempStaffArray.length; i++) {
+    // console.log(tempTimeNumberArr);
+    // let temp = tempTimeNumberArr[0];
+    // let position = 0;
+    // // for (let i = 0; i < tempStaffArray.length; i++) {
 
-    for (let a = 0; a < tempTimeNumberArr.length; a++) {
-      if (tempTimeNumberArr[a] > tempTimeNumberArr[a + 1]) {
-        if (temp > tempTimeNumberArr[a + 1]) {
-          temp = tempTimeNumberArr[a + 1];
-          position = a + 1;
-          console.log(position);
-        }
-        // }
-      }
-    }
+    // for (let a = 0; a < tempTimeNumberArr.length; a++) {
+    //   if (tempTimeNumberArr[a] > tempTimeNumberArr[a + 1]) {
+    //     if (temp > tempTimeNumberArr[a + 1]) {
+    //       temp = tempTimeNumberArr[a + 1];
+    //       position = a + 1;
+    //       console.log("Position- " + position);
+    //     }
+    //     // }
+    //   }
+    // }
 
-    return tempStaffArray[position];
+    // return tempStaffArray[position];
   }
 
   // Event on submit booking form
@@ -503,14 +540,17 @@ export class CustomerbookingComponent implements OnInit {
     // }
 
     if (this.checkValidTimeBook) {
-      bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+      // bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+      if (bookingForm.value.StaffName[0].item_text === "Mặc định") {
+        bookingForm.value.StaffName = this.staffNameTemp[0];
+      }
       this.bookingService.insertBooking(bookingForm.value);
       this.resetForm(bookingForm);
       this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
         timeOut: 1000,
         progressBar: true
       });
-      this.message = 'Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....';
+      this.message = 'Quý khách lưu ý đến đúng giờ, trễ 5 phút sẽ bị huỷ. Xin cảm ơn.....';
       this.router.navigate([this.returnUrl]);
 
     } else {

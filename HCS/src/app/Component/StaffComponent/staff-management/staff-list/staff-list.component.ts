@@ -26,12 +26,12 @@ export class StaffListComponent implements OnInit {
     // this.resetForm();
     this.dtOptions = {
       retrieve: true,
-      processing: true,
-      paging: true,
+      // processing: true,
+      // paging: true,
       language: {
         searchPlaceholder: "Search"
       },
-      scrollX: true,
+      // scrollX: true,
     }
 
     var x = this.staffService.getData();

@@ -28,9 +28,9 @@ export class CustomerListComponent implements OnInit {
     this.requiredMsg = 'Trường bắt buộc';
     this.dtOptions = {
       retrieve: true,
-      processing: true,
-      scrollX: true,
-      responsive: true,
+      // processing: true,
+      // scrollX: true,
+      // responsive: true,
       language: {
         searchPlaceholder: "Tìm"
       },
