@@ -15,11 +15,13 @@
   <tbody>
     <tr *ngFor="let booking of bookingMemberList">
       <td>
-        <span *ngFor="let date of objectValue(booking.Date)">{{date}}/</span>
+        <!-- <span *ngFor="let date of objectValue(booking.Date)">{{date}}/</span> -->
+        {{booking.Date}}
       </td>
       <td>{{booking.StartTime}}</td>
       <td>
-        <span *ngFor="let service of objectValue(booking.Services)">{{service}}, </span>
+          {{booking.Services}}
+        <!-- <span *ngFor="let service of objectValue(booking.Services)">{{service}}, </span> -->
       </td>
       <td>{{booking.StaffName}}</td>
 

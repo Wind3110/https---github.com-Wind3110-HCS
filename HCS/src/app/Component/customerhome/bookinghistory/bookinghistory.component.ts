@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
+import { BookingHistory } from '../../../Model/BookingModel/bookingHistory.model';
+import { Service } from '../../../Model/ServiceModel/service.model';
 
 @Component({
   selector: 'app-bookinghistory',
@@ -16,8 +18,9 @@ export class BookinghistoryComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   bookingList: Booking[];
-  bookingMemberList: Booking[];
+  bookingMemberList: BookingHistory[];
   
+
   objectValue = Object.values;
 
   constructor(private BookingService: BookingService, private tostr: ToastrService, private modalService: NgbModal) { }
@@ -44,8 +47,30 @@ export class BookinghistoryComponent implements OnInit {
 
       this.bookingMemberList = [];
       this.bookingList.forEach(record => {
+        let bookingIns:BookingHistory;
         if (record.CustomerName === localStorage.getItem('token')) {
-          this.bookingMemberList.push(record);
+          // bookingIns.Date=this.changeDateTypeToString(record.Date);
+          // bookingIns.CustomerName=record.CustomerName;
+          // bookingIns.$key=record.$key;
+          // bookingIns.EndTime=record.EndTime;
+          // bookingIns.StartTime=record.StartTime;
+          // bookingIns.Gender=record.Gender;
+          // bookingIns.Phone=record.Phone;
+          // bookingIns.Services=record.Services;
+          // bookingIns.StaffName=record.StaffName;
+          // bookingIns.Status=record.Status;
+          this.bookingMemberList.push({ Date:this.changeDateTypeToString(record.Date),
+            CustomerName:record.CustomerName,
+            $key:record.$key,
+            EndTime:record.EndTime,
+            StartTime:record.StartTime,
+            Gender:record.Gender,
+            Phone:record.Phone,
+            Services:this.changeServicesToString(record.Services),
+            StaffName:record.StaffName,
+            Status:record.Status
+          });
+
           this.dtTrigger.next();
         }
       })
@@ -80,6 +105,7 @@ export class BookinghistoryComponent implements OnInit {
       Date: null,
       StartTime: null,
       EndTime: null,
+      Status: null
     }
   }
 
@@ -92,5 +118,35 @@ export class BookinghistoryComponent implements OnInit {
       this.BookingService.deleteBooking(key);
       this.tostr.warning("Deleted Successfully", "Added Customer");
     }
+  }
+  changeDateTypeToString(dateSelected: Date) {
+
+    let dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
+    let fullDateSelected = '';
+    dateSelectedList.forEach(str => {
+      let dateStr: string = str.substring(str.indexOf(':') + 1);
+      if (fullDateSelected !== '') {
+        fullDateSelected = '-' + fullDateSelected;
+      }
+      fullDateSelected = dateStr + fullDateSelected;
+    });
+    let date=moment(fullDateSelected).format('DD/MM/YYYY');
+    return date;
+    // let date = dateSelected.day + "/" + dateSelected.month + "/" + dateSelected.year;
+    // return date;
+  }
+  changeServicesToString(Services: any) {
+    let str:string="";
+    let valueOfServices=Object.values(Services);
+    for (let index = 0; index < valueOfServices.length; index++) {
+      if(index==valueOfServices.length-1){
+        str=str+ valueOfServices[index];
+      }
+      else{
+        str=str+ valueOfServices[index] +", ";
+      }
+      
+    }
+    return str;
   }
 }
