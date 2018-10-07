@@ -45,6 +45,7 @@ export class BookingComponent implements OnInit {
       Date: null,
       StartTime: null,
       EndTime: null,
+      Status:null
     }
   }
 }

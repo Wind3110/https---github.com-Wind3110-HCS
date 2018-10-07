@@ -306,6 +306,7 @@ export class MemberbookingComponent implements OnInit {
     }
 
     bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+    bookingForm.value.Status = 1;
     this.bookingService.insertBooking(bookingForm.value);
     this.resetForm(bookingForm);
     this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
@@ -336,6 +337,7 @@ export class MemberbookingComponent implements OnInit {
       Date: null,
       StartTime: null,
       EndTime: null,
+      Status:null
     };
   }
 

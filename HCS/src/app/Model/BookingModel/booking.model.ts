@@ -9,4 +9,5 @@ export class Booking {
     Date: Date;
     StartTime: number;
     EndTime: number;
+    Status: number;
 }

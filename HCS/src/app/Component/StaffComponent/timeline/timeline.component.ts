@@ -435,6 +435,7 @@ export class TimelineComponent implements OnInit {
       Date: null,
       StartTime: null,
       EndTime: null,
+      Status: null
     };
   }
 

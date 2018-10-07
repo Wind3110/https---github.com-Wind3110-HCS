@@ -70,6 +70,7 @@ export class BookingListComponent implements OnInit {
       Date:null,
       StartTime: null,
       EndTime: null,
+      Status:null,
     }
   }
 
