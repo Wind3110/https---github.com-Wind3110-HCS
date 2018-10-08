@@ -1,121 +1,109 @@
 <div class="form-group">
-  <button class="btn btn-primary btn-sm" (click)="open(content)">
+  <button class="btn btn-primary btn-sm" (click)="open(contentBooking)">
     <i class="fa fa-plus"></i> Đặt
   </button>
 </div>
 
 
-<!-- <ng-template #content let-c="close" let-d="dismiss">
+<ng-template #contentBooking let-c="close" let-ds="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Create Customer</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <h4 class="modal-title" id="modal-basic-title">Đặt lịch</h4>
+    <button type="button" class="close" aria-label="Close" (click)="ds('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <form #customerForm="ngForm" (ngSubmit)="onSubmit(customerForm)" name="myForm">
-      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="customerService.selectedCustomer.$key">
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Full name</label>
-        <div class="col-sm-9">
-          <input class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="customerService.selectedCustomer.FullName"
-            [ngClass]="{'is-invalid':FullName.touched && FullName.invalid}" required>
-          <div class="invalid-feedback" *ngIf="FullName?.errors?.required">
-            <div>FullName is required.</div>
+    <form #bookingForm="ngForm" (ngSubmit)="onSubmit(bookingForm)" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="bookingService.selectedBooking.$key">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Họ tên <span class="text-danger">*</span></label>
+          <input id="FullName" type="text" class="form-control" name="CustomerName" #CustomerName="ngModel"
+            [(ngModel)]="bookingService.selectedBooking.CustomerName" required [ngClass]="{'is-invalid':CustomerName.touched && CustomerName.errors}">
+          <div *ngIf="CustomerName.touched && CustomerName.errors" class="invalid-feedback">
+            <div *ngIf="CustomerName.errors.required">Vui lòng nhập họ tên</div>
           </div>
         </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Gender</label>
-        <div class="col-sm-9">
-          <select class="form-control" name="Gender" #Gender="ngModel" [(ngModel)]="customerService.selectedCustomer.Gender"
-            [ngClass]="{'is-invalid':Gender.touched && Gender.invalid}" required>
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
+        <div class="form-group col-md-2">
+          <label>Giới tính <span class="text-danger">*</span></label>
+          <select class="form-control custom-select" name="Gender" #Gender="ngModel" [(ngModel)]="bookingService.selectedBooking.Gender"
+            required [ngClass]="{'is-invalid':Gender.touched && Gender.errors}">
+            <option selected>Nam</option>
+            <option>Nữ</option>
           </select>
-          <div class="invalid-feedback" *ngIf="Gender?.errors?.required">
-            <div>Gender is required.</div>
+          <div *ngIf="Gender.touched && Gender.errors" class="invalid-feedback">
+            <div *ngIf="Gender.errors.required">Vui lòng chọn giới tính</div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Số điện thoại <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="Phone" #Phone="ngModel" [(ngModel)]="bookingService.selectedBooking.Phone"
+            required [ngClass]="{'is-invalid':Phone.touched  && Phone.errors}">
+          <div *ngIf="Phone.touched && Phone.errors" class="invalid-feedback">
+            <div *ngIf="Phone.errors.required">Vui lòng nhập số điện thoại</div>
           </div>
         </div>
       </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Phone</label>
-        <div class="col-sm-9">
-          <input class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="customerService.selectedCustomer.PhoneNumber"
-            [ngClass]="{'is-invalid':PhoneNumber.touched && PhoneNumber.invalid}" required>
-          <div class="invalid-feedback" *ngIf="PhoneNumber?.errors?.required">
-            <div>Phone Number is required.</div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label>Chọn dịch vụ <span class="text-danger">*</span></label>
+          <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceNameList" [settings]="dropdownServiceSettings"
+            (onSelect)="onItemServiceSelect($event)" (onSelectAll)="onServiceSelectAll($event)" name="Services" #Services="ngModel"
+            [(ngModel)]="bookingService.selectedBooking.Services" required [ngClass]="{'is-invalid':Services.touched  && Services.errors}">
+          </ng-multiselect-dropdown>
+          <div *ngIf="Services.touched && Services.errors" class="invalid-feedback">
+            <div *ngIf="Services.errors.required">Vui lòng chọn dịch vụ</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Chọn Stylish</label>
+          <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
+            [(ngModel)]="selectedItems" (onSelect)="onItemStylishSelect($event)" (onSelectAll)="onStylishSelectAll($event)" name="StaffName"
+            #StaffName="ngModel" id="slcStaff">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Chọn ngày <span class="text-danger">*</span></label>
+          <div class="input-group">
+            <input class="form-control" ngbDatepicker #d="ngbDatepicker" name="Date" #Date="ngModel" [(ngModel)]="model"
+              (ngModelChange)="onChangeDateSelected($event)" required [ngClass]="{'is-invalid':Date.touched && Date.errors}" (navigate)="date = $event.next" readonly>
+            <div class="input-group-append">
+              <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-caret-down"></i></button>
+            </div>
+            <div *ngIf="Date.touched && Date.errors" class="invalid-feedback">
+              <div *ngIf="Date.errors.required">Vui lòng chọn ngày</div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Address</label>
-        <div class="col-sm-9">
-          <textarea class="form-control" name="Address" #Address="ngModel" [(ngModel)]="customerService.selectedCustomer.Address"></textarea>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Level</label>
-        <div class="col-sm-9">
-          <input class="form-control" name="Level" #Level="ngModel" [(ngModel)]="customerService.selectedCustomer.Level"
-            [ngClass]="{'is-invalid':Level.touched && Level.invalid}" required>
-          <div class="invalid-feedback" *ngIf="Level?.errors?.required">
-            <div>Level is required.</div>
+      <div class="form-row">
+        <div class="col-md-12">
+          <label>Chọn giờ <span class="text-danger">*</span></label>
+          <div class="form-group">
+            <div class="btn-group btn-group-toggle TimePicker" ngbRadioGroup name="StartTime" #StartTime="ngModel"
+              [(ngModel)]="bookingService.selectedBooking.StartTime" required [ngClass]="{'is-invalid':StartTime.touched && StartTime.errors}">
+              <label *ngFor="let timer of time" ngbButtonLabel class="btn-outline-primary">
+                <input ngbButton type="radio" [value]="(timer.TimeVal)" [disabled]="(timer.isDisable)">{{timer.TimeFrame}}
+              </label>
+              <div *ngIf="StartTime.touched && StartTime.errors" class="invalid-feedback">
+                <div *ngIf="StartTime.errors.required">Vui lòng chọn giờ</div>
+              </div>
+            </div>
           </div>
         </div>
+        <input type="hidden" name="EndTime" #EndTime="ngModel" [(ngModel)]="bookingService.selectedBooking.EndTime">
+
+        <pre>{{bookingService.selectedBooking.StartTime | json}}</pre>
       </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Username</label>
-        <div class="col-sm-9">
-          <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="customerService.selectedCustomer.Username"
-            [ngClass]="{'is-invalid':Username.touched && Username.invalid}" required pattern="^[a-zA-Z0-9_-]{8,15}$">
-          <div class="invalid-feedback" *ngIf="Username?.errors?.required">
-            <div>Username is required.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Password</label>
-        <div class="col-sm-9">
-          <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="customerService.selectedCustomer.Password"
-            type="password" [ngClass]="{'is-invalid':Password.touched && Password.invalid}" required>
-          <div class="invalid-feedback" *ngIf="Password?.errors?.required">
-            <div>Password is required.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Confirm Password</label>
-        <div class="col-sm-9">
-          <input class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel" [ngModel]="customerService.selectedCustomer.ConfirmPassword"
-            type="password" [ngClass]="{'is-invalid':ConfirmPassword.touched && ConfirmPassword.invalid}" required
-            compare="Password">
-          <div class="invalid-feedback" *ngIf="Password?.errors?.required">
-            <div>Confirm Password is required.</div>
-          </div>
-          <div class="invalid-feedback" *ngIf="ConfirmPassword?.errors?.compare">
-            Password does not match!
-          </div>
-        </div>
-      </div>
-
-
-      <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!customerForm.valid" (click)="onSubmit(customerForm)"
-          (click)="c('Save click')">
-          <i class="fa fa-floppy-o"></i>
-          Submit</button>
+      <hr>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="!bookingForm.valid" (click)="onSubmit(bookingForm)">Đặt
+          lịch</button>
       </div>
     </form>
   </div>
 
-</ng-template> -->
+</ng-template>

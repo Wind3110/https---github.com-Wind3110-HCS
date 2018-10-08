@@ -31,9 +31,9 @@ export class CustomerListComponent implements OnInit {
       // processing: true,
       // scrollX: true,
       // responsive: true,
-      language: {
-        searchPlaceholder: "Tìm"
-      },
+      // language: {
+      //   searchPlaceholder: "Tìm"
+      // },
     }
 
     var x = this.customerService.getData();

@@ -7,6 +7,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { BookingHistory } from '../../../../Model/BookingModel/bookingHistory.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-list',
@@ -19,19 +20,21 @@ export class BookingListComponent implements OnInit {
   bookingList: Booking[];
   bookingForm: FormGroup;
   allBookingList: BookingHistory[];
+  // returnUrl: string;
 
-  constructor(private BookingService: BookingService, private tostr: ToastrService, private modalService: NgbModal) { }
+  constructor(private BookingService: BookingService, private tostr: ToastrService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
-
+    // this.returnUrl = '/dashboard/booking';
     this.resetForm();
     this.dtOptions = {
+      // destroy:true,
       retrieve: true,
       // processing: true,
       // scrollX: true,
-      language: {
-        searchPlaceholder: "Search"
-      },
+      // language: {
+      //   searchPlaceholder: "Search"
+      // },
     }
 
     this.resetForm();
@@ -42,7 +45,7 @@ export class BookingListComponent implements OnInit {
         var y = element.payload.toJSON();
         y["$key"] = element.key;
         this.bookingList.push(y as Booking);
-        this.dtTrigger.next();
+        // this.dtTrigger.next();
       });
       this.allBookingList = [];
       this.bookingList.forEach(record => {
@@ -123,6 +126,7 @@ export class BookingListComponent implements OnInit {
         timeOut: 1200,
         positionClass: 'toast-bottom-right'
       });
+      // this.router.navigate([this.returnUrl]);
     }
   }
 
@@ -151,6 +155,7 @@ export class BookingListComponent implements OnInit {
         timeOut: 1200,
         positionClass: 'toast-bottom-right'
       });
+      // this.router.navigate([this.returnUrl]);
     }
   }
 

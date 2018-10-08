@@ -68,19 +68,19 @@
   width: 100px;
   height: 60px;
   border-radius: 0;
-  border-color: darkslateblue;
-  color: darkslateblue;
+  border-color: rgba(27, 2, 253, 0.884);
+  color: blue;
   margin-right: 6px;
   margin-bottom: 6px;
-  border-left: 10px solid darkslateblue;
+  border-left: 10px solid rgba(27, 2, 253, 0.712);
   box-shadow: 3px 3px rgb(129, 129, 129);
 }
 
 #btnTime>button[disabled] {
   color: red;
   opacity: 1;
-  border-color: red;
-  border-left: 10px solid rgb(214, 42, 42);
+  border-color: rgba(253, 40, 2, 0.884);
+  border-left: 10px solid rgba(253, 40, 2, 0.767);
 }
 
 #btnTime>button::after {

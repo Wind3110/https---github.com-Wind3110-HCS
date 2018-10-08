@@ -28,9 +28,9 @@ export class StaffListComponent implements OnInit {
       retrieve: true,
       // processing: true,
       // paging: true,
-      language: {
-        searchPlaceholder: "Search"
-      },
+      // language: {
+      //   searchPlaceholder: "Search"
+      // },
       // scrollX: true,
     }
 

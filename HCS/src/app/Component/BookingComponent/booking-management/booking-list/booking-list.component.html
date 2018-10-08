@@ -1,17 +1,16 @@
 <app-booking></app-booking>
 
 <!-- Datatable -->
-<table datatable id="booking_table" class="table table-hover table-bordered" [dtOptions]="dtOptions"
-  [dtTrigger]="dtTrigger">
+<table datatable id="booking_table" class="table table-hover table-bordered" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
   <thead class="text-center thead-blue">
     <tr>
-      <th>Customer Name</th>
-      <th>Gender</th>
-      <th>Phone Number</th>
+      <th>Tên khách hàng</th>
+      <th>Giới tính</th>
+      <th>Điện thoại</th>
       <th>Stylish</th>
-      <th>Date</th>
-      <th>StartTime</th>
-      <th>Status</th>
+      <th>Ngày</th>
+      <th>Giờ</th>
+      <th>Trạng thái</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -23,9 +22,9 @@
       <td>{{booking.StaffName}}</td>
       <td>{{booking.Date}}</td>
       <td>{{booking.StartTime}}</td>
-      <td *ngIf="booking.Status === 1">Đang chờ</td>
-      <td *ngIf="booking.Status === 2">Đã xác nhận</td>
-      <td *ngIf="booking.Status === 3">Đã huỷ</td>
+      <td *ngIf="booking.Status === 1" id="Tdwaiting">Đang chờ</td>
+      <td *ngIf="booking.Status === 2" id="Tdconfirm">Đã xác nhận</td>
+      <td *ngIf="booking.Status === 3" id="Tdcancel">Đã huỷ</td>
       <td class="text-center" style="white-space: nowrap;">
         <a *ngIf="booking.Status === 1" title="Xác nhận đơn đặt" class="btn" (click)="onConfirmBooking(booking.$key)">
           <fa name="check-circle"></fa>

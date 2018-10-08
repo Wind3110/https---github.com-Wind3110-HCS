@@ -20,6 +20,44 @@
   color: #ffffff;
 }
 
-table > tbody > tr:nth-child(odd) {
-    background-color: rgba(105, 90, 205, 0.13) !important;
+table>tbody>tr:nth-child(odd) {
+  background-color: rgba(105, 90, 205, 0.13) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.2em 0.7em !important;
+  border-radius: 50% !important;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  margin-left: 0.5em;
+  height: 34px;
+  padding: .375rem .75rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  margin-left: 0.5em;
+  height: 34px;
+  padding: .375rem .75rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+table.dataTable {
+  font-size: 0.92rem;
+  border-collapse: collapse;
 }
