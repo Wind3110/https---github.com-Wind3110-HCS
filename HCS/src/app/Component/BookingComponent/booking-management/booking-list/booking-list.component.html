@@ -1,48 +1,51 @@
-<app-booking></app-booking>
+<div class="card">
+  <div class="card-body">
+    <app-booking></app-booking>
 
-<!-- Datatable -->
-<table datatable id="booking_table" class="table table-hover table-bordered" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-  <thead class="text-center thead-blue">
-    <tr>
-      <th>Tên khách hàng</th>
-      <th>Giới tính</th>
-      <th>Điện thoại</th>
-      <th>Stylish</th>
-      <th>Ngày</th>
-      <th>Giờ</th>
-      <th>Trạng thái</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let booking of allBookingList">
-      <td>{{booking.CustomerName}}</td>
-      <td>{{booking.Gender}}</td>
-      <td>{{booking.Phone}}</td>
-      <td>{{booking.StaffName}}</td>
-      <td>{{booking.Date}}</td>
-      <td>{{booking.StartTime}}</td>
-      <td *ngIf="booking.Status === 1" id="Tdwaiting">Đang chờ</td>
-      <td *ngIf="booking.Status === 2" id="Tdconfirm">Đã xác nhận</td>
-      <td *ngIf="booking.Status === 3" id="Tdcancel">Đã huỷ</td>
-      <td class="text-center" style="white-space: nowrap;">
-        <a *ngIf="booking.Status === 1" title="Xác nhận đơn đặt" class="btn" (click)="onConfirmBooking(booking.$key)">
-          <fa name="check-circle"></fa>
-        </a>
-        <a title="Huỷ đơn đặt" *ngIf="booking.Status === 1" class="btn" (click)="onCancelBooking(booking.$key)">
-          <i class="fa fa-trash"></i>
-        </a>
-        <a title="Xem thông tin đơn đặt" class="btn" (click)="onEdit(booking)" (click)="openDetail(contentDetail)">
-          <i class="fa fa-info-circle"></i>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr></tr>
-  </tfoot>
-</table>
-
+    <!-- Datatable -->
+    <table datatable id="booking_table" class="table table-hover table-bordered" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead class="text-center thead-blue">
+        <tr>
+          <th>Tên khách hàng</th>
+          <th>Giới tính</th>
+          <th>Điện thoại</th>
+          <th>Stylish</th>
+          <th>Ngày</th>
+          <th>Giờ</th>
+          <th>Trạng thái</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of allBookingList">
+          <td>{{booking.CustomerName}}</td>
+          <td>{{booking.Gender}}</td>
+          <td>{{booking.Phone}}</td>
+          <td>{{booking.StaffName}}</td>
+          <td>{{booking.Date}}</td>
+          <td>{{booking.StartTime}}</td>
+          <td *ngIf="booking.Status === 1" id="Tdwaiting">Đang chờ</td>
+          <td *ngIf="booking.Status === 2" id="Tdconfirm">Đã xác nhận</td>
+          <td *ngIf="booking.Status === 3" id="Tdcancel">Đã huỷ</td>
+          <td class="text-center" style="white-space: nowrap;">
+            <a *ngIf="booking.Status === 1" title="Xác nhận đơn đặt" class="btn" (click)="onConfirmBooking(booking.$key)">
+              <fa name="check-circle"></fa>
+            </a>
+            <a title="Huỷ đơn đặt" *ngIf="booking.Status === 1" class="btn" (click)="onCancelBooking(booking.$key)">
+              <i class="fa fa-trash"></i>
+            </a>
+            <a title="Xem thông tin đơn đặt" class="btn" (click)="onEdit(booking)" (click)="openDetail(contentDetail)">
+              <i class="fa fa-info-circle"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr></tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
 <!-- Popup form -->
 <!-- <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">

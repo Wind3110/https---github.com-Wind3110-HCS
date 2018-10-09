@@ -1,40 +1,45 @@
-<app-service></app-service>
+<div class="card">
+  <div class="card-body">
+    <app-service></app-service>
 
-<!-- Datatable -->
-<table datatable id="service_table" class="table table-sm table-hover table-bordered" [dtOptions]="dtOptions"
-  [dtTrigger]="dtTrigger">
-  <thead class="text-center thead-blue">
-    <tr>
-      <th>Tên dịch vụ</th>
-      <th>Mô tả</th>
-      <th>Thời gian</th>
-      <th>Giá</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let service of serviceList">
-      <td>{{service.ServiceName}}</td>
-      <td>{{service.descr}}</td>
-      <td>{{service.TimeUnit}}</td>
-      <td>{{service.Price}}</td>
-      <td class="text-center" style="white-space: nowrap;">
-        <a class="btn" (click)="onEdit(service)" (click)="open(content)">
-          <i class="fa fa-pencil-square-o"></i>
-        </a>
-        <a class="btn" (click)="onDelete(service.$key)">
-          <i class="fa fa-trash-o"></i>
-        </a>
-        <a class="btn" (click)="onEdit(service)" (click)="openDetail(contentDetail)">
-          <i class="fa fa-info-circle"></i>
-        </a>
-      </td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr></tr>
-  </tfoot>
-</table>
+    <!-- Datatable -->
+    <table datatable id="service_table" class="table table-sm table-hover table-bordered" [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger">
+      <thead class="text-center thead-blue">
+        <tr>
+          <th>Tên dịch vụ</th>
+          <th>Mô tả</th>
+          <th>Thời gian</th>
+          <th>Giá</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of serviceList">
+          <td>{{service.ServiceName}}</td>
+          <td>{{service.descr}}</td>
+          <td>{{service.TimeUnit}}</td>
+          <td>{{service.Price}}</td>
+          <td class="text-center" style="white-space: nowrap;">
+            <a class="btn" (click)="onEdit(service)" (click)="open(content)">
+              <i class="fa fa-pencil-square-o"></i>
+            </a>
+            <a class="btn" (click)="onDelete(service.$key)">
+              <i class="fa fa-trash-o"></i>
+            </a>
+            <a class="btn" (click)="onEdit(service)" (click)="openDetail(contentDetail)">
+              <i class="fa fa-info-circle"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr></tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
 
 <!-- Popup form -->
 <ng-template #content let-c="close" let-d="dismiss">
