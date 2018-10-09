@@ -107,7 +107,7 @@
   width: 100px;
   height: 6px;
   border-radius: 0;
-  background-color: red;
+  background-color: rgba(253, 40, 2, 0.767);
   border: none;
 }
 
@@ -115,7 +115,7 @@
   width: 100px;
   height: 6px;
   border-radius: 0;
-  background-color: blue;
+  background-color: rgba(27, 2, 253, 0.712);
   border: none;
 
 }
