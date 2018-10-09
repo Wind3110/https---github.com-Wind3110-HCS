@@ -2,9 +2,10 @@
   <div class="col-md-4"></div>
   <div class="col-md-4">
     <div class="card">
-      <div class="card-body">
+      <div class="card-header">
         <h4 class="card-title">Đăng nhập thành viên</h4>
-        <hr>
+      </div>
+      <div class="card-body">
         <form [formGroup]="customerLoginForm" (ngSubmit)="loginCustomer()">
           <p *ngIf="message" class="text-center text-danger">{{message}}</p>
           <div class="form-group">

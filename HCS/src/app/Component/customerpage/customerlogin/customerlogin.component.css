@@ -3,3 +3,7 @@
     text-align: center;
     margin-left: 10px;
 }
+
+.card {
+    width: max-content;
+}

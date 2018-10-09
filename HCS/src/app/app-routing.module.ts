@@ -35,6 +35,7 @@ import { StaffhomeComponent } from './Component/StaffPageComponent/staffhome/sta
 import { StaffconfirmComponent } from './Component/StaffPageComponent/staffhome/staffconfirm/staffconfirm.component';
 import { StaffbookingComponent } from './Component/StaffPageComponent/staffhome/staffbooking/staffbooking.component';
 import { StafftimeComponent } from './Component/StaffPageComponent/staffhome/stafftime/stafftime.component';
+import { HomeComponent } from './Component/customerpage/home/home.component';
 
 const routes: Routes = [
 
@@ -60,11 +61,13 @@ const routes: Routes = [
   },
 
   //customer
+
   {
     path: 'homepage', component: CustomerpageComponent, children: [
       { path: 'customerregistration', component: CustomerregistrationComponent },
       { path: 'customerlogin', component: CustomerloginComponent },
       { path: 'customerbooking', component: CustomerbookingComponent },
+      { path: 'home', component: HomeComponent },
     ]
   },
 

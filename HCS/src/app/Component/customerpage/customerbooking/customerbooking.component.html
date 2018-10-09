@@ -2,9 +2,10 @@
   <div class="col-md-1"></div>
   <div class="col-md-10">
     <div class="card">
-      <div class="card-body">
+      <div class="card-header">
         <h4 class="card-title">Đặt lịch</h4>
-        <hr>
+      </div>
+      <div class="card-body">
         <form #bookingForm="ngForm" (ngSubmit)="onSubmit(bookingForm)" name="myForm">
           <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="bookingService.selectedBooking.$key">
           <div class="form-row">
@@ -40,8 +41,8 @@
             <div class="form-group col-md-6">
               <label>Chọn dịch vụ <span class="text-danger">*</span></label>
               <ng-multiselect-dropdown [placeholder]="'Chọn dịch vụ'" [data]="serviceNameList" [settings]="dropdownServiceSettings"
-                (onSelect)="onItemServiceSelect($event)" (onSelectAll)="onServiceSelectAll($event)" name="Services" #Services="ngModel"
-                [(ngModel)]="bookingService.selectedBooking.Services" required [ngClass]="{'is-invalid':Services.touched  && Services.errors}">
+                (onSelect)="onItemServiceSelect($event)" (onSelectAll)="onServiceSelectAll($event)" name="Services"
+                #Services="ngModel" [(ngModel)]="bookingService.selectedBooking.Services" required [ngClass]="{'is-invalid':Services.touched  && Services.errors}">
               </ng-multiselect-dropdown>
               <div *ngIf="Services.touched && Services.errors" class="invalid-feedback">
                 <div *ngIf="Services.errors.required">Vui lòng chọn dịch vụ</div>
@@ -50,8 +51,8 @@
             <div class="form-group col-md-6">
               <label>Chọn Stylish</label>
               <ng-multiselect-dropdown [placeholder]="'Chọn Stylish'" [data]="staffList" [settings]="dropdownStaffSettings"
-                [(ngModel)]="selectedItems" (onSelect)="onItemStylishSelect($event)" (onSelectAll)="onStylishSelectAll($event)" name="StaffName"
-                #StaffName="ngModel" id="slcStaff">
+                [(ngModel)]="selectedItems" (onSelect)="onItemStylishSelect($event)" (onSelectAll)="onStylishSelectAll($event)"
+                name="StaffName" #StaffName="ngModel" id="slcStaff">
               </ng-multiselect-dropdown>
             </div>
           </div>
@@ -60,7 +61,8 @@
               <label>Chọn ngày <span class="text-danger">*</span></label>
               <div class="input-group">
                 <input class="form-control" ngbDatepicker #d="ngbDatepicker" name="Date" #Date="ngModel" [(ngModel)]="model"
-                  (ngModelChange)="onChangeDateSelected($event)" required [ngClass]="{'is-invalid':Date.touched && Date.errors}" (navigate)="date = $event.next" readonly>
+                  (ngModelChange)="onChangeDateSelected($event)" required [ngClass]="{'is-invalid':Date.touched && Date.errors}"
+                  (navigate)="date = $event.next" readonly>
                 <div class="input-group-append">
                   <button class="btn btn-primary" (click)="d.toggle()" type="button"><i class="fa fa-caret-down"></i></button>
                 </div>
