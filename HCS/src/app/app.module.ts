@@ -55,6 +55,11 @@ import { BookingComponent } from './Component/BookingComponent/booking-managemen
 import { BookingListComponent } from './Component/BookingComponent/booking-management/booking-list/booking-list.component';
 import { TimelineComponent } from './Component/StaffComponent/timeline/timeline.component';
 import { BookinghistoryComponent } from './Component/customerhome/bookinghistory/bookinghistory.component';
+import { StaffloginComponent } from './Component/StaffPageComponent/stafflogin/stafflogin.component';
+import { StaffhomeComponent } from './Component/StaffPageComponent/staffhome/staffhome.component';
+import { StaffconfirmComponent } from './Component/StaffPageComponent/staffhome/staffconfirm/staffconfirm.component';
+import { StaffbookingComponent } from './Component/StaffPageComponent/staffhome/staffbooking/staffbooking.component';
+import { StafftimeComponent } from './Component/StaffPageComponent/staffhome/stafftime/stafftime.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +89,11 @@ import { BookinghistoryComponent } from './Component/customerhome/bookinghistory
     BookingListComponent,
     TimelineComponent,
     BookinghistoryComponent,
+    StaffloginComponent,
+    StaffhomeComponent,
+    StaffconfirmComponent,
+    StaffbookingComponent,
+    StafftimeComponent,
   ],
 
   imports: [

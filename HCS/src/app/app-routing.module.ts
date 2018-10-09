@@ -29,9 +29,16 @@ import { BookingComponent } from './Component/BookingComponent/booking-managemen
 import { BookingListComponent } from './Component/BookingComponent/booking-management/booking-list/booking-list.component';
 import { TimelineComponent } from './Component/StaffComponent/timeline/timeline.component';
 import { BookinghistoryComponent } from './Component/customerhome/bookinghistory/bookinghistory.component';
+//Staff page
+import { StaffloginComponent } from './Component/StaffPageComponent/stafflogin/stafflogin.component';
+import { StaffhomeComponent } from './Component/StaffPageComponent/staffhome/staffhome.component';
+import { StaffconfirmComponent } from './Component/StaffPageComponent/staffhome/staffconfirm/staffconfirm.component';
+import { StaffbookingComponent } from './Component/StaffPageComponent/staffhome/staffbooking/staffbooking.component';
+import { StafftimeComponent } from './Component/StaffPageComponent/staffhome/stafftime/stafftime.component';
 
 const routes: Routes = [
 
+  //admin
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [
       { path: 'staff', component: StaffManagementComponent },
@@ -42,6 +49,17 @@ const routes: Routes = [
     ]
   },
 
+  //staff
+  { path: 'stafflogin', component: StaffloginComponent },
+  {
+    path: 'staffhome', component: StaffhomeComponent, canActivate: [AuthGuard], children: [
+      { path: 'staffconfirm', component: StaffconfirmComponent },
+      { path: 'staffbooking', component: StaffbookingComponent },
+      { path: 'stafftime', component: StafftimeComponent },
+    ]
+  },
+
+  //customer
   {
     path: 'homepage', component: CustomerpageComponent, children: [
       { path: 'customerregistration', component: CustomerregistrationComponent },
@@ -50,6 +68,7 @@ const routes: Routes = [
     ]
   },
 
+  //member
   {
     path: 'customerhome', component: CustomerhomeComponent, canActivate: [AuthGuard], data: {
       expectedRole: 'user'
@@ -57,7 +76,6 @@ const routes: Routes = [
     children: [
       { path: 'memberbooking', component: MemberbookingComponent },
       { path: 'bookinghistory', component: BookinghistoryComponent },
-      // { path: 'customerbooking', component: CustomerbookingComponent },
     ]
   },
 

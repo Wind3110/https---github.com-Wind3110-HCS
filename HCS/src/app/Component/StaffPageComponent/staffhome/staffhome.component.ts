@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../Service/AuthService/auth.service';
+import { AuthService } from '../../../Service/AuthService/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-customerhome',
-  templateUrl: './customerhome.component.html',
-  styleUrls: ['./customerhome.component.css']
+  selector: 'app-staffhome',
+  templateUrl: './staffhome.component.html',
+  styleUrls: ['./staffhome.component.css']
 })
-export class CustomerhomeComponent implements OnInit {
+export class StaffhomeComponent implements OnInit {
   id: string;
-
   constructor(private router: Router, public authService: AuthService) { }
 
   ngOnInit() {
@@ -19,6 +18,6 @@ export class CustomerhomeComponent implements OnInit {
   logout(): void {
     console.log("user Logout");
     this.authService.logoutCustomer();
-    this.router.navigate(['/customerlogin']);
+    this.router.navigate(['/stafflogin']);
   }
 }

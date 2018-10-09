@@ -1,0 +1,19 @@
+.bg-dark {
+  background-color: cadetblue !important;
+}
+
+.second-header {
+  background-color: aliceblue !important;
+  height: 20px;
+  margin-bottom: 3em;
+}
+
+.container {
+  margin-bottom: 3em;
+  /* background-color:  */
+}
+
+/* custom input */
+/* .form-control {
+    border-radius: 20px;
+  } */
