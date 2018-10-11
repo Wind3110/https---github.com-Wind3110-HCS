@@ -13,7 +13,8 @@
   </div>
 
   <div class="modal-body">
-    <form #staffForm="ngForm" (ngSubmit)="staffForm.form.valid && onSubmit(staffForm)" name="myForm" novalidate>
+    <form #staffForm="ngForm" (ngSubmit)="staffForm.form.valid && onSubmit(staffForm)" name="myForm">
+      <p class="text-center text-danger alert-danger" *ngIf="ErrorMessage">{{ErrorMessage}}</p>
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
 
       <div class="form-group row">
@@ -115,7 +116,8 @@
         <label class="col-sm-3 col-form-label">Lương <span class="text-danger">*</span></label>
         <div class="col-sm-9">
           <input class="form-control" name="Salary" #Salary="ngModel" [(ngModel)]="staffService.selectedStaff.Salary"
-            type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" [ngClass]="{'is-invalid':Salary.touched && Salary.invalid}" required>
+            type="number" min="10" max="50" step="3" value="10" [ngClass]="{'is-invalid':Salary.touched && Salary.invalid}"
+            required>
           <div class="invalid-feedback" *ngIf="Salary?.errors?.required">
             <div>{{requiredMsg}}</div>
           </div>
@@ -123,8 +125,7 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)"
-          (click)="c('Save click')">
+        <button class="btn btn-primary" type="submit" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)">
           <i class="fa fa-floppy-o"></i>
           Thêm</button>
       </div>

@@ -44,34 +44,24 @@ export class CustomerComponent implements OnInit {
   }
 
   onSubmit(customerForm: NgForm) {
-    var x = this.customerService.getData();
-    x.snapshotChanges().subscribe(item => {
-      this.customerList = [];
-      item.forEach(element => {
-        var y = element.payload.toJSON();
-        y["$key"] = element.key;
-        this.customerList.push(y as Customer);
-      });
-
-      //Check exists username
-      let isExitsUsername: boolean = false;
-      this.customerList.forEach(item => {
-        if (this.customerService.selectedCustomer.Username === item.Username) {
-          isExitsUsername = true;
-        } else {
-          return isExitsUsername;
-        }
-      })
-      if (!isExitsUsername) {
-        customerForm.value.Password = this.encryptMD5(this.customerService.selectedCustomer.Password);
-        this.customerService.insertCustomer(customerForm.value);
-        this.modalRef.close();
-        // this.resetForm(customerForm);
-        this.tostr.success('Thêm thành công', 'Thêm khách hàng');
+    //Check exists username
+    let isExitsUsername: boolean = false;
+    this.customerList.forEach(item => {
+      if (this.customerService.selectedCustomer.Username === item.Username) {
+        isExitsUsername = true;
       } else {
-        this.ErrorMessage = "Tên tài khoản đã tồn tại";
+        return isExitsUsername;
       }
-    });
+    })
+    if (!isExitsUsername) {
+      customerForm.value.Password = this.encryptMD5(this.customerService.selectedCustomer.Password);
+      this.customerService.insertCustomer(customerForm.value);
+      this.modalRef.close();
+      // this.resetForm(customerForm);
+      this.tostr.success('Thêm thành công', 'Thêm khách hàng');
+    } else {
+      this.ErrorMessage = "Tên tài khoản đã tồn tại";
+    }
   }
 
   encryptMD5(oldPassword: string) {

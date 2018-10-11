@@ -26,6 +26,9 @@
             <a class="btn" (click)="onEdit(staff)" (click)="open(content)">
               <i class="fa fa-pencil-square-o"></i>
             </a>
+            <a class="btn" (click)="onEdit(staff)" (click)="openChangePassword(contentChangePassword)" title="Đổi mật khẩu">
+              <fa name="key"></fa>
+            </a>
             <a class="btn" (click)="onDelete(staff.$key)">
               <i class="fa fa-trash-o"></i>
             </a>
@@ -52,35 +55,14 @@
   </div>
 
   <div class="modal-body">
-    <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm" novalidate>
+    <form #staffForm="ngForm" (ngSubmit)="onSubmit(staffForm)" name="myForm">
       <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
 
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Tên tài khoản <span class="text-danger">*</span></label>
-        <div class="col-sm-9">
-          <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username"
-            [ngClass]="{'is-invalid':Username.touched && Username.invalid}" required pattern="^[a-zA-Z0-9_-]{8,15}$">
-          <div class="invalid-feedback" *ngIf="Username?.errors?.required">
-            <div>{{requiredMsg}}</div>
-          </div>
-          <div class="invalid-feedback" *ngIf="Username?.errors?.pattern">
-            <div>Username has special symbol.</div>
-          </div>
-        </div>
-      </div>
+      <input class="form-control" type="hidden" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username">
 
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Mật khẩu <span class="text-danger">*</span></label>
-        <div class="col-sm-9">
-          <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="staffService.selectedStaff.Password"
-            type="password" [ngClass]="{'is-invalid':Password.touched && Password.invalid}" required>
-          <div class="invalid-feedback" *ngIf="Password?.errors?.required">
-            <div>{{requiredMsg}}</div>
-          </div>
-        </div>
-      </div>
+      <input type="hidden" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="staffService.selectedStaff.Password">
 
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label class="col-sm-3 col-form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
         <div class="col-sm-9">
           <input class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel" [(ngModel)]="staffService.selectedStaff.ConfirmPassword"
@@ -93,7 +75,7 @@
             Password does not match!
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Họ tên <span class="text-danger">*</span></label>
@@ -159,6 +141,7 @@
           </div>
         </div>
       </div>
+      {{staffForm.value | json}}
 
       <div class="modal-footer">
         <button class="btn btn-primary" type="button" [disabled]="!staffForm.valid" (click)="onSubmit(staffForm)"
@@ -208,5 +191,89 @@
         <button class="btn btn-primary" (click)="c('Save click')">Đóng</button>
       </div>
     </form>
+  </div>
+</ng-template>
+
+<!-- Popup change password -->
+<ng-template #contentChangePassword let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Đổi mật khẩu</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #changePasswordForm="ngForm" (ngSubmit)="onSubmit(changePasswordForm)" name="myForm">
+      <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="staffService.selectedStaff.$key">
+      <p class="text-center text-danger alert-danger" *ngIf="ErrorMessage">{{ErrorMessage}}</p>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Tên tài khoản <span class="text-danger">*</span></label>
+        <div class="col-sm-8">
+          <input class="form-control" name="Username" #Username="ngModel" [(ngModel)]="staffService.selectedStaff.Username"
+            [ngClass]="{'is-invalid':Username.touched && Username.invalid}" required pattern="^[a-zA-Z0-9_-]{8,15}$"
+            readonly>
+          <div class="invalid-feedback" *ngIf="Username?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
+          <div class="invalid-feedback" *ngIf="Username?.errors?.pattern">
+            <div>Username has special symbol.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Mật khẩu cũ<span class="text-danger">*</span></label>
+        <div class="col-sm-8">
+          <input class="form-control" name="OldPassword" #OldPassword="ngModel" [(ngModel)]="staffService.selectedStaff.OldPassword"
+            [ngClass]="{'is-invalid':OldPassword.touched && OldPassword.invalid}" type="password" required>
+          <div class="invalid-feedback" *ngIf="OldPassword?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Mật khẩu mới<span class="text-danger">*</span></label>
+        <div class="col-sm-8">
+          <input class="form-control" name="Password" #Password="ngModel" [(ngModel)]="staffService.selectedStaff.Password"
+            type="password" [ngClass]="{'is-invalid':Password.touched && Password.invalid}" required>
+          <div class="invalid-feedback" *ngIf="Password?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+        <div class="col-sm-8">
+          <input class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel" [ngModel]="staffService.selectedStaff.ConfirmPassword"
+            type="password" [ngClass]="{'is-invalid':ConfirmPassword.touched && ConfirmPassword.invalid}" required
+            compare="Password">
+          <div class="invalid-feedback" *ngIf="Password?.errors?.required">
+            <div>{{requiredMsg}}</div>
+          </div>
+          <div class="invalid-feedback" *ngIf="ConfirmPassword?.errors?.compare">
+            Mật khẩu không trùng!
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" class="form-control" name="FullName" #FullName="ngModel" [(ngModel)]="staffService.selectedStaff.FullName">
+
+      <input type="hidden" class="form-control" name="Sex" #Sex="ngModel" [(ngModel)]="staffService.selectedStaff.Sex">
+
+      <input type="hidden" class="form-control" name="DayOfBirth" #DayOfBirth="ngModel" [(ngModel)]="staffService.selectedStaff.DayOfBirth">
+      <input type="hidden" class="form-control" name="PhoneNumber" #PhoneNumber="ngModel" [(ngModel)]="staffService.selectedStaff.PhoneNumber">
+
+      <input type="hidden" class="form-control" name="Address" #Address="ngModel" [(ngModel)]="staffService.selectedStaff.Address">
+      <input type="hidden" class="form-control" name="Salary" #Salary="ngModel" [(ngModel)]="staffService.selectedStaff.Salary">
+
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit" [disabled]="!changePasswordForm.valid" (click)="onChangePasswordSubmit(changePasswordForm)">
+      <i class="fa fa-floppy-o"></i>
+      Lưu</button>
   </div>
 </ng-template>

@@ -1,5 +1,5 @@
 
-<div class="container-fluid" id="loginpage">
+<div class="container-fluid" id="loginStaff">
   <div class="row">
     <div class="col-md">
     </div>
@@ -8,7 +8,7 @@
         <div class="card-body">
           <h5 class="card-title text-center">WELCOME STAFF</h5>
           <p *ngIf="message" class="text-center error">{{message}}</p>
-          <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="login()">
+          <form class="form-signin" [formGroup]="staffLoginForm" (ngSubmit)="loginStaff()">
             <div class="form-group clearfix" [ngClass]="{ 'has-error': submitted && f.userid.errors }">
               <label>Tên tài khoản</label>
               <input type="text" formControlName="userid" id="inputEmail" class="form-control form-control-sm" required autofocus [ngClass]="{'is-invalid':submitted && f.userid.errors}" autocomplete="off">

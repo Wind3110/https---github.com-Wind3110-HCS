@@ -70,36 +70,27 @@ export class CustomerListComponent implements OnInit {
   }
 
   onChangePasswordSubmit(changePasswordForm: NgForm) {
-    var x = this.customerService.getData();
-    x.snapshotChanges().subscribe(item => {
-      this.customerList = [];
-      item.forEach(element => {
-        var y = element.payload.toJSON();
-        y["$key"] = element.key;
-        this.customerList.push(y as Customer);
-      });
-
-      //Check match password
-      let isPasswordMatch: boolean = false;
-      this.customerList.forEach(item => {
-        if (this.customerService.selectedCustomer.Username === item.Username) {
-          if (this.encryptMD5(this.customerService.selectedCustomer.OldPassword) === item.Password) {
-            isPasswordMatch = true
-          }
-          else {
-            this.ErrorMessage = "Mật khẩu cũ không trùng";
-            return isPasswordMatch;
-          }
+    //Check match password
+    let isPasswordMatch: boolean = false;
+    this.customerList.forEach(item => {
+      if (this.customerService.selectedCustomer.Username === item.Username) {
+        if (this.encryptMD5(this.customerService.selectedCustomer.OldPassword) === item.Password) {
+          isPasswordMatch = true
         }
-      })
-      if (isPasswordMatch) {
-        changePasswordForm.value.Password = this.encryptMD5(this.customerService.selectedCustomer.Password);
-        this.customerService.updateCustomer(changePasswordForm.value);
-        this.modalRef.close();
-        this.resetForm(changePasswordForm);
-        this.tostr.success('Đổi mật khẩu thành công', 'Đổi mật khẩu');
+        else {
+          this.ErrorMessage = "Mật khẩu cũ không trùng";
+          return isPasswordMatch;
+        }
       }
-    });
+    })
+    if (isPasswordMatch) {
+      changePasswordForm.value.Password = this.encryptMD5(this.customerService.selectedCustomer.Password);
+      this.customerService.updateCustomer(changePasswordForm.value);
+      this.modalRef.close();
+      this.resetForm(changePasswordForm);
+      this.tostr.success('Đổi mật khẩu thành công', 'Đổi mật khẩu');
+    }
+    // });
   }
 
   resetForm(customerForm?: NgForm) {

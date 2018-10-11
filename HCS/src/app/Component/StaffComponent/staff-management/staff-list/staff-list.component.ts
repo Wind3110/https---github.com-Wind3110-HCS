@@ -3,8 +3,9 @@ import { StaffService } from '../../../../Service/StaffService/staff.service'
 import { Staff } from '../../../../Model/StaffModel/staff.model';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { NgForm } from '@angular/forms';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm, FormGroup } from '@angular/forms';
+import { Md5 } from 'ts-md5';
 
 
 @Component({
@@ -17,8 +18,10 @@ export class StaffListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   staffList: Staff[];
-  requiredMsg:string;
-  
+  requiredMsg: string;
+  ErrorMessage: string;
+  staffForm: FormGroup;
+
   constructor(private staffService: StaffService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -50,6 +53,13 @@ export class StaffListComponent implements OnInit {
     this.modalService.open(content, { size: 'lg' });
   }
 
+  private modalRef: NgbModalRef;
+  openChangePassword(contentChangePassword) {
+    this.ErrorMessage = "";
+    this.modalRef = this.modalService.open(contentChangePassword, { size: 'lg' });
+    this.staffService.selectedStaff.Password = "";
+  }
+
   openDetail(detailContent) {
     this.modalService.open(detailContent, { size: 'lg' });
   }
@@ -57,7 +67,31 @@ export class StaffListComponent implements OnInit {
   onSubmit(staffForm: NgForm) {
     this.staffService.updateStaff(staffForm.value);
     this.resetForm(staffForm);
-    this.tostr.success('Updated Succcessfully', 'Staff Update');
+    this.tostr.success('Cập nhật thành công', 'Cập nhật thông tin nhân viên');
+  }
+
+  onChangePasswordSubmit(changePasswordForm: NgForm) {
+    //Check match password
+    let isPasswordMatch: boolean = false;
+    this.staffList.forEach(item => {
+      if (this.staffService.selectedStaff.Username === item.Username) {
+        if (this.encryptMD5(this.staffService.selectedStaff.OldPassword) === item.Password) {
+          isPasswordMatch = true
+        }
+        else {
+          this.ErrorMessage = "Mật khẩu cũ không trùng";
+          return isPasswordMatch;
+        }
+      }
+    })
+    if (isPasswordMatch) {
+      changePasswordForm.value.Password = this.encryptMD5(this.staffService.selectedStaff.Password);
+      this.staffService.updateStaff(changePasswordForm.value);
+      this.modalRef.close();
+      this.resetForm(changePasswordForm);
+      this.tostr.success('Đổi mật khẩu thành công', 'Đổi mật khẩu');
+    }
+    // });
   }
 
   resetForm(staffForm?: NgForm) {
@@ -66,8 +100,9 @@ export class StaffListComponent implements OnInit {
     this.staffService.selectedStaff = {
       $key: null,
       Username: '',
+      OldPassword: '',
       Password: '',
-      ConfirmPassword:'',
+      ConfirmPassword: '',
       FullName: '',
       Sex: '',
       DayOfBirth: null,
@@ -78,16 +113,17 @@ export class StaffListComponent implements OnInit {
   }
 
   onEdit(sta: Staff) {
-    if(sta.Password!==sta.ConfirmPassword){
-      sta.Password=sta.ConfirmPassword;
-    }
     this.staffService.selectedStaff = Object.assign({}, sta);
   }
 
   onDelete(key: string) {
-    if (confirm('Are you sure to delete this record ?') == true) {
+    if (confirm('Bạn có chắc muốn xoá nhân viên này?') == true) {
       this.staffService.deleteStaff(key);
-      this.tostr.warning("Deleted Successfully");
+      this.tostr.warning("Xoá thành công");
     }
+  }
+
+  encryptMD5(oldPassword: string) {
+    return Md5.hashStr(oldPassword).toString();
   }
 }

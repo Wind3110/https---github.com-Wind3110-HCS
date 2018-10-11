@@ -61,8 +61,8 @@ export class BookingListComponent implements OnInit {
           StaffName: record.StaffName,
           Status: record.Status
         });
-        this.dtTrigger.next();
       })
+      this.dtTrigger.next();
     });
   }
 
@@ -103,24 +103,14 @@ export class BookingListComponent implements OnInit {
 
   onCancelBooking(keys: string) {
     if (confirm('Huỷ đơn đặt?') == true) {
-      var x = this.BookingService.getData();
-      x.snapshotChanges().subscribe(item => {
-        this.bookingList = [];
-        item.forEach(element => {
-          var y = element.payload.toJSON();
-          y["$key"] = element.key;
-          this.bookingList.push(y as Booking);
-        });
-
-        this.bookingList.forEach(element => {
-          if (element.$key === keys) {
-            if (element.Status === 1) {
-              console.log(element)
-              element.Status = 3;
-              this.BookingService.updateBooking(element);
-            }
+      this.bookingList.forEach(element => {
+        if (element.$key === keys) {
+          if (element.Status === 1) {
+            // console.log(element)
+            element.Status = 3;
+            this.BookingService.updateBooking(element);
           }
-        });
+        }
       });
       this.tostr.info("Huỷ thành công", "Huỷ lịch đặt", {
         timeOut: 1200,
@@ -132,24 +122,14 @@ export class BookingListComponent implements OnInit {
 
   onConfirmBooking(keyss: string) {
     if (confirm('Xác nhận đơn đặt?') == true) {
-      var x = this.BookingService.getData();
-      x.snapshotChanges().subscribe(item => {
-        this.bookingList = [];
-        item.forEach(element => {
-          var y = element.payload.toJSON();
-          y["$key"] = element.key;
-          this.bookingList.push(y as Booking);
-        });
-
-        this.bookingList.forEach(element => {
-          if (element.$key === keyss) {
-            if (element.Status === 1) {
-              console.log(element)
-              element.Status = 2;
-              this.BookingService.updateBooking(element);
-            }
+      this.bookingList.forEach(element => {
+        if (element.$key === keyss) {
+          if (element.Status === 1) {
+            // console.log(element)
+            element.Status = 2;
+            this.BookingService.updateBooking(element);
           }
-        });
+        }
       });
       this.tostr.info("Xác nhận đơn đặt thành công", "Xác nhận đơn đặt", {
         timeOut: 1200,

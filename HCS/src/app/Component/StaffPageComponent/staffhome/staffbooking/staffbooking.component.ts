@@ -106,15 +106,9 @@ export class StaffbookingComponent implements OnInit {
     config.outsideDays = "hidden";
     config.startDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1 };
     config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
-
-
-
-
   }
 
-
   ngOnInit() {
-    this.assignServiceForStaff();
     // Return to home page when submit succsess
     this.returnUrl = '/homepage';
 
@@ -405,82 +399,101 @@ export class StaffbookingComponent implements OnInit {
     }
   }
 
-  assignServiceForStaff() {
+  assignServiceForStaff(dateSelected: any, employeeList: Staff[], bookingFormList: Booking[]) {
+    // console.log(dateSelected);
     var staffNameTemp = [];
     var tempStaffArray = [];
     var tempTimeNumberArr = [];
+    this.spaceTimeListOfStaff = [];
+    var variables = [];
+    let numberTemp = 0;
 
-    let x = this.staffService.getData();
-    x.snapshotChanges().subscribe(item => {
-      this.staff = [];
-      item.forEach(element => {
-        let y = element.payload.toJSON();
-        y['$key'] = element.key;
-        this.staff.push(y as Staff);
-      });
-      // console.log(this.staff);
-
-
-      this.staff.forEach(item => {
-        this.bookingList.forEach(element => {
-          if (item.FullName === element.StaffName) {
-
-            let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
-            let fullDateSelected = '';
-            dateSelectedList.forEach(str => {
-              let dateStr: string = str.substring(str.indexOf(':') + 1);
-              if (fullDateSelected !== '') {
-                fullDateSelected = '-' + fullDateSelected;
-              }
-              fullDateSelected = dateStr + fullDateSelected;
-            });
-
-            if (fullDateSelected === "2018-10-4") {
-              var tempStaffArray = [];
-              tempStaffArray.push(element.StaffName);
-
-              let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
-
-              this.spaceTimeListOfStaff = [];
-              this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
-
-              //Get number time worked of staff
-              let j = 0;
-              this.spaceTimeListOfStaff.forEach(element => {
-                let startTime = element.StartTime.toString();
-                let endTime = element.EndTime.toString();
-                let startIdex = this.timeFrame.indexOf(startTime);
-                let endIdex = this.timeFrame.indexOf(endTime);
-                for (startIdex; startIdex < endIdex; startIdex++) {
-                  j = j + 1;
-                }
-                // console.log(j);
-              })
-              tempTimeNumberArr.push(j);
-
-            }
-          }
-        });
-      })
+    employeeList.forEach(element => {
+      staffNameTemp.push(element.FullName);
+      variables.push(0);
     });
 
-    // console.log(tempTimeNumberArr);
-    let temp = tempTimeNumberArr[0];
-    let position = 0;
-    // for (let i = 0; i < tempStaffArray.length; i++) {
+    // console.log(staffNameTemp);
+    // console.log(variables);
 
-    for (let a = 0; a < tempTimeNumberArr.length; a++) {
-      if (tempTimeNumberArr[a] > tempTimeNumberArr[a + 1]) {
-        if (temp > tempTimeNumberArr[a + 1]) {
-          temp = tempTimeNumberArr[a + 1];
-          position = a + 1;
-          // console.log(position);
+    employeeList.forEach(item => {
+      bookingFormList.forEach(element => {
+        if (item.FullName === element.StaffName) {
+
+          let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
+          let fullDateSelected = '';
+          dateSelectedList.forEach(str => {
+            let dateStr: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected !== '') {
+              fullDateSelected = '-' + fullDateSelected;
+            }
+            fullDateSelected = dateStr + fullDateSelected;
+          });
+
+          let dateSelectedList2: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
+          let fullDateSelected2 = '';
+          dateSelectedList.forEach(str => {
+            let dateStr2: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected2 !== '') {
+              fullDateSelected2 = '-' + fullDateSelected2;
+            }
+            fullDateSelected2 = dateStr2 + fullDateSelected2;
+          });
+
+          if (fullDateSelected === fullDateSelected2) {
+
+            let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
+
+
+            this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
+
+            //Get number time worked of staff
+            let j = 0;
+            this.spaceTimeListOfStaff.forEach(element => {
+              let startTime = element.StartTime.toString();
+              let endTime = element.EndTime.toString();
+              let startIdex = this.timeFrame.indexOf(startTime);
+              let endIdex = this.timeFrame.indexOf(endTime);
+              for (startIdex; startIdex < endIdex; startIdex++) {
+                j = j + 1;
+              }
+            });
+            // console.log(j);
+            let indexOfStaff = staffNameTemp.indexOf(element.StaffName);
+            variables[indexOfStaff] = variables[indexOfStaff] + j;
+
+
+          }
         }
-        // }
+      });
+    })
+    // console.log(staffNameTemp);
+    // console.log(variables);
+    let tempval = variables[0];
+    let position = 0;
+    var equalStaffTimeName = [];
+    var equalStaffTimePosition = [];
+    for (let index = 0; index < variables.length; index++) {
+      if (tempval >= variables[index]) {
+        tempval = variables[index];
+        position = index;
+        equalStaffTimeName = [];
+        equalStaffTimePosition = [];
+      }
+      if (tempval == variables[index]) {
+        equalStaffTimeName.push(variables[index]);
+        equalStaffTimePosition.push(index);
       }
     }
 
-    return tempStaffArray[position];
+    if (equalStaffTimeName.length == 0) {
+      return staffNameTemp[position];
+    }
+    else {
+      var rand = equalStaffTimePosition[Math.floor(Math.random() * equalStaffTimePosition.length)];
+      numberTemp = rand;
+      return staffNameTemp[rand];
+    }
   }
 
   // Event on submit booking form
@@ -525,40 +538,13 @@ export class StaffbookingComponent implements OnInit {
       }
     }
 
-
-    //Assign work for staff who has minimum work time
-
-    // if(bookingForm.value.StaffName[0].item_text === 'Mặc định') {
-
-    //   var stylishNameSelect = [];
-    //   var timeEffort = [];
-    //   let value:number=0;
-    //   console.log(this.bookingList);
-    //   for (let index = 0; index < this.bookingList.length; index++) {
-    //     const element = this.bookingList[index];
-
-
-    //     if(stylishNameSelect.indexOf(element.StaffName)) {
-    //       value=value + element.StartTime;
-    //     }else{
-    //       stylishNameSelect.push(element.StaffName);
-    //     }
-
-    //     for (let index = 0; index < stylishNameSelect.length; index++) {
-    //       const elementItem = stylishNameSelect[index];
-    //       if(element.StaffName===elementItem){
-    //         timeEffort.push(value);
-    //       }
-    //     }
-
-    //   }
-    //   console.log(stylishNameSelect);
-    //   console.log(timeEffort);
-    //   // bookingForm.value.StaffName = '';
-    // }
-
     if (this.checkValidTimeBook) {
-      bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+      if (bookingForm.value.StaffName[0].item_text == 'Mặc định') {
+        bookingForm.value.StaffName = this.assignServiceForStaff(bookingForm.value.Date, this.staff, this.bookingList);
+      }
+      else {
+        bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+      }
       bookingForm.value.Status = 1;
       this.bookingService.insertBooking(bookingForm.value);
       this.resetForm(bookingForm);

@@ -54,7 +54,9 @@ export class MemberbookingComponent implements OnInit {
   spaceTimeList: SpaceTime[];
   checkTime: CheckTime[];
   returnUrl: string;
+  checkValidTimeBook: boolean = true;
   submitted = false;
+  spaceTimeListOfStaff: SpaceTime[];
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
@@ -284,11 +286,110 @@ export class MemberbookingComponent implements OnInit {
     console.log(items);
   }
 
+
+  assignServiceForStaff(dateSelected: any, employeeList: Staff[], bookingFormList: Booking[]) {
+    // console.log(dateSelected);
+    var staffNameTemp = [];
+    var tempStaffArray = [];
+    var tempTimeNumberArr = [];
+    this.spaceTimeListOfStaff = [];
+    var variables = [];
+    let numberTemp = 0;
+
+    employeeList.forEach(element => {
+      staffNameTemp.push(element.FullName);
+      variables.push(0);
+    });
+
+    // console.log(staffNameTemp);
+    // console.log(variables);
+
+    employeeList.forEach(item => {
+      bookingFormList.forEach(element => {
+        if (item.FullName === element.StaffName) {
+
+          let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
+          let fullDateSelected = '';
+          dateSelectedList.forEach(str => {
+            let dateStr: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected !== '') {
+              fullDateSelected = '-' + fullDateSelected;
+            }
+            fullDateSelected = dateStr + fullDateSelected;
+          });
+
+          let dateSelectedList2: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
+          let fullDateSelected2 = '';
+          dateSelectedList.forEach(str => {
+            let dateStr2: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected2 !== '') {
+              fullDateSelected2 = '-' + fullDateSelected2;
+            }
+            fullDateSelected2 = dateStr2 + fullDateSelected2;
+          });
+
+          if (fullDateSelected === fullDateSelected2) {
+
+            let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
+
+
+            this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
+
+            //Get number time worked of staff
+            let j = 0;
+            this.spaceTimeListOfStaff.forEach(element => {
+              let startTime = element.StartTime.toString();
+              let endTime = element.EndTime.toString();
+              let startIdex = this.timeFrame.indexOf(startTime);
+              let endIdex = this.timeFrame.indexOf(endTime);
+              for (startIdex; startIdex < endIdex; startIdex++) {
+                j = j + 1;
+              }
+            });
+            // console.log(j);
+            let indexOfStaff = staffNameTemp.indexOf(element.StaffName);
+            variables[indexOfStaff] = variables[indexOfStaff] + j;
+
+
+          }
+        }
+      });
+    })
+    // console.log(staffNameTemp);
+    // console.log(variables);
+    let tempval = variables[0];
+    let position = 0;
+    var equalStaffTimeName = [];
+    var equalStaffTimePosition = [];
+    for (let index = 0; index < variables.length; index++) {
+      if (tempval >= variables[index]) {
+        tempval = variables[index];
+        position = index;
+        equalStaffTimeName = [];
+        equalStaffTimePosition = [];
+      }
+      if (tempval == variables[index]) {
+        equalStaffTimeName.push(variables[index]);
+        equalStaffTimePosition.push(index);
+      }
+    }
+
+    if (equalStaffTimeName.length == 0) {
+      return staffNameTemp[position];
+    }
+    else {
+      var rand = equalStaffTimePosition[Math.floor(Math.random() * equalStaffTimePosition.length)];
+      numberTemp = rand;
+      return staffNameTemp[rand];
+    }
+  }
+
+  // Event on submit booking form
   onSubmit(bookingForm: NgForm) {
     this.submitted = true;
     let countService = 0;
-    const dateStr: string = bookingForm.value.Date.toString();
-    const timeStr: string = bookingForm.value.StartTime.toString();
+    let dateStr: string = bookingForm.value.Date.toString();
+    let timeStr: string = bookingForm.value.StartTime.toString();
     for (let index = 0; index < bookingForm.value.Services.length; index++) {
       this.serviceList.forEach(element => {
         if (element.ServiceName === bookingForm.value.Services[index]) {
@@ -300,21 +401,52 @@ export class MemberbookingComponent implements OnInit {
     if (countService > 1) {
       bookingForm.value.StartTime = this.getTotalTime(timeStr, 0);
       bookingForm.value.EndTime = this.getTotalTime(timeStr, countService);
-    }
-    if (bookingForm.value.StaffName === '') {
-      bookingForm.value.StaffName = 'Mặc định';
+      let lastIndex = this.timeVal.indexOf(1900) + 1;
+      let endTimeIndex = this.timeFrame.indexOf(bookingForm.value.EndTime);
+      if (bookingForm.value.EndTime === '19:15') {
+        endTimeIndex = -2;
+      }
+      if (endTimeIndex < lastIndex) {
+        this.checkValidTimeBook = true;
+      }
+      if (endTimeIndex === -1) {
+        this.checkValidTimeBook = false;
+      }
+      if (endTimeIndex === -2) {
+        this.checkValidTimeBook = true;
+      }
     }
 
-    bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
-    bookingForm.value.Status = 1;
-    this.bookingService.insertBooking(bookingForm.value);
-    this.resetForm(bookingForm);
-    this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
-      timeOut: 1000,
-      progressBar: true
-    });
-    this.message = 'Quý khách lưu ý đến đúng giờ, trễ 15 phút sẽ bị huỷ. Xin cảm ơn.....';
-    this.router.navigate([this.returnUrl]);
+    //check endtime if it overide on another's starttime item
+    for (let index = 0; index < this.spaceTimeList.length; index++) {
+      const element = this.spaceTimeList[index];
+      if (moment(bookingForm.value.StartTime, 'HH:mm').isBefore(moment(element.StartTime, 'HH:mm'))
+        && moment(bookingForm.value.EndTime, 'HH:mm').isAfter(moment(element.StartTime, 'HH:mm'))) {
+        this.checkValidTimeBook = false;
+      }
+    }
+
+    if (this.checkValidTimeBook) {
+      if (bookingForm.value.StaffName[0].item_text == 'Mặc định') {
+        bookingForm.value.StaffName = this.assignServiceForStaff(bookingForm.value.Date, this.staff, this.bookingList);
+      }
+      else {
+        bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
+      }
+      bookingForm.value.Status = 1;
+      this.bookingService.insertBooking(bookingForm.value);
+      this.resetForm(bookingForm);
+      this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
+        timeOut: 1000,
+        progressBar: true
+      });
+      this.message = 'Quý khách lưu ý đến đúng giờ, trễ 5 phút sẽ bị huỷ. Xin cảm ơn.....';
+      this.router.navigate([this.returnUrl]);
+
+    } else {
+      this.message = 'Không thể đặt';
+      this.checkValidTimeBook = true;
+    }
   }
 
   // Open popup
@@ -337,7 +469,7 @@ export class MemberbookingComponent implements OnInit {
       Date: null,
       StartTime: null,
       EndTime: null,
-      Status:null
+      Status: null
     };
   }
 

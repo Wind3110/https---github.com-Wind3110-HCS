@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 
 import { StaffService } from '../../../../Service/StaffService/staff.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Md5} from 'ts-md5';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Md5 } from 'ts-md5';
+import { Staff } from '../../../../Model/StaffModel/staff.model';
 
 @Component({
   selector: 'app-staff',
@@ -14,22 +15,49 @@ import {Md5} from 'ts-md5';
 export class StaffComponent implements OnInit {
 
   requiredMsg: string;
+  staffForm: FormGroup;
+  staffList: Staff[];
+  ErrorMessage: string;
   constructor(private staffService: StaffService, private tostr: ToastrService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.requiredMsg = "Trường bắt buộc";
+    var x = this.staffService.getData();
+    x.snapshotChanges().subscribe(item => {
+      this.staffList = [];
+      item.forEach(element => {
+        var y = element.payload.toJSON();
+        y["$key"] = element.key;
+        this.staffList.push(y as Staff);
+      })
+    })
   }
 
+  private modalRef: NgbModalRef;
   open(content) {
     this.resetForm();
-    this.modalService.open(content, { size: 'lg' });
+    this.ErrorMessage = "";
+    this.modalRef = this.modalService.open(content, { size: 'lg' });
   }
 
   onSubmit(staffForm: NgForm) {
+    //Check exists username
+    let isExitsUsername: boolean = false;
+    this.staffList.forEach(item => {
+      if (this.staffService.selectedStaff.Username === item.Username) {
+        isExitsUsername = true;
+      } else {
+        return isExitsUsername;
+      }
+    })
+    if (!isExitsUsername) {
       staffForm.value.Password = this.encryptMD5(staffForm.value.Password);
       this.staffService.insertStaff(staffForm.value);
-      this.resetForm(staffForm);
-      this.tostr.success('Created Succcessfully', 'Staff Create');
+      this.modalRef.close();
+      this.tostr.success('Thêm nhân viên thành công', 'Thêm nhân viên');
+    } else {
+      this.ErrorMessage = "Tên tài khoản đã tồn tại";
+    }
     // ngay khúc này reload lại datatable nè
   }
 
@@ -45,7 +73,8 @@ export class StaffComponent implements OnInit {
       $key: null,
       Username: '',
       Password: '',
-      ConfirmPassword:'',
+      OldPassword: '',
+      ConfirmPassword: '',
       FullName: '',
       Sex: '',
       DayOfBirth: null,

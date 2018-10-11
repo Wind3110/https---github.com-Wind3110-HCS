@@ -43,9 +43,9 @@ export class CustomerbookingComponent implements OnInit {
   serviceNameList: any[];
   bookList: Booking[];
   bookingList: Booking[];
-  bookingListForDefaultStaff:Booking[];
+  bookingListForDefaultStaff: Booking[];
   bookingForm: FormGroup;
-  tempBookingForm:Booking[];
+  tempBookingForm: Booking[];
 
   myGroup: FormGroup;
   timer: Time;
@@ -62,8 +62,8 @@ export class CustomerbookingComponent implements OnInit {
   dateSelectOnForm: string;
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
-  testTimeCall=0;
-  StaffStr:string;
+  testTimeCall = 0;
+  StaffStr: string;
 
   model: NgbDateStruct;
   date: { year: number, month: number };
@@ -109,15 +109,10 @@ export class CustomerbookingComponent implements OnInit {
     config.outsideDays = "hidden";
     config.startDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1 };
     config.minDate = { year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate() };
-    
-   
-
-   
   }
- 
 
   ngOnInit() {
-    
+
     // Return to home page when submit succsess
     this.returnUrl = '/homepage';
 
@@ -144,19 +139,19 @@ export class CustomerbookingComponent implements OnInit {
       maxHeight: 200,
     };
 
-    this.tempBookingForm=[];
+    this.tempBookingForm = [];
 
     let a = this.bookingService.getData();
     a.snapshotChanges().subscribe(item => {
       this.bookList = [];
-      
+
       item.forEach(element => {
         let y = element.payload.toJSON();
         y['$key'] = element.key;
         this.bookList.push(y as Booking);
       });
       // console.log(this.bookList);
-      if(this.bookList!=null){
+      if (this.bookList != null) {
         this.updateStatusForForm();
       }
     });
@@ -199,41 +194,42 @@ export class CustomerbookingComponent implements OnInit {
     });
   }
 
-  updateStatusForForm(){
-    let current=moment().format('YYYY-MM-D').toString();
+  updateStatusForForm() {
+    let current = moment().format('YYYY-MM-D').toString();
     // console.log(current);
-    const subscribe = interval(30000).subscribe(val=>{
+    const subscribe = interval(30000).subscribe(val => {
       // console.log(this.bookList);
-      this.bookList.forEach(item=>{
+      this.bookList.forEach(item => {
         //get String Date for each item
-      let dateSelectedList: string[] = JSON.stringify(item.Date).substring(2, JSON.stringify(item.Date).length - 1).split(',');
-      let fullDateSelected = '';
-      dateSelectedList.forEach(str => {
-        let dateStr: string = str.substring(str.indexOf(':') + 1);
-        if (fullDateSelected !== '') {
-          fullDateSelected = '-' + fullDateSelected;
-        }
-        fullDateSelected = dateStr + fullDateSelected;
+        let dateSelectedList: string[] = JSON.stringify(item.Date).substring(2, JSON.stringify(item.Date).length - 1).split(',');
+        let fullDateSelected = '';
+        dateSelectedList.forEach(str => {
+          let dateStr: string = str.substring(str.indexOf(':') + 1);
+          if (fullDateSelected !== '') {
+            fullDateSelected = '-' + fullDateSelected;
+          }
+          fullDateSelected = dateStr + fullDateSelected;
 
-      });
+        });
 
-      if (moment(fullDateSelected).isSame(current,'day')) {
-        
-        let currentTime=moment().format('HH:mm').toString();
-        // let currentTime='17:20';
-        let formTime=moment(item.StartTime,'HH:mm').add(5,'minutes').format('HH:mm').toString();
-        // console.log(currentTime);
-        // console.log(formTime);
-        if (currentTime===formTime && item.Status==1) {
-          item.Status=3;
-          this.bookingService.updateBooking(item);
+        if (moment(fullDateSelected).isSame(current, 'day')) {
+
+          let currentTime = moment().format('HH:mm').toString();
+          // let currentTime='17:20';
+          let formTime = moment(item.StartTime, 'HH:mm').add(5, 'minutes').format('HH:mm').toString();
+          // console.log(currentTime);
+          // console.log(formTime);
+          if (currentTime === formTime && item.Status == 1) {
+            item.Status = 3;
+            this.bookingService.updateBooking(item);
+          }
+
         }
-        
-      }})
+      })
     });
     // console.log('end');
   }
-  
+
 
   //Set current day for input ngdatepicker
   setToday() {
@@ -351,7 +347,7 @@ export class CustomerbookingComponent implements OnInit {
         fullDate = fullDate + dateStr;
       });
       if (fullDateSelected === fullDate) {
-        if(booking.Status==1){
+        if (booking.Status == 1) {
           let spacetime: SpaceTime = { StartTime: booking.StartTime, EndTime: booking.EndTime };
           this.spaceTimeList.push(spacetime);
         }
@@ -408,101 +404,101 @@ export class CustomerbookingComponent implements OnInit {
     }
   }
 
-  assignServiceForStaff(dateSelected:any,employeeList:Staff[],bookingFormList:Booking[]) {
-    console.log(dateSelected);
+  assignServiceForStaff(dateSelected: any, employeeList: Staff[], bookingFormList: Booking[]) {
+    // console.log(dateSelected);
     var staffNameTemp = [];
     var tempStaffArray = [];
     var tempTimeNumberArr = [];
     this.spaceTimeListOfStaff = [];
-    var variables=[];
-    let numberTemp=0;
+    var variables = [];
+    let numberTemp = 0;
 
-      employeeList.forEach(element => {
-        staffNameTemp.push(element.FullName);
-        variables.push(0);
-      });
+    employeeList.forEach(element => {
+      staffNameTemp.push(element.FullName);
+      variables.push(0);
+    });
 
-      // console.log(staffNameTemp);
-      // console.log(variables);
+    // console.log(staffNameTemp);
+    // console.log(variables);
 
-      employeeList.forEach(item => {
-        bookingFormList.forEach(element => {
-          if (item.FullName === element.StaffName) {
+    employeeList.forEach(item => {
+      bookingFormList.forEach(element => {
+        if (item.FullName === element.StaffName) {
 
-            let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
-            let fullDateSelected = '';
-            dateSelectedList.forEach(str => {
-              let dateStr: string = str.substring(str.indexOf(':') + 1);
-              if (fullDateSelected !== '') {
-                fullDateSelected = '-' + fullDateSelected;
-              }
-              fullDateSelected = dateStr + fullDateSelected;
-            });
-
-            let dateSelectedList2: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
-            let fullDateSelected2 = '';
-            dateSelectedList.forEach(str => {
-              let dateStr2: string = str.substring(str.indexOf(':') + 1);
-              if (fullDateSelected2 !== '') {
-                fullDateSelected2 = '-' + fullDateSelected2;
-              }
-              fullDateSelected2 = dateStr2 + fullDateSelected2;
-            });
-
-            if (fullDateSelected === fullDateSelected2) {
-
-              let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
-
-              
-              this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
-
-              //Get number time worked of staff
-              let j = 0;
-              this.spaceTimeListOfStaff.forEach(element => {
-                let startTime = element.StartTime.toString();
-                let endTime = element.EndTime.toString();
-                let startIdex = this.timeFrame.indexOf(startTime);
-                let endIdex = this.timeFrame.indexOf(endTime);
-                for (startIdex; startIdex < endIdex; startIdex++) {
-                  j = j + 1;
-                }
-              });
-              console.log(j);
-              let indexOfStaff=staffNameTemp.indexOf(element.StaffName);
-              variables[indexOfStaff]=variables[indexOfStaff]+j;
-              
-
+          let dateSelectedList: string[] = JSON.stringify(element.Date).substring(2, JSON.stringify(element.Date).length - 1).split(',');
+          let fullDateSelected = '';
+          dateSelectedList.forEach(str => {
+            let dateStr: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected !== '') {
+              fullDateSelected = '-' + fullDateSelected;
             }
+            fullDateSelected = dateStr + fullDateSelected;
+          });
+
+          let dateSelectedList2: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
+          let fullDateSelected2 = '';
+          dateSelectedList.forEach(str => {
+            let dateStr2: string = str.substring(str.indexOf(':') + 1);
+            if (fullDateSelected2 !== '') {
+              fullDateSelected2 = '-' + fullDateSelected2;
+            }
+            fullDateSelected2 = dateStr2 + fullDateSelected2;
+          });
+
+          if (fullDateSelected === fullDateSelected2) {
+
+            let spaceTimeOfStaff: SpaceTime = { StartTime: element.StartTime, EndTime: element.EndTime };
+
+
+            this.spaceTimeListOfStaff.push(spaceTimeOfStaff);
+
+            //Get number time worked of staff
+            let j = 0;
+            this.spaceTimeListOfStaff.forEach(element => {
+              let startTime = element.StartTime.toString();
+              let endTime = element.EndTime.toString();
+              let startIdex = this.timeFrame.indexOf(startTime);
+              let endIdex = this.timeFrame.indexOf(endTime);
+              for (startIdex; startIdex < endIdex; startIdex++) {
+                j = j + 1;
+              }
+            });
+            // console.log(j);
+            let indexOfStaff = staffNameTemp.indexOf(element.StaffName);
+            variables[indexOfStaff] = variables[indexOfStaff] + j;
+
+
           }
-        });
-      })
-      console.log(staffNameTemp);
-      console.log(variables);
-      let tempval=variables[0];
-      let position=0;
-      var equalStaffTimeName=[];
-      var equalStaffTimePosition=[];
-      for (let index = 0; index < variables.length; index++) {
-        if (tempval>=variables[index]) {
-          tempval=variables[index];
-          position=index;
-          equalStaffTimeName=[];
-          equalStaffTimePosition=[];
         }
-        if(tempval==variables[index]){
-          equalStaffTimeName.push(variables[index]);
-          equalStaffTimePosition.push(index);
-        }
+      });
+    })
+    // console.log(staffNameTemp);
+    // console.log(variables);
+    let tempval = variables[0];
+    let position = 0;
+    var equalStaffTimeName = [];
+    var equalStaffTimePosition = [];
+    for (let index = 0; index < variables.length; index++) {
+      if (tempval >= variables[index]) {
+        tempval = variables[index];
+        position = index;
+        equalStaffTimeName = [];
+        equalStaffTimePosition = [];
       }
-      
-      if(equalStaffTimeName.length==0){
-        return staffNameTemp[position];
+      if (tempval == variables[index]) {
+        equalStaffTimeName.push(variables[index]);
+        equalStaffTimePosition.push(index);
       }
-      else{
-        var rand = equalStaffTimePosition[Math.floor(Math.random() * equalStaffTimePosition.length)];
-        numberTemp=rand;
-        return staffNameTemp[rand];
-      }
+    }
+
+    if (equalStaffTimeName.length == 0) {
+      return staffNameTemp[position];
+    }
+    else {
+      var rand = equalStaffTimePosition[Math.floor(Math.random() * equalStaffTimePosition.length)];
+      numberTemp = rand;
+      return staffNameTemp[rand];
+    }
   }
 
   // Event on submit booking form
@@ -547,23 +543,23 @@ export class CustomerbookingComponent implements OnInit {
       }
     }
     if (this.checkValidTimeBook) {
-      
-      if(bookingForm.value.StaffName[0].item_text=='Mặc định'){
-        bookingForm.value.StaffName = this.assignServiceForStaff(bookingForm.value.Date,this.staff,this.bookingList);
+
+      if (bookingForm.value.StaffName[0].item_text == 'Mặc định') {
+        bookingForm.value.StaffName = this.assignServiceForStaff(bookingForm.value.Date, this.staff, this.bookingList);
       }
-      else{
+      else {
         bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
       }
       // bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
-        bookingForm.value.Status = 1;
-        this.bookingService.insertBooking(bookingForm.value);
-        this.resetForm(bookingForm);
-        this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
-          timeOut: 1000,
-          progressBar: true
-        });
-        this.message = 'Quý khách lưu ý đến đúng giờ, trễ 5 phút sẽ bị huỷ. Xin cảm ơn.....';
-        this.router.navigate([this.returnUrl]);
+      bookingForm.value.Status = 1;
+      this.bookingService.insertBooking(bookingForm.value);
+      this.resetForm(bookingForm);
+      this.tostr.success('Đặt thành công', 'Cảm ơn quý khách', {
+        timeOut: 1000,
+        progressBar: true
+      });
+      this.message = 'Quý khách lưu ý đến đúng giờ, trễ 5 phút sẽ bị huỷ. Xin cảm ơn.....';
+      this.router.navigate([this.returnUrl]);
 
     } else {
       this.message = 'Không thể đặt';

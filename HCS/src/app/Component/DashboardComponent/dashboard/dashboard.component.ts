@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   }
   updateStatusForForm(){
     let current=moment().format('YYYY-MM-D').toString();
-    console.log(current);
+    // console.log(current);
     const subscribe = interval(30000).subscribe(val=>{
       // console.log(this.bookList);
       this.bookList.forEach(item=>{
@@ -58,8 +58,8 @@ export class DashboardComponent implements OnInit {
         let currentTime=moment().format('HH:mm').toString();
         // let currentTime='17:20';
         let formTime=moment(item.StartTime,'HH:mm').add(5,'minutes').format('HH:mm').toString();
-        console.log(currentTime);
-        console.log(formTime);
+        // console.log(currentTime);
+        // console.log(formTime);
         if (currentTime===formTime && item.Status==1) {
           item.Status=3;
           this.bookingService.updateBooking(item);
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
         
       }})
     });
-    console.log('end');
+    // console.log('end');
   }
 
   logout(): void {
