@@ -65,11 +65,11 @@ export class CustomerloginComponent implements OnInit {
             this.router.navigate([this.returnUrl]);
             break;
           } else {
-            this.message = 'Please check your Username and Password';
+            this.message = 'Tên tài khoản hoặc mật khẩu bạn nhập không đúng';
             break;
           }
         } else {
-          this.message = 'Please check your Username and Password';
+          this.message = 'Tên tài khoản hoặc mật khẩu bạn nhập không đúng';
         }
       }
     }

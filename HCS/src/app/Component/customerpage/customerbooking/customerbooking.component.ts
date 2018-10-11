@@ -385,10 +385,7 @@ export class CustomerbookingComponent implements OnInit {
       });
     }
   }
-
-
-
-
+  
   // Check disable time < current time
   isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {

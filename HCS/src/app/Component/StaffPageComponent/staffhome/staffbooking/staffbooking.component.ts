@@ -109,8 +109,9 @@ export class StaffbookingComponent implements OnInit {
   }
 
   ngOnInit() {
+
     // Return to home page when submit succsess
-    this.returnUrl = '/homepage';
+    this.returnUrl = '/staffhome';
 
     //Setting for mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
@@ -192,7 +193,7 @@ export class StaffbookingComponent implements OnInit {
 
   updateStatusForForm() {
     let current = moment().format('YYYY-MM-D').toString();
-    console.log(current);
+    // console.log(current);
     const subscribe = interval(30000).subscribe(val => {
       // console.log(this.bookList);
       this.bookList.forEach(item => {
@@ -213,8 +214,8 @@ export class StaffbookingComponent implements OnInit {
           let currentTime = moment().format('HH:mm').toString();
           // let currentTime='17:20';
           let formTime = moment(item.StartTime, 'HH:mm').add(5, 'minutes').format('HH:mm').toString();
-          console.log(currentTime);
-          console.log(formTime);
+          // console.log(currentTime);
+          // console.log(formTime);
           if (currentTime === formTime && item.Status == 1) {
             item.Status = 3;
             this.bookingService.updateBooking(item);
@@ -223,7 +224,7 @@ export class StaffbookingComponent implements OnInit {
         }
       })
     });
-    console.log('end');
+    // console.log('end');
   }
 
 
@@ -269,7 +270,8 @@ export class StaffbookingComponent implements OnInit {
         this.dateSelectOnForm = fullDateSelected;
       });
     }
-
+    // this.StaffStr =this.assignServiceForStaff(dateSelected);
+    // console.log(this.StaffStr);
     let z = this.bookingService.getData();
     z.snapshotChanges().subscribe(item => {
       this.bookingList = [];
@@ -381,15 +383,12 @@ export class StaffbookingComponent implements OnInit {
     }
   }
 
-
-
-
   // Check disable time < current time
   isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {
       let beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
-      // let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
-      let endTimeCheck = moment('7-10-2018 13:00', 'DD-MM-YYYY HH:mm');
+      let endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
+      // let endTimeCheck = moment('7-10-2018 13:00', 'DD-MM-YYYY HH:mm');
       if (beginCheckTime.isBefore(endTimeCheck)) {
 
         this.isDisable[i] = true;
@@ -537,14 +536,15 @@ export class StaffbookingComponent implements OnInit {
         this.checkValidTimeBook = false;
       }
     }
-
     if (this.checkValidTimeBook) {
+
       if (bookingForm.value.StaffName[0].item_text == 'Mặc định') {
         bookingForm.value.StaffName = this.assignServiceForStaff(bookingForm.value.Date, this.staff, this.bookingList);
       }
       else {
         bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
       }
+      // bookingForm.value.StaffName = bookingForm.value.StaffName[0].item_text;
       bookingForm.value.Status = 1;
       this.bookingService.insertBooking(bookingForm.value);
       this.resetForm(bookingForm);
