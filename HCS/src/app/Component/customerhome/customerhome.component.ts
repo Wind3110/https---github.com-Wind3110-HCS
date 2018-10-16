@@ -13,7 +13,7 @@ export class CustomerhomeComponent implements OnInit {
   constructor(private router: Router, public authService: AuthService) { }
 
   ngOnInit() {
-    this.id = localStorage.getItem('tokencustomer');
+    this.id = localStorage.getItem('token');
   }
 
   logout(): void {

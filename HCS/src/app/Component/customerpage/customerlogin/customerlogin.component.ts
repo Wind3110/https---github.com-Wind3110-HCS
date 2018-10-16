@@ -31,7 +31,7 @@ export class CustomerloginComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required]
     });
-    this.returnUrl = '/customerhome';
+    this.returnUrl = '/customerhome/memberbooking';
     this.authService.logoutCustomer();
 
     const x = this.customerService.getData();

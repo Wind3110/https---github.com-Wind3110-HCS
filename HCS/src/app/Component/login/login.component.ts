@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       'userid': ['', Validators.required],
       'password': ['', Validators.required]
     });
-    this.returnUrl = '/dashboard';
+    this.returnUrl = '/dashboard/staff';
     this.authService.logout();
   }
 

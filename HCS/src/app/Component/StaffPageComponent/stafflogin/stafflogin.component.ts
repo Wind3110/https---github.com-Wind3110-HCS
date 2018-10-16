@@ -26,7 +26,7 @@ export class StaffloginComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required]
     });
-    this.returnUrl = '/staffhome';
+    this.returnUrl = '/staffhome/staffconfirm';
     this.authService.logoutCustomer();
 
     const x = this.staffService.getData();
@@ -60,11 +60,11 @@ export class StaffloginComponent implements OnInit {
             this.router.navigate([this.returnUrl]);
             break;
           } else {
-            this.message = 'Tên tài khoản hoặc mật khẩu bạn nhập không đúng';
+            this.message = 'Tên tài khoản hoặc mật khẩu không đúng';
             break;
           }
         } else {
-          this.message = 'Tên tài khoản hoặc mật khẩu bạn nhập không đúng';
+          this.message = 'Tên tài khoản hoặc mật khẩu không đúng';
         }
       }
     }

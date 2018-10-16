@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -46,7 +46,6 @@ export class MemberbookingComponent implements OnInit {
   bookingForm: FormGroup;
   myGroup: FormGroup;
   timer: Time;
-  date: Date;
   message: string;
   startList: string[];
   endList: string[];
@@ -60,6 +59,10 @@ export class MemberbookingComponent implements OnInit {
 
   dropdownServiceSettings = {};
   dropdownStaffSettings = {};
+
+  
+  model: NgbDateStruct;
+  date: { year: number, month: number };
 
   timeFrame: string[] = ['08:00', '08:15', '08:30', '08:45', '09:00', '09:15', '09:30', '09:45', '10:00', '10:15',
     '10:30', '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00', '13:15',
@@ -87,11 +90,14 @@ export class MemberbookingComponent implements OnInit {
 
   time: Time[];
 
-  constructor(config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService,
+  constructor(private calendar: NgbCalendar,config: NgbDatepickerConfig, private staffService: StaffService, private serviceSevice: ServiceService,
     private bookingService: BookingService, private fb: FormBuilder, private customerService: CustomerService,
     private tostr: ToastrService, private datepipe: DatePipe, private modalService: NgbModal, private router: Router,
     private formBuilder: FormBuilder) {
 
+    //Show current day when load booking form
+    this.setToday();
+    this.onChangeDateSelected(this.calendar.getToday());
     this.updateTime();
 
     // Seting disable the past date
@@ -105,7 +111,7 @@ export class MemberbookingComponent implements OnInit {
 
     this.resetForm();
     // Return to home page when submit succsess
-    this.returnUrl = '/customerhome';
+    this.returnUrl = '/customerhome/bookinghistory';
     // Mutiple select service (ng-mutiselect-dropdown)
     this.dropdownServiceSettings = {
       singleSelection: false,
@@ -148,7 +154,6 @@ export class MemberbookingComponent implements OnInit {
             this.bookingService.selectedBooking.Phone = element.PhoneNumber;
           }
         });
-        console.log(localStorage.getItem('token'));
       }
     });
 
@@ -199,9 +204,13 @@ export class MemberbookingComponent implements OnInit {
     });
   }
 
+   //Set current day for input ngdatepicker
+   setToday() {
+    this.model = this.calendar.getToday();
+  }
+
   // lay data khi chon ngay
   onChangeDateSelected(dateSelected: any) {
-    // console.log(dateSelected);
     const dateSelectedList: string[] = JSON.stringify(dateSelected).substring(2, JSON.stringify(dateSelected).length - 1).split(',');
     let fullDateSelected = '';
     dateSelectedList.forEach(str => {
@@ -239,11 +248,9 @@ export class MemberbookingComponent implements OnInit {
 
         if (fullDateSelected === fullDate) {
           this.spaceTimeList.push(spacetime);
-          console.log('checked');
         }
       });
       const datePick = dateSelected.day + '-' + dateSelected.month + '-' + dateSelected.year;
-      console.log(datePick);
       this.isDisablePastTime(datePick);
       this.isDisableTimeBooked(this.spaceTimeList);
       this.updateTime();
@@ -268,9 +275,7 @@ export class MemberbookingComponent implements OnInit {
   isDisablePastTime(datePick: string) {
     for (let i = 0; i < this.timeFrame.length; i++) {
       const beginCheckTime = moment(datePick + ' ' + this.timeFrame[i], 'DD-MM-YYYY HH:mm');
-      console.log(beginCheckTime);
       const endTimeCheck = moment(this.getCurrentTime(), 'DD-MM-YYYY HH:mm');
-      console.log(beginCheckTime.isBefore(endTimeCheck));
       if (beginCheckTime.isBefore(endTimeCheck)) {
         this.isDisable[i] = true;
       } else {
@@ -279,16 +284,31 @@ export class MemberbookingComponent implements OnInit {
     }
   }
 
-  onItemSelect(item: any) {
+  //Get stylish name when select
+  stylishName = [];
+  onItemStylishSelect(item: any) {
+    this.isDisableTimeBooked(this.spaceTimeList);
+    let dateOnPick = this.model.day + '-' + this.model.month + '_' + this.model.year;
+    this.isDisablePastTime(dateOnPick);
+    this.onChangeDateSelected(this.model);
+    this.updateTime();
+    this.stylishName = [];
+    this.stylishName.push(item);
+    console.log(this.stylishName);
+  }
+  onStylishSelectAll(items: any) {
+    console.log(items);
+  }
+
+  onItemServiceSelect(item: any) {
     console.log(item);
   }
-  onSelectAll(items: any) {
+  onServiceSelectAll(items: any) {
     console.log(items);
   }
 
 
   assignServiceForStaff(dateSelected: any, employeeList: Staff[], bookingFormList: Booking[]) {
-    // console.log(dateSelected);
     var staffNameTemp = [];
     var tempStaffArray = [];
     var tempTimeNumberArr = [];
@@ -300,9 +320,6 @@ export class MemberbookingComponent implements OnInit {
       staffNameTemp.push(element.FullName);
       variables.push(0);
     });
-
-    // console.log(staffNameTemp);
-    // console.log(variables);
 
     employeeList.forEach(item => {
       bookingFormList.forEach(element => {
@@ -346,7 +363,6 @@ export class MemberbookingComponent implements OnInit {
                 j = j + 1;
               }
             });
-            // console.log(j);
             let indexOfStaff = staffNameTemp.indexOf(element.StaffName);
             variables[indexOfStaff] = variables[indexOfStaff] + j;
 
@@ -355,8 +371,6 @@ export class MemberbookingComponent implements OnInit {
         }
       });
     })
-    // console.log(staffNameTemp);
-    // console.log(variables);
     let tempval = variables[0];
     let position = 0;
     var equalStaffTimeName = [];

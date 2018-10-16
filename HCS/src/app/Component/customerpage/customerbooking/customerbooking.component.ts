@@ -150,7 +150,6 @@ export class CustomerbookingComponent implements OnInit {
         y['$key'] = element.key;
         this.bookList.push(y as Booking);
       });
-      // console.log(this.bookList);
       if (this.bookList != null) {
         this.updateStatusForForm();
       }
@@ -196,9 +195,7 @@ export class CustomerbookingComponent implements OnInit {
 
   updateStatusForForm() {
     let current = moment().format('YYYY-MM-D').toString();
-    // console.log(current);
     const subscribe = interval(30000).subscribe(val => {
-      // console.log(this.bookList);
       this.bookList.forEach(item => {
         //get String Date for each item
         let dateSelectedList: string[] = JSON.stringify(item.Date).substring(2, JSON.stringify(item.Date).length - 1).split(',');
@@ -215,10 +212,7 @@ export class CustomerbookingComponent implements OnInit {
         if (moment(fullDateSelected).isSame(current, 'day')) {
 
           let currentTime = moment().format('HH:mm').toString();
-          // let currentTime='17:20';
           let formTime = moment(item.StartTime, 'HH:mm').add(5, 'minutes').format('HH:mm').toString();
-          // console.log(currentTime);
-          // console.log(formTime);
           if (currentTime === formTime && item.Status == 1) {
             item.Status = 3;
             this.bookingService.updateBooking(item);
@@ -227,7 +221,6 @@ export class CustomerbookingComponent implements OnInit {
         }
       })
     });
-    // console.log('end');
   }
 
 
@@ -402,7 +395,6 @@ export class CustomerbookingComponent implements OnInit {
   }
 
   assignServiceForStaff(dateSelected: any, employeeList: Staff[], bookingFormList: Booking[]) {
-    // console.log(dateSelected);
     var staffNameTemp = [];
     var tempStaffArray = [];
     var tempTimeNumberArr = [];
@@ -414,9 +406,6 @@ export class CustomerbookingComponent implements OnInit {
       staffNameTemp.push(element.FullName);
       variables.push(0);
     });
-
-    // console.log(staffNameTemp);
-    // console.log(variables);
 
     employeeList.forEach(item => {
       bookingFormList.forEach(element => {
@@ -460,7 +449,6 @@ export class CustomerbookingComponent implements OnInit {
                 j = j + 1;
               }
             });
-            // console.log(j);
             let indexOfStaff = staffNameTemp.indexOf(element.StaffName);
             variables[indexOfStaff] = variables[indexOfStaff] + j;
 
@@ -469,8 +457,6 @@ export class CustomerbookingComponent implements OnInit {
         }
       });
     })
-    // console.log(staffNameTemp);
-    // console.log(variables);
     let tempval = variables[0];
     let position = 0;
     var equalStaffTimeName = [];
